@@ -54,8 +54,9 @@ test:
 
 production:
   adapter: postgresql
+  host: localhost
   encoding: unicode
-  database: site_production
+  database: mun_development
   pool: 5
-  username: site
+  username: graham
   password:
