@@ -54,7 +54,7 @@ test:
 
 production:
   adapter: postgresql
-  host: localhost
+  host: ENV['HEROKU_POSTGRESQL_PURPLE_URL']
   encoding: unicode
   database: mun_development
   pool: 5
