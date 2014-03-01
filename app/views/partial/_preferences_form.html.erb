@@ -1,0 +1,10 @@
+<br style="clear: both" />
+<h3>Country Preferences:</h3>
+<div class="form-inputs col-sm-<%= cols %>">
+  <%# Option.get('num_preferences').times do |i| -%>
+    <%= f.simple_fields_for :preferences, as: :preferences_attributes do |p| %>
+      <%= p.input(:country_id, label: "#{p.object.rank + 1}.", :required => false, label_html: {class: 'col-sm-1'}, wrapper_html: {class: 'col-sm-12'}, as: :select, :include_blank => 'None',
+                  placeholder: I18n.t('delegation.example.country'), input_html: {class: 'col-sm-11 chosen-select'}, collection: Country.options_for_select) %>
+    <% end -%>
+  <%# end -%>
+</div>

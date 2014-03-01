@@ -1,0 +1,13 @@
+<ul class="nav nav-pills">
+  <% DelegationPage.all.each do |page| -%>
+    <% disabled = @delegation.step < page.step %>
+    <% active = @step == page.step %>
+    <li class="<%= if disabled then 'disabled' else '' end %> <%= if active then 'active' else '' end %>">
+      <% if disabled -%>
+        <a><%= page.step %>: <%= page.name %></a>
+      <% else -%>
+        <%= link_to "#{page.step}: #{page.name}", edit_page_delegation_path(page.step) %>
+      <% end -%>
+    </li>
+  <% end -%>
+</ul>

@@ -1,0 +1,40 @@
+<!DOCTYPE html><html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <title><%= active_admin_application.site_title %></title>
+  <%= stylesheet_link_tag    "active_admin", :media => "all" %>
+  <%= javascript_include_tag "active_admin" %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= admin_classes %>">
+  <div id="wrapper">
+    <div id="header" class="header">
+      <%= admin_arbre_tag :site_title, active_admin_namespace %>
+      <%= admin_arbre_tag :global_navigation, current_menu, :class => 'header-item tabs' %>
+      <%= admin_arbre_tag :global_navigation, active_admin_namespace.fetch_menu(:utility_navigation), :id => "utility_nav", :class => 'header-item tabs' %>
+    </div>
+ 
+    <div class="title_bar" id="title_bar">
+      <div id="titlebar_left">
+        <%= admin_renderer(:build_breadcrumb, :title_bar) %>
+        <h2 id="page_title"><%= admin_renderer(:title) %><h2>
+      </div>
+      <div id="titlebar_right">
+        <%= admin_arbre_tag(:action_items, admin_renderer(:action_items_for_action)) if admin_renderer(:action_items_for_action).any? %>
+      </div>
+    </div>
+ 
+    <%= admin_renderer(:build_flash_messages) %>
+ 
+    <div id="active_admin_content" class="<%= admin_renderer(:skip_sidebar?) ? 'without_sidebar' : 'with_sidebar' %>">
+      <%= admin_renderer(:build_main_content_wrapper) %>
+      <%= admin_renderer(:build_sidebar) unless admin_renderer(:skip_sidebar?) %>
+    </div>
+ 
+    <div id="footer">
+      <p><%= "Powered by #{ link_to 'Digital Dialogue', 'http://digitaldialogue.com.au' }".html_safe %></p>
+    </div>
+ 
+  </div>
+</body>
+</html>

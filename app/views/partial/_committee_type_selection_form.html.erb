@@ -1,0 +1,15 @@
+<h3><%= field.name %></h3>
+<% if field.description.present? -%>
+  <p class="help-block"><%= field.description %></p>
+<% end -%>
+<%
+if params[:delegation]
+  selections = f.object.committee_type_selections.sort_by(&:id)
+else
+  selections = f.object.all_committee_type_selections
+end
+%>
+<%= f.simple_fields_for :committee_type_selections, selections, as: :committee_type_selections_attributes do |f2| %>
+  <%= f2.input :committee_type_id, as: :hidden %>
+  <%= f2.input :delegate_count, label: f2.object.committee_type.name, wrapper_html: { class: 'col-sm-12' } %>
+<% end -%>

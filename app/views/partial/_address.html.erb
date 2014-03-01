@@ -1,0 +1,16 @@
+<div class="address">
+  <div class="line1">
+    <%= address.line1 %>
+  </div>
+  <% if address.line2.present? %>
+    <div class="line2">
+      <%= address.line2 %>
+    </div>
+  <% end -%>
+  <div class="city_state">
+    <%= address.city %>, <%= address.state %> <%= address.zip %>
+  </div>
+  <div class="country">
+    <%= address.country %>
+  </div>
+</div>

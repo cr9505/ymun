@@ -1,0 +1,17 @@
+options:
+  - name: Number of Country Preferences Allowed
+    slug: num_preferences
+    class_name: Integer
+    default: 10
+  - name: Site Title
+    slug: site_title
+    class_name: String
+    default: Yale Model Government Europe
+  - name: Registration Due Date
+    slug: registration_due_date
+    class_name: Date
+    default: '2014-03-31'
+  - name: Delegate Fee (USD)
+    slug: delegate_fee
+    class_name: Integer
+    default: 40

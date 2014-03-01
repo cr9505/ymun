@@ -1,0 +1,10 @@
+<%= simple_form_for(resource, as: 'delegation', url: delegation_path, method: :put) do |f| %>
+  <%= f.error_notification %>
+
+  <%= render partial: '/partial/preferences_form', locals: {f: f, resource: resource, cols: '9'} %>
+
+  <div class="form-actions col-sm-12">
+    <%= f.button :submit, "Save" %>
+  </div>
+
+<% end -%>

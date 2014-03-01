@@ -1,0 +1,3 @@
+class Delegate < User
+
+end

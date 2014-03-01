@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Site</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= render partial: 'partial/header' %>
+
+<div class="container">
+  <% if flash[:error] -%>
+    <div class="alert alert-danger"><%= flash[:error] %></div>
+  <% end -%>
+
+  <% if flash[:alert] -%>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end -%>
+
+  <% if flash[:notice] -%>
+    <div class="alert alert-success"><%= flash[:notice] %></div>
+  <% end -%>
+
+
+  <% if content_for?(:sidebar) -%>
+    <div class="col-sm-3">
+      <%= yield(:sidebar) %>
+    </div>
+    <% columns = 9 -%>
+  <% else -%>
+    <% columns = 12 -%>
+  <% end -%>
+
+  <div class="col-sm-<%= columns %>">
+    <%= yield %>
+  </div>
+</div>
+
+</body>
+</html>

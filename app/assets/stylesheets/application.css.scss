@@ -1,0 +1,32 @@
+// @import "bootswatch/journal/variables";
+
+// Then bootstrap itself
+@import "devise";
+@import "bootstrap";
+
+// And finally bootswatch style itself
+// @import "bootswatch/journal/bootswatch";
+
+// Whatever application styles you have go last
+
+@import "style";
+
+@import "options";
+@import "home";
+@import "chosen";
+@import "delegations";
+@import "bootstrap-tagsinput";
+// @import "metro";
+// @import "lblue";
+
+.navbar-brand {
+  font-family: Baskerville, Georgia, serif;
+  background: transparent asset-url('ymge_stars.png') top left no-repeat;
+
+  span.registration {
+    color: #ccc;
+    // font-style: italic;
+  }
+}
+
+

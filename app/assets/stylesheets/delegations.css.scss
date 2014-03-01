@@ -1,0 +1,7 @@
+// Place all the styles related to the delegations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+select.form-control.col-sm-11 {
+  @extend .col-sm-11;
+}

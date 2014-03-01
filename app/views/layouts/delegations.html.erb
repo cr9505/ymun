@@ -1,0 +1,11 @@
+<% content_for(:sidebar) do %>
+  <ul class="nav nav-pills nav-stacked">
+    <%= content_tag(:li, class: (params[:action] == 'show' ? 'active' : '')) do %>
+      <%= link_to('View Delegation', delegation_path) %>
+    <% end -%>
+    <%= content_tag(:li, class: (['edit', 'update'].include?(params[:action]) ? 'active' : '')) do %>
+      <%= link_to('Edit Delegation', edit_delegation_path) %>
+    <% end -%>
+  </ul>
+<% end -%>
+<%= render template: 'layouts/application' %>

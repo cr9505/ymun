@@ -1,0 +1,37 @@
+// @import 'scaffolds';
+// @import 'active_admin';
+
+// $font-family-base: "Georgia", serif;
+
+body { 
+  padding-top: 70px;
+}
+
+span.greyed {
+  color: #aaa;
+}
+
+.divider-vertical {
+  display: inline-block;
+  border-left: 1px solid #ddd;
+  height: 1.2em;
+  vertical-align: middle;
+  margin: 0px 0.5em;
+  &::after {
+    content: " ";
+  }
+}
+
+// .form-group.has-error {
+//   background-color: #fcc;
+//   border: 1px solid #caa;
+//   width: 100%;
+//   -webkit-box-sizing: content-box;
+//   -moz-box-sizing: content-box;
+//   box-sizing: content-box;
+//   padding: 6px 15px;
+//   border-radius: 3px;
+//   .help-inline {
+//     display: block;
+//   }
+// }

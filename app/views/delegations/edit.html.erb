@@ -1,0 +1,44 @@
+<%= render partial: '/partial/edit_pages_nav' %>
+<h2><%= @page.name %></h2>
+
+<% url = if @step then update_page_delegation_path(@step) else delegation_path end -%>
+<%= simple_form_for(resource, as: 'delegation', url: url, method: :put) do |f| %>
+  <%= f.error_notification message: error_message(resource) %>
+
+  <div class="form-inputs col-sm-9">
+    <% i = 0 -%>
+    <%= f.simple_fields_for :fields, @fields, as: :fields_attributes do |fi| %>
+      <% if fi.object.delegation_field.class_name == 'Advisors' -%>
+        <%= render partial: '/partial/advisors_form', locals: { f: f, description: fi.object.delegation_field.description } %>
+      <% elsif fi.object.delegation_field.class_name == 'Name' -%>
+          <%= f.input :name, :required => true, :autofocus => true, wrapper_html: {class: 'col-sm-12'},
+                      placeholder: I18n.t('delegation.example.name'), disabled: true %>
+      <% elsif fi.object.delegation_field.class_name == 'Address' -%>
+        <%= render partial: '/partial/address_form', locals: {f: f, resource: resource, cols: '9'} %>
+      <% elsif fi.object.delegation_field.class_name == 'Title' -%>
+        <h3><%= fi.object.delegation_field.name %></h3>
+        <p class="help-block"><%= fi.object.delegation_field.description %></p>
+      <% elsif fi.object.delegation_field.class_name == 'CommitteeTypeSelection' -%>
+        <%= render partial: '/partial/committee_type_selection_form', locals: { f: f, field: fi.object.delegation_field } %>
+      <% elsif fi.object.delegation_field.class_name == 'Select' -%>
+        <%= fi.input(:delegation_field_id, as: :hidden) %>
+        <% select_details = select_details(fi.object) -%>
+        <% value = if select_details[:is_other] then { value: 'other' } else {} end -%>
+        <%= fi.input(:value, label: fi.object.label, as: :select, wrapper_html: {class: 'col-sm-12'},
+                     required: fi.object.required, collection: select_details[:options],
+                     input_html: { class: 'with-other' }.merge(value), ) %>
+        <%= fi.input(:value, label: false, as: :string, disabled: !select_details[:is_other],
+                     wrapper_html: {class: 'col-sm-12'}, input_html: {class: 'other'}) %>
+      <% else -%>
+        <%= fi.input(:delegation_field_id, as: :hidden) %>
+        <%= fi.input(:value, label: fi.object.label, hint: fi.object.delegation_field.description, as: fi.object.input_type, wrapper_html: {class: 'col-sm-12'},
+                     required: fi.object.required, multiple: fi.object.multiple) %>
+      <% end -%>
+      <% i += 1 -%>
+    <% end -%>
+  </div>
+
+  <div class="form-actions col-sm-12">
+    <%= f.button :submit, "Save" %>
+  </div>
+<% end %>

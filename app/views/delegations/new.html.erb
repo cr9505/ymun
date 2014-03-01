@@ -1,0 +1,16 @@
+<h2>Configure Your Delegation</h2>
+
+<%= simple_form_for(:delegation, as: 'Delegation', url: delegations_path, method: :post) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs col-sm-6">
+    <%= f.input :name, :required => true, :autofocus => true, wrapper_html: {class: 'col-sm-12'},
+                placeholder: I18n.t('delegation.example.name') %>
+  </div>
+
+  <%= render partial: '/partial/address_form', locals: {f: f, resource: resource} %>
+
+  <div class="form-actions col-sm-12">
+    <%= f.button :submit, "Continue" %>
+  </div>
+<% end %>
