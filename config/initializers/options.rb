@@ -1,3 +1,3 @@
-# Option.setup do |config|
+Option.setup do |config|
   
-# end
+end
