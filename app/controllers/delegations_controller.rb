@@ -7,10 +7,12 @@ class DelegationsController < InheritedResources::Base
   end
 
   def new
-    if current_user.delegation
-      redirect_to action: :edit and return
+    unless current_user.delegation
+      delegation = Delegation.new
+      create_resource(delegation)
+      current_user.update_attributes(delegation_id: delegation.id)
     end
-    new! { url_for(action: :index) }
+    redirect_to action: :edit
   end
 
   def create
@@ -18,7 +20,7 @@ class DelegationsController < InheritedResources::Base
       success.html do
         current_user.delegation = @delegation
         current_user.save
-        redirect_to action: :index
+        redirect_to action: :show
       end
     end
   end
@@ -34,11 +36,16 @@ class DelegationsController < InheritedResources::Base
     @step = params[:step].to_i
     @page = DelegationPage.where(step: @step).first
     @fields = resource.all_fields(@page)
+    @delegation = resource
     unless @page
       flash[:error] = 'Invalid Edit Page.'
       redirect_to edit_page_delegation_path(1) and return
     end
     edit!
+  end
+
+  def resource
+    current_user.delegation or super
   end
 
   def update
@@ -95,7 +102,7 @@ class DelegationsController < InheritedResources::Base
     params.permit(:delegation => [:name, address_attributes: [:id, :line1, :line2, :city, :state, :zip, :country],
                                   preferences_attributes: [:country_id, :id],
                                   fields_attributes: [:id, :delegation_field_id, :value],
-                                  advisors_attributes: [:id, :email, :first_name, :last_name],
+                                  advisors_attributes: [:id, :email, :first_name, :last_name, :to_be_invited, :inviter_id],
                                   committee_type_selections_attributes: [:id, :delegate_count, :committee_type_id]])
   end
 end

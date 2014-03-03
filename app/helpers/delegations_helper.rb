@@ -13,7 +13,7 @@ module DelegationsHelper
     options = select_options(delegation_field_value.delegation_field.options)
     {
       options: select_options(delegation_field_value.delegation_field.options),
-      is_other: !options.collect{|opt| opt[0]}.include?(delegation_field_value.value)
+      is_other: (!delegation_field_value.value.blank? && !options.collect{|opt| opt[0]}.include?(delegation_field_value.value))
     }
   end
 

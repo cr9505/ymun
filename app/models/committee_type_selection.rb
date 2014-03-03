@@ -4,6 +4,8 @@ class CommitteeTypeSelection < ActiveRecord::Base
 
   after_initialize :init
 
+  default_scope -> { order(:committee_type_id) }
+
   def init
     self.delegate_count ||= 0
   end

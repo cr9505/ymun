@@ -13,10 +13,10 @@ class Delegation < ActiveRecord::Base
   accepts_nested_attributes_for :preferences
 
   accepts_nested_attributes_for :address
-  accepts_nested_attributes_for :advisors, reject_if: :all_blank
+  accepts_nested_attributes_for :advisors, reject_if: ->(advisor) { advisor[:email].blank? }
 
   has_many :fields, class_name: 'DelegationFieldValue', dependent: :destroy
-  accepts_nested_attributes_for :fields, allow_destroy: true
+  accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: :all_blank
 
   has_many :committee_type_selections, dependent: :destroy
   accepts_nested_attributes_for :committee_type_selections, allow_destroy: true
@@ -27,6 +27,7 @@ class Delegation < ActiveRecord::Base
 
   def init_defaults
     self.step ||= 1
+    self.address ||= Address.new
   end
 
   def pad_preferences
@@ -57,12 +58,11 @@ class Delegation < ActiveRecord::Base
       delegation_fields = DelegationField.active
     end
     delegation_fields.map do |field|
-      get_fields(field).to_a
+      get_fields_or_build(field).to_a
     end.flatten
   end
 
-  # returns the DelegationFieldValues associated with the field or slug FIELD
-  def get_fields(field)
+  def get_fields_or_build(field)
     unless field.is_a? DelegationField
       field_slug = field.to_s
       field = DelegationField.where(slug: field_slug).first
@@ -73,6 +73,16 @@ class Delegation < ActiveRecord::Base
       field_values = [self.fields.build(delegation_field_id: field.id)]
     end
     field_values
+  end
+
+  # returns the DelegationFieldValues associated with the field or slug FIELD
+  def get_fields(field)
+    unless field.is_a? DelegationField
+      field_slug = field.to_s
+      field = DelegationField.where(slug: field_slug).first
+      return nil if field.nil?
+    end
+    self.fields.where(delegation_field_id: field.id).includes(:delegation_field)
   end
 
   def advance_step!

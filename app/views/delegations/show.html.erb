@@ -1,3 +1,30 @@
 <h2>Delegation: <%= resource.name %></h2>
 
-<%= render partial: 'partial/address', locals: {address: resource.address} %>
+<% DelegationPage.all.each do |p| -%>
+  <h3><%= p.name %></h3>
+  <% resource.all_fields(p).each do |field| -%>
+    <% if field.delegation_field.class_name == 'Address' -%>
+      <%= render partial: '/partial/address', locals: { address: resource.address } %>
+    <% elsif field.delegation_field.class_name == 'Name' -%>
+        <%# nothing %>
+    <% elsif field.delegation_field.class_name == 'Advisors' -%>
+      <h4>Advisors</h4>
+      <ul>
+        <% resource.advisors.each do |a| %>
+          <li><%= a.email %></li>
+        <% end -%>
+      </ul>
+    <% elsif field.delegation_field.class_name == 'Title' -%>
+      <h4><%= field.delegation_field.name %></h4>
+    <% elsif field.delegation_field.class_name == 'CommitteeTypeSelection' -%>
+      <h4>Breakdown of Committees</h4>
+      <ul>
+        <% resource.committee_type_selections.each do |cts| %>
+          <li><%= cts.committee_type.name %>: <%= cts.delegate_count %></li>
+        <% end -%>
+      </ul>
+    <% else -%>
+      <p><%= field.delegation_field.name %>: <%= field.value %></p>
+    <% end -%>
+  <% end -%>
+<% end -%>

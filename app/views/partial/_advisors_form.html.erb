@@ -9,6 +9,8 @@
 <% end -%>
 <%= f.simple_fields_for :advisors, Advisor.new, wrapper: :with_addons, as: :advisors_attributes do |a| %>
   <%= a.input :email, addon: 'New', label: false, wrapper_html: { class: 'col-sm-12' }, input_html: { class: 'form-control-static duplicatable' } %>
+  <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
+  <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
 <% end -%>
 <div class="form-group col-sm-12">
   <button class="btn btn-default btn-block col-sm-12 add-one">Add One</button>

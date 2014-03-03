@@ -20,7 +20,7 @@ Site::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -82,7 +82,7 @@ Site::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.mandrill.com',
+    address:              'smtp.mandrillapp.com',
     port:                 587,
     user_name:            'graham.kaemmer@gmail.com',
     password:             'zsRmVj3WxK0KLaLqbbPFYA'

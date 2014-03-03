@@ -1,0 +1,8 @@
+<% title = Option.get('site_title') %>
+<p class="article-title">Hello <%= @resource.delegation.name || title %> Advisor!</p>
+
+<p>You've been registered as an advisor for <%= title %>! To sign up and edit your delegation, you can click the link below.</p>
+
+<p><%= link_to 'Sign Up', accept_invitation_url(@resource, :invitation_token => @token) %></p>
+
+<p>If you don't want to sign up, please ignore this email. Your delegation will not be affected.</p>

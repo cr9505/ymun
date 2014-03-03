@@ -51,6 +51,8 @@ gem 'activeadmin-sortable-tree', :github => 'nebirhos/activeadmin-sortable-tree'
 gem 'nokogiri'
 gem 'premailer-rails'
 
+gem 'devise_invitable'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

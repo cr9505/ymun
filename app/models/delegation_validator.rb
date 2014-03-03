@@ -1,7 +1,7 @@
 class DelegationValidator < ActiveModel::Validator
   def validate(delegation)
     puts "STARTING VALIDATION"
-    if delegation.advisors.count < 1
+    if delegation.persisted? && delegation.advisors.count < 1
       delegation.errors[:'advisors'] << 'At least one advisor is required per delegation.'
     end
     if delegation.delegation_size.present?
@@ -15,11 +15,12 @@ class DelegationValidator < ActiveModel::Validator
         delegation.errors[:'committee_type_selections'] << 'Number of delegates does not match total delegation size.'
       end
       # TODO clean this up
-      puts delegation.committee_type_selections.find{|cts| cts.committee_type_id == 1 }.delegate_count
-      if delegation.committee_type_selections.find{|cts| cts.committee_type_id == 1 }.delegate_count > 0.5 * delegation_size
+      council_selection = delegation.committee_type_selections.find{|cts| cts.committee_type_id == 1 }
+      if council_selection && council_selection.delegate_count > 0.5 * delegation_size
         delegation.errors[:'committee_type_selections'] << 'No more than half of your delegates may be National Cabinets/Councils of Ministers.'
       end
     end
     puts "VALIDATION FINISHED"
+    puts delegation.errors.inspect if delegation.errors.any?
   end
 end
