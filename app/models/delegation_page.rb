@@ -5,7 +5,7 @@ class DelegationPage < ActiveRecord::Base
   before_save :init
 
   def init
-    step ||= (DelegationPage.maximum(:step) || 0) + 1
+    self.step ||= (DelegationPage.maximum(:step) || 0) + 1
   end
 
   def position
@@ -21,7 +21,7 @@ class DelegationPage < ActiveRecord::Base
   end
 
   def step_index
-    step - 1
+    self.step - 1
   end
 
   def step_index=(i)
