@@ -2,7 +2,7 @@ class DelegationPage < ActiveRecord::Base
   has_many :delegation_fields
   accepts_nested_attributes_for :delegation_fields, :allow_destroy => true
 
-  after_initialize :init
+  before_save :init
 
   def init
     step ||= (DelegationPage.maximum(:step) || 0) + 1
