@@ -5,7 +5,7 @@ class DelegationPage < ActiveRecord::Base
   after_initialize :init
 
   def init
-    step ||= DelegationPage.maximum(:step) + 1
+    step ||= (DelegationPage.maximum(:step) || 0) + 1
   end
 
   def position
