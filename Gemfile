@@ -53,6 +53,8 @@ gem 'premailer-rails'
 
 gem 'devise_invitable'
 
+gem 'newrelic_rpm'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
