@@ -5,3 +5,11 @@
 select.form-control.col-sm-11 {
   @extend .col-sm-11;
 }
+
+.input-group .form-control.input-group-first {
+  border-radius: 0 3px 0 0 !important;
+}
+
+.input-group .form-control.input-group-last {
+  border-radius: 0 0 3px 0;
+}

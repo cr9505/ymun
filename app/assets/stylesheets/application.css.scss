@@ -28,4 +28,15 @@
   }
 }
 
+footer.content-footer {
+  margin-top: 1em;
+  padding: 1em 0 2em;
+  background-color: #4c4c4c;
+  border-top: 1px solid #222;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  .address strong {
+    display: inline-block;
+  }
+}
 

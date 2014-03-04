@@ -1,4 +1,5 @@
 //= require active_admin/base
+//= require chosen.jquery.min
 //= require select2.min
 
 function addChosenClickEvent(span, clickHandler) {
