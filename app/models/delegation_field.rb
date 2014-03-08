@@ -3,7 +3,7 @@ class DelegationField < ActiveRecord::Base
 
   before_save :add_slug
 
-  default_scope -> { order('position') }
+  default_scope -> { order('delegation_page_id, position') }
 
   after_initialize :init
 

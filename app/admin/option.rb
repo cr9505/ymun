@@ -16,10 +16,12 @@ ActiveAdmin.register Option do
     f.inputs "Option" do
       f.input :name
       case f.object.class_name
+      when 'Text'
+        f.input :value, as: :text
       when 'String'
         f.input :value
       when 'Integer'
-        f.input :value, as: :integer
+        f.input :value
       when 'Date'
         f.input :value, as: :datepicker
       end

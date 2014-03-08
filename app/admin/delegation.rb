@@ -19,7 +19,9 @@ ActiveAdmin.register Delegation do
     column :address do |delegation|
       delegation.address.to_html
     end
-    actions
+    actions do |delegation|
+      link_to 'Payments', admin_delegation_payments_path(delegation.id)
+    end
   end
 
   show do
@@ -33,6 +35,32 @@ ActiveAdmin.register Delegation do
       row 'Assigned Countries' do
         delegation.countries.map(&:name).join(', ')
       end
+
+      delegation.all_fields.each do |field|
+        case field.delegation_field.class_name
+        when 'Title'
+        when 'Name'
+        when 'Address'
+        when 'CommitteeTypeSelection'
+          delegation.committee_type_selections.each do |cts|
+            row cts.committee_type.name do |n|
+              cts.delegate_count
+            end
+          end
+        when 'Advisors'
+          row 'Advisors' do |n|
+            delegation.advisors.map{|a| "#{a.first_name} #{a.last_name}: #{a.email}"}.join('<br>').html_safe
+          end
+        else
+          row field.delegation_field.name do |n|
+            field.to_value
+          end
+        end
+      end
+
+      row :payment_balance
+
+      a 'Add a Payment', href: new_admin_delegation_payment_path(delegation.id)
     end
   end
 

@@ -55,6 +55,8 @@ gem 'devise_invitable'
 
 gem 'newrelic_rpm'
 
+gem 'paypal-sdk-rest'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

@@ -15,23 +15,26 @@
                       placeholder: I18n.t('delegation.example.name') %>
       <% elsif fi.object.delegation_field.class_name == 'Address' -%>
         <%= render partial: '/partial/address_form', locals: {f: f, resource: resource, cols: '9'} %>
+      <% elsif fi.object.delegation_field.class_name == 'Payment' -%>
+        <%= render partial: '/partial/payment_form', locals: {f: f, resource: resource, cols: '9'} %>
       <% elsif fi.object.delegation_field.class_name == 'Title' -%>
         <h3><%= fi.object.delegation_field.name %></h3>
-        <p class="help-block"><%= fi.object.delegation_field.description %></p>
+        <p class="help-block"><%= fi.object.delegation_field.description.html_safe %></p>
       <% elsif fi.object.delegation_field.class_name == 'CommitteeTypeSelection' -%>
         <%= render partial: '/partial/committee_type_selection_form', locals: { f: f, field: fi.object.delegation_field } %>
       <% elsif fi.object.delegation_field.class_name == 'Select' -%>
         <%= fi.input(:delegation_field_id, as: :hidden) %>
         <% select_details = select_details(fi.object) -%>
         <% value = if select_details[:is_other] then { value: 'other' } else {} end -%>
-        <%= fi.input(:value, label: fi.object.label, as: :select, wrapper_html: {class: 'col-sm-12'},
+        <%= fi.input(:value, label: fi.object.label, as: :select, hint: fi.object.delegation_field.description,
+                     wrapper_html: {class: 'col-sm-12'},
                      required: fi.object.required, collection: select_details[:options],
                      input_html: { class: 'with-other' }.merge(value), ) %>
         <%= fi.input(:value, label: false, as: :string, disabled: !select_details[:is_other],
                      wrapper_html: {class: 'col-sm-12'}, input_html: {class: 'other'}) %>
       <% else -%>
         <%= fi.input(:delegation_field_id, as: :hidden) %>
-        <%= fi.input(:value, label: fi.object.label, hint: fi.object.delegation_field.description, as: fi.object.input_type, wrapper_html: {class: 'col-sm-12'},
+        <%= fi.input(:value, label: fi.object.label, hint: fi.object.delegation_field.description.html_safe, as: fi.object.input_type, wrapper_html: {class: 'col-sm-12'},
                      required: fi.object.required, multiple: fi.object.multiple) %>
       <% end -%>
       <% i += 1 -%>

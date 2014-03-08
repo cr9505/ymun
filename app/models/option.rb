@@ -1,4 +1,6 @@
 class Option < ActiveRecord::Base
+  before_save :reset_delegation_payment_items
+
   def self.get(slug)
     opt = Option.where(slug: slug.to_s).first
     if opt
@@ -9,6 +11,8 @@ class Option < ActiveRecord::Base
         opt.value
       when 'Date'
         Date.new(opt.value)
+      when 'Text'
+        opt.value
       end
     else
       nil
@@ -34,5 +38,9 @@ class Option < ActiveRecord::Base
         new_opt.save
       end
     end
+  end
+
+  def reset_delegation_payment_items
+    Delegation.reset_payment_items
   end
 end

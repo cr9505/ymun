@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Site</title>
+  <title><%= Option.get('site_title') %> Registration</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", media: "all" %>
   <%= javascript_include_tag "application" %>
@@ -13,15 +13,17 @@
 
 <div class="container">
   <% if flash[:error] -%>
-    <div class="alert alert-danger"><%= flash[:error] %></div>
-  <% end -%>
-
-  <% if flash[:alert] -%>
-    <div class="alert alert-danger"><%= flash[:alert] %></div>
+    <div id="alert-danger" class="alert alert-danger"><%= flash[:error] %></div>
+  <% elsif flash[:alert] -%>
+    <div id="alert-danger" class="alert alert-danger"><%= flash[:alert] %></div>
+  <% else -%>
+    <div id="alert-danger" class="alert alert-danger hidden"></div>
   <% end -%>
 
   <% if flash[:notice] -%>
-    <div class="alert alert-success"><%= flash[:notice] %></div>
+    <div id="alert-success" class="alert alert-success"><%= flash[:notice] %></div>
+  <% else -%>
+    <div id="alert-success" class="alert alert-success hidden"></div>
   <% end -%>
 
 
@@ -38,6 +40,34 @@
     <%= yield %>
   </div>
 </div>
+
+<footer class="content-footer">
+  <div class="container">
+    <h4>Yale Model Government Europe</h4>
+
+      <dl class="dl-horizontal">
+        <dt>
+           <%= icon('map-marker') %> <strong>Address:</strong>
+        </dt>
+        <dd>
+          PO Box 203352 <br>New Haven, CT 06520
+        </dd>
+        <dt>
+           <%= icon('phone') %> <strong>Phone:</strong>
+        </dt>
+        <dd>
+          +1 (412) 877-1272
+        </dd>
+        <dt>
+           <%= icon('envelope') %> <strong>Email:</strong>
+        </dt>
+        <dd>
+          <a href="mailto:recruitment@ymge.org">recruitment@ymge.org</a>
+        </dd>
+      </dl>
+    <div class="textwidget">Copyright 2010-2014 Yale Model Government Europe CZ, o.s.</div>
+  </div>
+</footer>
 
 </body>
 </html>

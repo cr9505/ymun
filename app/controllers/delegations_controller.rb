@@ -66,8 +66,11 @@ class DelegationsController < InheritedResources::Base
           current_user.delegation.advance_step!
         end
         curr_step = params[:step].to_i
-        step = if curr_step + 1 > DelegationPage.maximum(:step) then curr_step else curr_step + 1 end
-        redirect_to edit_page_delegation_path(step)
+        if curr_step + 1 > DelegationPage.maximum(:step)
+          redirect_to delegation_payments_path
+        else 
+          redirect_to edit_page_delegation_path(curr_step + 1)
+        end
       end
     end
   end
@@ -77,7 +80,42 @@ class DelegationsController < InheritedResources::Base
     edit!
   end
 
+  def change_payment_type
+    delegation = current_user.delegation
+    @payment_type = params[:payment_type].to_sym
+    delegation.payment_type = @payment_type
+    if delegation.save
+      respond_to do |format|
+        format.json do
+          render json: {success: true, payment_type: @payment_type}
+        end
+        format.html do
+          flash[:notice] = 'Payment type changed successfully.'
+          redirect_to delegation_payments_path
+        end
+      end
+    end
+  end
+
+  def change_payment_currency
+    delegation = current_user.delegation
+    @currency = params[:currency].to_sym
+    delegation.payment_currency = @currency
+    if delegation.save
+      respond_to do |format|
+        format.json do
+          render json: {success: true, currency: @currency}
+        end
+        format.html do
+          flash[:notice] = 'Currency changed successfully.'
+          redirect_to delegation_payments_path
+        end
+      end
+    end
+  end
+
   def payment
+    @payment_items = current_user.delegation.payment_items
 
   end
 

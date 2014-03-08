@@ -17,6 +17,13 @@ module DelegationsHelper
     }
   end
 
+  def currency(currency_abbr)
+    {
+      usd: '$',
+      eur: '&euro;'
+    }[currency_abbr].html_safe
+  end
+
   def error_message(delegation)
     Arbre::Context.new do
       text_node "Please correct the following errors:"

@@ -4,11 +4,25 @@
 <% end -%>
 <% f.object.advisors.each_with_index do |advisor, index| -%>
   <%= f.simple_fields_for :advisors, advisor, wrapper: :with_addons, as: :advisors_attributes do |a| %>
-    <%= a.input :email, addon: index + 1, label: false, wrapper_html: { class: 'col-sm-12' }, disabled: true %>
+    <div class="form-group col-sm-12">
+      <div class="input-group">
+        <span class="input-group-addon"><%= index + 1 %></span>
+        <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', disabled: true %>
+        <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
+        <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
+      </div>
+    </div>
   <% end -%>
 <% end -%>
 <%= f.simple_fields_for :advisors, Advisor.new, wrapper: :with_addons, as: :advisors_attributes do |a| %>
-  <%= a.input :email, addon: 'New', label: false, wrapper_html: { class: 'col-sm-12' }, input_html: { class: 'form-control-static duplicatable' } %>
+  <div class="form-group col-sm-12">
+    <div class="input-group">
+      <span class="input-group-addon">New</span>
+      <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first' %>
+      <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
+      <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
+    </div>
+  </div>
   <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
   <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
 <% end -%>

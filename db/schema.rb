@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303035824) do
+ActiveRecord::Schema.define(version: 20140307223309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20140303035824) do
     t.boolean "active"
     t.integer "position"
     t.string  "options"
-    t.string  "description"
+    t.text    "description"
   end
 
   create_table "delegation_pages", force: true do |t|
@@ -120,6 +120,8 @@ ActiveRecord::Schema.define(version: 20140303035824) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "step"
+    t.string   "payment_currency"
+    t.string   "payment_type"
   end
 
   create_table "options", force: true do |t|
@@ -129,6 +131,19 @@ ActiveRecord::Schema.define(version: 20140303035824) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "class_name"
+  end
+
+  create_table "payments", force: true do |t|
+    t.integer  "delegation_id"
+    t.string   "payer_id"
+    t.string   "payment_id"
+    t.float    "amount"
+    t.string   "sale_id"
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "currency"
+    t.string   "method"
   end
 
   create_table "preferences", force: true do |t|

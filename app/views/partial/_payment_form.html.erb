@@ -1,0 +1,3 @@
+<% resource.payment_items.each do |item| %>
+  <%= item[:name] %>: $<%= item[:price] %> x <%= item[:count] %> = $<%= item[:price] * item[:count] %> <br>
+<% end -%>

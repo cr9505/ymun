@@ -6,6 +6,9 @@
     <%= content_tag(:li, class: (['edit', 'update'].include?(params[:action]) ? 'active' : '')) do %>
       <%= link_to('Edit Delegation', edit_delegation_path) %>
     <% end -%>
+    <%= content_tag(:li, class: (params[:controller] == 'payments' ? 'active' : '')) do %>
+      <%= link_to('Payment', delegation_payments_path) %>
+    <% end -%>
   </ul>
 <% end -%>
 <%= render template: 'layouts/application' %>

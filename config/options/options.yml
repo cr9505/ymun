@@ -15,3 +15,15 @@ options:
     slug: delegate_fee
     class_name: Integer
     default: 40
+  - name: Delegation Price
+    slug: delegation_price
+    class_name: Text
+    default: 
+  - name: Deposit
+    slug: deposit
+    class_name: Integer
+    default: 300
+  - name: Maximum Delegates Per Advisor
+    slug: max_delegates_per_advisor
+    class_name: Integer
+    default: 10

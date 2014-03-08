@@ -3,10 +3,13 @@ Site::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   resource :delegation do
-    get 'preferences' => 'delegations#edit_preferences', on: :collection, as: :edit_preferences
+    get 'change_payment_type' => 'delegations#change_payment_type'
+    get 'change_payment_currency' => 'delegations#change_payment_currency'
     get 'edit/:step' => 'delegations#edit', as: :edit_page
     put 'update/:step' => 'delegations#update', as: :update_page
-    get 'payment' => 'delegations#payment', as: :payment
+    resources :payments do
+      get 'execute' => 'payments#execute_payment', as: :execute, on: :collection
+    end
   end
 
   # get 'delegation' => 'delegations#index', as: :delegation
