@@ -82,7 +82,7 @@ class DelegationsController < InheritedResources::Base
 
   def change_payment_type
     delegation = current_user.delegation
-    @payment_type = params[:payment_type].to_sym
+    @payment_type = params[:payment_type]
     delegation.payment_type = @payment_type
     if delegation.save
       respond_to do |format|
@@ -90,7 +90,17 @@ class DelegationsController < InheritedResources::Base
           render json: {success: true, payment_type: @payment_type}
         end
         format.html do
-          flash[:notice] = 'Payment type changed successfully.'
+          flash[:notice] = 'Payment method changed successfully.'
+          redirect_to delegation_payments_path
+        end
+      end
+    else
+      respond_to do |format|
+        format.json do
+          render json: {success: false, error: delegation.errors.inspect}
+        end
+        format.html do
+          flash[:error] = 'Payment method could not be changed.'
           redirect_to delegation_payments_path
         end
       end
@@ -99,7 +109,7 @@ class DelegationsController < InheritedResources::Base
 
   def change_payment_currency
     delegation = current_user.delegation
-    @currency = params[:currency].to_sym
+    @currency = params[:currency]
     delegation.payment_currency = @currency
     if delegation.save
       respond_to do |format|

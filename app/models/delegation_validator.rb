@@ -26,7 +26,7 @@ class DelegationValidator < ActiveModel::Validator
         delegation.errors[:fields] << "#{field.delegation_field.name} must be non-negative."
       end
     end
-    unless delegation.payment_type.blank? || ['paypal', 'check', 'bank'].include?(delegation.payment_type)
+    if delegation.payment_type.present? && !['paypal', 'check', 'bank'].include?(delegation.payment_type)
       delegation.errors[:payment_type] << 'Invalid Payment Type'
     end
     if delegation.payment_currency != :usd && @payment_type == :paypal

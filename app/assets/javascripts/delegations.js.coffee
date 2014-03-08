@@ -3,14 +3,16 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 hideAlert = ->
-  $('.alert-success').delay(3000).slideUp()
+  $('.alert-success').delay(6000).slideUp()
 
 successAlert = (msg) ->
   $('#alert-success').text(msg).removeClass('hidden').show()
   hideAlert()
+  $("html, body").animate({ scrollTop: 0 }, "fast");
 
 dangerAlert = (msg) ->
   $('#alert-danger').text(msg).removeClass('hidden').show()
+  $("html, body").animate({ scrollTop: 0 }, "fast");
 
 $(document).ready ->
   $('.chosen-select').chosen
@@ -55,7 +57,7 @@ $(document).ready ->
       paymentType = $(this).attr('data-payment-type')
       $('.payment-type-button').removeClass('active')
       $(this).addClass('active')
-      $.getJSON('/delegation/change_payment_type', {payment_type: paymentType}, (data) ->
+      $.getJSON('/delegation/change_payment_type.json', {payment_type: paymentType}, (data) ->
         if data.success
           successAlert('Payment method was successfully changed!')
         else
@@ -69,7 +71,7 @@ $(document).ready ->
         usdButton.addClass('active')
         eurButton.removeClass('active')
         $('#pay-with-paypal').show()
-        $.getJSON('/delegation/change_payment_currency', {currency: 'usd'}, (data) ->
+        $.getJSON('/delegation/change_payment_currency.json', {currency: 'usd'}, (data) ->
           if data.success
             successAlert('Currency successfully changed to USD!')
           else
@@ -83,7 +85,7 @@ $(document).ready ->
         eurButton.addClass('active')
         usdButton.removeClass('active')
         $('#pay-with-paypal').hide()
-        $.getJSON('/delegation/change_payment_currency', {currency: 'eur'}, (data) ->
+        $.getJSON('/delegation/change_payment_currency.json', {currency: 'eur'}, (data) ->
           if data.success
             successAlert('Currency successfully changed to EUR!')
           else
@@ -92,6 +94,12 @@ $(document).ready ->
 
   $('#payment-submit').click (e) ->
     e.preventDefault()
-    $(this).text('Please Wait...').parents('form').submit()
+    $this = $(this)
+    form = $this.parents('form')
+    if form.find('input:checked').length
+      $this.text('Please Wait...')
+      form.submit()
+    else
+      dangerAlert('Please select a payment option or amount.')
 
   hideAlert()

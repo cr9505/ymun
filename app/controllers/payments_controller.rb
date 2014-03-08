@@ -62,7 +62,14 @@ class PaymentsController < ActionController::Base
         @delegation.payment_balance
       when 'custom'
         params[:payment][:amount].to_f
+      else
+        nil
       end
+
+    if @amount.nil?
+      flash[:error] = 'Please specify either deposit, full balance, or custom amount.'
+      redirect_to delegation_payments_url and return
+    end
 
     if @amount <= 0
       flash[:error] = 'The amount to pay cannot be zero or negative.'
