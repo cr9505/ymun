@@ -195,7 +195,7 @@ class Delegation < ActiveRecord::Base
   end
 
   def total_tshirts
-    DelegationField.where('slug LIKE ?', '%_tshirts').map{|df| get_field_value(df)}.sum
+    DelegationField.where('slug LIKE ?', '%_tshirts').map{|df| get_field_value(df)}.compact.sum
   end
 
   # def respond_to?(sym, include_private = false)
