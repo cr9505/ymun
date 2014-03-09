@@ -39,6 +39,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'rails_12factor'
+
 gem 'simple_form'
 gem 'country_select'
 
