@@ -1,5 +1,10 @@
 <h2>
   Payment
+  <% 
+  usd_class = ''
+  if @delegation.payment_currency.blank? ||
+     @delegation.payment_currency == 'usd' then 'active' else '' end
+  %>
   <button id="usd-button" class="btn btn-default <%= if @delegation.payment_currency.blank? || @delegation.payment_currency == 'usd' then 'active' else '' end %>  <%= if @delegation.approved_payments.where(currency: 'eur').any? then 'disabled' else '' end %>">
     <span class="weak"><%= icon('usd') %></span>
     Pay With USD
@@ -40,7 +45,7 @@
         <td>Total:</td>
         <td></td>
         <td></td>
-        <td><%= currency(curr) %><%= @delegation.payment_balance %></td>
+        <td><%= currency(curr) %><%= @delegation.payment_balance(curr) %></td>
       </tr>
     </tbody>
   </table>
