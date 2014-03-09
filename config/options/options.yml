@@ -19,10 +19,14 @@ options:
     slug: delegation_price
     class_name: Text
     default: 
-  - name: Deposit
-    slug: deposit
+  - name: Deposit (EUR)
+    slug: deposit_eur
     class_name: Integer
     default: 300
+  - name: Deposit (USD)
+    slug: deposit_usd
+    class_name: Integer
+    default: 450
   - name: Maximum Delegates Per Advisor
     slug: max_delegates_per_advisor
     class_name: Integer

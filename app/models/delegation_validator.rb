@@ -29,6 +29,18 @@ class DelegationValidator < ActiveModel::Validator
     if delegation.payment_type.present? && !['paypal', 'check', 'bank'].include?(delegation.payment_type)
       delegation.errors[:payment_type] << 'Invalid Payment Type'
     end
+
+    # TODO: make payment validation better
+
+    delegation.payments.each do |p|
+      if delegation.payment_currency.blank? ||
+         delegation.payments.length <= 1
+        delegation.payment_currency = p.currency
+      elsif delegation.payment_currency != p.currency
+        delegation.errors[:payments] << 'All payments must be in the same currency!'
+        p.errors[:currency] << 'All payments must be in the same currency!'
+      end
+    end
     if delegation.payment_currency != :usd && @payment_type == :paypal
       delegation.errors[:payment_type] << 'You can only pay with paypal if you use USD.'
     end

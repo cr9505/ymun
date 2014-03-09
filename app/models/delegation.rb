@@ -143,18 +143,25 @@ class Delegation < ActiveRecord::Base
     end
   end
 
-  def total_payment_owed(curr)
+  def total_payment_owed(curr=nil)
+    curr ||= payment_currency || 'usd'
     payment_items.collect do |item|
       item[:price][curr] * item[:count]
     end.sum
   end
 
-  def total_payment_paid(curr)
+  def total_payment_paid(curr=nil)
+    curr ||= payment_currency || 'usd'
     approved_payments.collect(&:amount).sum
   end
 
   def payment_balance(curr=:usd)
     total_payment_owed(curr) - total_payment_paid(curr)
+  end
+
+  def paid_deposit?
+    deposit = Option.get("deposit_#{payment_currency.downcase}") || Option.get('deposit_usd')
+    total_payment_paid >= deposit
   end
 
   def approved_payments

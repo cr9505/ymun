@@ -1,5 +1,9 @@
 class Payment < ActiveRecord::Base
   default_scope -> { order 'updated_at' }
+
+  belongs_to :delegation
+  validates_associated :delegation
+
   def self.new_from_payment(payment)
     self.new(payment_id: payment.id, 
              state: payment.state, 

@@ -1,5 +1,5 @@
 ActiveAdmin.register Payment do
-  permit_params :name, :amount, :method, :state
+  permit_params :name, :amount, :method, :currency, :state
   belongs_to :delegation
 
   form do |f|

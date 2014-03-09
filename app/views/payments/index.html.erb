@@ -1,15 +1,29 @@
 <h2>
   Payment
   <% 
-  usd_class = ''
-  if @delegation.payment_currency.blank? ||
-     @delegation.payment_currency == 'usd' then 'active' else '' end
+  usd_class = if @delegation.payment_currency.blank? ||
+                 @delegation.payment_currency == 'usd' 
+                'active'
+              elsif @delegation.payments.any? &&
+                    @delegation.payment_currency != 'usd'
+                'disabled'
+              else
+                ''
+              end
+  eur_class = if @delegation.payment_currency == 'eur' 
+                'active'
+              elsif @delegation.payments.any? &&
+                    @delegation.payment_currency != 'eur'
+                'disabled'
+              else
+                ''
+              end
   %>
-  <button id="usd-button" class="btn btn-default <%= if @delegation.payment_currency.blank? || @delegation.payment_currency == 'usd' then 'active' else '' end %>  <%= if @delegation.approved_payments.where(currency: 'eur').any? then 'disabled' else '' end %>">
+  <button id="usd-button" class="btn btn-default <%= usd_class %>">
     <span class="weak"><%= icon('usd') %></span>
     Pay With USD
   </button>
-  <button id="eur-button" class="btn btn-default <%= if @delegation.payment_currency == 'eur' then 'active' else '' end %> <%= if @delegation.approved_payments.where(currency: 'usd').any? then 'disabled' else '' end %>">
+  <button id="eur-button" class="btn btn-default <%= eur_class %>">
     <span class="weak"><%= icon('eur') %></span> 
     Pay With EUR
   </button>
@@ -51,6 +65,12 @@
   </table>
 <% end -%>
 
+<% unless @delegation.paid_deposit? -%>
+<p class="help-block">
+In order to finalize your delegation's registration, you must pay a USD 450/EUR 300 deposit within eight business days of completing this form.  Please choose from one of the options below.
+</p>
+<% end -%>
+
 <div class="col-sm-12" id="pay-with-paypal">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -70,7 +90,7 @@
               <input type="radio" name="payment[type]" value="custom"> Pay Custom Amount:
             </label>
           </div>
-          <input type="number" class="form-control" name="payment[amount]">
+          <input type="number" class="form-control" name="payment[amount]" placeholder="Custom Amount...">
           <div class="input-group-btn">
             <button type="submit" id="payment-submit" class="btn btn-primary">Pay <%= icon('chevron-right') %>
           </div>
