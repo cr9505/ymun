@@ -125,7 +125,7 @@ class Delegation < ActiveRecord::Base
 
   def payment_property(property)
     fields = get_fields(property)
-    if fields.any?
+    if fields.present?
       fields.first.value.to_i
     else
       # must be a member method
