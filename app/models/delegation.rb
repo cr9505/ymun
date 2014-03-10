@@ -160,8 +160,12 @@ class Delegation < ActiveRecord::Base
   end
 
   def paid_deposit?
-    deposit = Option.get("deposit_#{payment_currency.downcase}") || Option.get('deposit_usd')
-    total_payment_paid >= deposit
+    if payment_currency
+      deposit = Option.get("deposit_#{payment_currency.downcase}") || Option.get('deposit_usd')
+      total_payment_paid >= deposit
+    else
+      false
+    end
   end
 
   def approved_payments

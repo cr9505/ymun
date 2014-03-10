@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(user)
     case user.type
       when 'Advisor'
-        delegation_path
+        if user.delegation.andand.registration_finished?
+          delegation_path
+        else
+          delegation_edit_path
+        end
       when 'Delegate'
         edit_registration_path(:delegate)
       when 'AdminUser'
