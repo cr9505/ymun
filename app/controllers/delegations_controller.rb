@@ -134,6 +134,7 @@ class DelegationsController < InheritedResources::Base
   def attach_id
     if current_user.delegation
       params[:id] = current_user.delegation_id
+      @delegation = current_user.delegation
     else
       redirect_to action: :new
     end

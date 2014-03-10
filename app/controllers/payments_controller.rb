@@ -102,7 +102,7 @@ class PaymentsController < ActionController::Base
   private
 
   def ensure_delegation
-    unless
+    unless current_user.delegation
       redirect_to controller: :delegations, action: :new
     end
   end
