@@ -57,7 +57,7 @@ class PaymentsController < ActionController::Base
     @amount =
       case params[:payment][:type]
       when 'deposit'
-        Option.get('deposit')
+        Option.get('deposit_usd')
       when 'full'
         @delegation.payment_balance
       when 'custom'

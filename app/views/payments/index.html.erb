@@ -81,7 +81,7 @@ In order to finalize your delegation's registration, you must pay a USD 450/EUR 
         <div class="input-group" data-toggle="buttons">
           <div class="input-group-btn">
             <label class="btn btn-default">
-              <input type="radio" name="payment[type]" value="deposit"> Pay Deposit ($<%= Option.get('deposit') %>)
+              <input type="radio" name="payment[type]" value="deposit"> Pay Deposit ($<%= Option.get('deposit_usd') %>)
             </label>
             <label class="btn btn-default">
               <input type="radio" name="payment[type]" value="full"> Pay Full Balance ($<%= @delegation.payment_balance %>)
@@ -109,12 +109,10 @@ In order to finalize your delegation's registration, you must pay a USD 450/EUR 
     <div class="panel-body">
       <button class="btn btn-primary btn-block payment-type-button" data-payment-type="check">Choose this Method</button><br>
       Please mail checks to:<br><br>
-      <address>
       <strong>Yale Model Government Europe</strong><br>
       &#8453; David Steiner<br>
       P.O. Box 203352<br>
       New Haven, CT 06520
-      </address>
     </div>
   </div>
 </div>
