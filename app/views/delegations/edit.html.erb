@@ -1,8 +1,8 @@
 <%= render partial: '/partial/edit_pages_nav' %>
 <h2><%= @page.name %></h2>
-
 <% url = if @step then update_page_delegation_path(@step) else delegation_path end -%>
 <%= simple_form_for(resource, as: 'delegation', url: url, method: :put) do |f| %>
+  <p class="help-block">Please note that this information is not final; you may return and edit it later.</p>
   <%= f.error_notification message: error_message(resource) %>
 
   <div class="form-inputs col-sm-9">
@@ -11,7 +11,7 @@
       <% if fi.object.delegation_field.class_name == 'Advisors' -%>
         <%= render partial: '/partial/advisors_form', locals: { f: f, description: fi.object.delegation_field.description } %>
       <% elsif fi.object.delegation_field.class_name == 'Name' -%>
-          <%= f.input :name, :required => true, :autofocus => true, wrapper_html: {class: 'col-sm-12'},
+          <%= f.input :name, label: 'School/Delegation Name', :required => true, :autofocus => true, wrapper_html: {class: 'col-sm-12'},
                       placeholder: I18n.t('delegation.example.name') %>
       <% elsif fi.object.delegation_field.class_name == 'Address' -%>
         <%= render partial: '/partial/address_form', locals: {f: f, resource: resource, cols: '9'} %>

@@ -15,7 +15,7 @@ dangerAlert = (msg) ->
   $("html, body").animate({ scrollTop: 0 }, "fast");
 
 $(document).ready ->
-  $('.chosen-select').chosen
+  $('.chosen-select').chosen()
 
   $('.add-one').click (e) ->
     e.preventDefault()
@@ -113,5 +113,14 @@ $(document).ready ->
   ).click (e) ->
     e.preventDefault()
     false
+
+  $('.fake-save').click ->
+    $this = $(this)
+    text = $this.text()
+    $this.text('Please wait...')
+    setTimeout( ->
+      $this.text(text)
+      successAlert('All information saved!')
+    , 500)
 
   hideAlert()

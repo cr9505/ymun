@@ -7,7 +7,7 @@ class HomeController < ApplicationController
         redirect_to controller: :delegations, action: :edit
       end
     else
-      redirect_to new_session_path(:user) and return
+      redirect_to new_registration_path(:advisor) and return
     end
   end
 end

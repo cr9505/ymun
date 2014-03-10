@@ -7,9 +7,9 @@
               placeholder: I18n.t('delegation.example.line2')) %>
   <%= a.input(:city, label: 'City', :required => true, wrapper_html: {class: 'col-sm-5'},
               placeholder: I18n.t('delegation.example.city')) %>
-  <%= a.input(:state, label: 'State/Province', :required => true, wrapper_html: {class: 'col-sm-4'},
+  <%= a.input(:state, label: 'State/Province', wrapper_html: {class: 'col-sm-4'},
               placeholder: I18n.t('delegation.example.state')) %>
-  <%= a.input(:zip, label: 'Zip/Postal', :required => true, wrapper_html: {class: 'col-sm-3'},
+  <%= a.input(:zip, label: 'Zip/Postal', wrapper_html: {class: 'col-sm-3'},
               placeholder: I18n.t('delegation.example.zip')) %>
   <%= a.input(:country, label: 'Country', :required => true, wrapper_html: {class: 'col-sm-12'},
               placeholder: I18n.t('delegation.example.country'), input_html: {class: 'chosen-select'}) %>

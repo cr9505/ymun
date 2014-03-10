@@ -30,6 +30,12 @@ class DelegationValidator < ActiveModel::Validator
       delegation.errors[:payment_type] << 'Invalid Payment Type'
     end
 
+    delegation.advisors.target.each do |advisor|
+      if advisor.first_name.blank? || advisor.last_name.blank?
+        delegation.errors[:advisors] << 'All advisors must have a first and a last name listed.'
+      end
+    end
+
     # TODO: make payment validation better
 
     delegation.payments.each do |p|

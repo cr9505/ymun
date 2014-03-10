@@ -49,9 +49,10 @@ class DelegationsController < InheritedResources::Base
   end
 
   def update
+    @delegation = current_user.delegation
     unless params[:step]
       # this is weird
-      params[:step] = current_user.delegation.step
+      params[:step] = @delegation.step
     end
 
     update! do |success, failure|
@@ -62,10 +63,10 @@ class DelegationsController < InheritedResources::Base
         edit
       end
       success.html do
-        unless current_user.delegation.registration_finished?
-          current_user.delegation.advance_step!
-        end
         curr_step = params[:step].to_i
+        unless @delegation.registration_finished? || @delegation.step > curr_step
+          @delegation.advance_step!
+        end
         if curr_step + 1 > DelegationPage.maximum(:step)
           redirect_to delegation_payments_path
         else 

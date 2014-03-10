@@ -1,30 +1,39 @@
 <h2>Delegation: <%= resource.name %></h2>
 
 <% DelegationPage.all.each do |p| -%>
-  <h3><%= p.name %></h3>
-  <% resource.all_fields(p).each do |field| -%>
-    <% if field.delegation_field.class_name == 'Address' -%>
-      <%= render partial: '/partial/address', locals: { address: resource.address } %>
-    <% elsif field.delegation_field.class_name == 'Name' -%>
-        <%# nothing %>
-    <% elsif field.delegation_field.class_name == 'Advisors' -%>
-      <h4>Advisors</h4>
-      <ul>
-        <% resource.advisors.each do |a| %>
-          <li><%= a.email %></li>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= p.name %></h3>
+    </div>
+    <div class="panel-body">
+      <% resource.all_fields(p).each do |field| -%>
+        <% if field.delegation_field.class_name == 'Address' -%>
+          <p>
+            <strong>Address</strong>
+            <%= render partial: '/partial/address', locals: { address: resource.address } %>
+          </p>
+        <% elsif field.delegation_field.class_name == 'Name' -%>
+            <%# nothing %>
+        <% elsif field.delegation_field.class_name == 'Advisors' -%>
+          <strong>Advisors</strong>
+          <ul>
+            <% resource.advisors.each do |a| %>
+              <li><%= a.email %></li>
+            <% end -%>
+          </ul>
+        <% elsif field.delegation_field.class_name == 'Title' -%>
+          <strong><%= field.delegation_field.name %></strong>
+        <% elsif field.delegation_field.class_name == 'CommitteeTypeSelection' -%>
+          <strong>Breakdown of Committees</strong>
+          <ul>
+            <% resource.committee_type_selections.each do |cts| %>
+              <li><%= cts.committee_type.name %>: <%= cts.delegate_count %></li>
+            <% end -%>
+          </ul>
+        <% else -%>
+          <p><strong><%= field.delegation_field.name %></strong>: <%= field.value %></p>
         <% end -%>
-      </ul>
-    <% elsif field.delegation_field.class_name == 'Title' -%>
-      <h4><%= field.delegation_field.name %></h4>
-    <% elsif field.delegation_field.class_name == 'CommitteeTypeSelection' -%>
-      <h4>Breakdown of Committees</h4>
-      <ul>
-        <% resource.committee_type_selections.each do |cts| %>
-          <li><%= cts.committee_type.name %>: <%= cts.delegate_count %></li>
-        <% end -%>
-      </ul>
-    <% else -%>
-      <p><%= field.delegation_field.name %>: <%= field.value %></p>
-    <% end -%>
-  <% end -%>
+      <% end -%>
+    </div>
+  </div>
 <% end -%>

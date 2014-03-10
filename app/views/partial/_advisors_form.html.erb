@@ -7,7 +7,7 @@
     <div class="form-group col-sm-12">
       <div class="input-group">
         <span class="input-group-addon"><%= index + 1 %></span>
-        <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', disabled: true %>
+        <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', readonly: true %>
         <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
         <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
       </div>
@@ -19,13 +19,13 @@
     <div class="input-group">
       <span class="input-group-addon">New</span>
       <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first' %>
-      <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
-      <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
+      <%= a.input_field :first_name, placeholder: 'First (Given) Name', class: 'duplicatable' %>
+      <%= a.input_field :last_name, placeholder: 'Last (Family) Name', class: 'duplicatable input-group-last' %>
     </div>
   </div>
   <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
   <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
 <% end -%>
 <div class="form-group col-sm-12">
-  <button class="btn btn-default btn-block col-sm-12 add-one">Add One</button>
+  <button class="btn btn-default btn-block col-sm-12 add-one">Add an Additional Advisor</button>
 </div>
