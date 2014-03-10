@@ -102,4 +102,16 @@ $(document).ready ->
     else
       dangerAlert('Please select a payment option or amount.')
 
+  $('a.disabled').each( ->
+    if because = $(this).data('disabled-because')
+      $(this).tooltip
+        title: because,
+        trigger: 'hover',
+        placement: 'auto',
+        container: 'body',
+        delay: { show: 500, hide: 100 }
+  ).click (e) ->
+    e.preventDefault()
+    false
+
   hideAlert()

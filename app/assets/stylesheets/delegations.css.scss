@@ -25,3 +25,14 @@ select.form-control.col-sm-11 {
 .alert.hidden {
   display: none;
 }
+
+a.disabled {
+  cursor: default;
+}
+
+.list-group a.disabled {
+  color: #999;
+  &:hover {
+    background: #fff;
+  }
+}

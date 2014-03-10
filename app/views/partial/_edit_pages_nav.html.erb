@@ -4,7 +4,7 @@
     <% active = @step == page.step %>
     <li class="<%= if disabled then 'disabled' else '' end %> <%= if active then 'active' else '' end %>">
       <% if disabled -%>
-        <a><%= page.step %>: <%= page.name %></a>
+        <a class="disabled" data-disabled-because="Please finish step <%= page.step - 1 %> to reach this page."><%= page.step %>: <%= page.name %></a>
       <% else -%>
         <%= link_to "#{page.step}: #{page.name}", edit_page_delegation_path(page.step) %>
       <% end -%>

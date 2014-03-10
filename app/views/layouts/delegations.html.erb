@@ -1,14 +1,22 @@
 <% content_for(:sidebar) do %>
-  <ul class="nav nav-pills nav-stacked">
-    <%= content_tag(:li, class: (params[:action] == 'show' ? 'active' : '')) do %>
-      <%= link_to('View Delegation', delegation_path) %>
+  <div class="list-group">
+    <%= link_to('View Delegation',
+                delegation_path,
+                class: 'list-group-item ' + (params[:action] == 'show' ? 'active' : '')) %>
+    <%= link_to('Edit Delegation',
+                edit_delegation_path,
+                class: 'list-group-item ' + (['edit', 'update'].include?(params[:action]) ? 'active' : '')) %>
+    <% DelegationPage.all.each do |page| -%>
+      <% disabled = @delegation.step < page.step %>
+      <% active = @step == page.step %>
+      <%= link_to(("&nbsp"*5).html_safe + "#{page.step}: #{page.name}", disabled ? nil : edit_page_delegation_path(page.step),
+                  class: 'list-group-item' + (if disabled then ' disabled' else '' end) + (if active then ' active' else '' end),
+                  :'data-disabled-because' => "Please finish step #{page.step - 1} to reach this page.") %>
     <% end -%>
-    <%= content_tag(:li, class: (['edit', 'update'].include?(params[:action]) ? 'active' : '')) do %>
-      <%= link_to('Edit Delegation', edit_delegation_path) %>
-    <% end -%>
-    <%= content_tag(:li, class: (if params[:controller] == 'payments' then 'active' elsif current_user.delegation.andand.registration_finished? then '' else ' disabled' end)) do %>
-      <%= link_to('Payment', current_user.delegation.andand.registration_finished? ? delegation_payments_path : '#') %>
-    <% end -%>
-  </ul>
+    <%= link_to('Payment',
+                current_user.delegation.andand.registration_finished? ? delegation_payments_path : '#',
+                class: 'list-group-item ' + (if params[:controller] == 'payments' then 'active' elsif current_user.delegation.andand.registration_finished? then '' else ' disabled' end),
+                :'data-disabled-because' => 'Please finish creating your delegation before you pay.') %>
+  </div>
 <% end -%>
 <%= render template: 'layouts/application' %>

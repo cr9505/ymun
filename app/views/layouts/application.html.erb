@@ -9,7 +9,14 @@
 </head>
 <body>
 
+<% if (alert = Option.get('alert')).present? -%>
+  <div class="site-wide-alert">
+    <div class="container"><%= alert.html_safe %></div>
+  </div>
+<% end -%>
+
 <%= render partial: 'partial/header' %>
+  
 
 <div class="container">
   <% if flash[:error] -%>

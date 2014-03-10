@@ -31,3 +31,7 @@ options:
     slug: max_delegates_per_advisor
     class_name: Integer
     default: 10
+  - name: Site-Wide Alert
+    slug: alert
+    class_name: Text
+    default: 
