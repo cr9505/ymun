@@ -58,7 +58,9 @@ ActiveAdmin.register Delegation do
         end
       end
 
-      row :payment_balance
+      row :payment_balance do |n|
+        "#{delegation.payment_balance(delegation.payment_currency || 'usd')} (Using: #{delegation.payment_type.andand.capitalize || 'Unknown payment method'} with #{delegation.payment_currency || 'unknown currency'})"
+      end
 
       a 'Add a Payment', href: new_admin_delegation_payment_path(delegation.id)
     end

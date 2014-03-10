@@ -144,14 +144,17 @@ class Delegation < ActiveRecord::Base
   end
 
   def total_payment_owed(curr=nil)
-    curr ||= payment_currency || 'usd'
+    curr ||= payment_currency.to_sym || :usd
+    curr = curr.to_sym
     payment_items.collect do |item|
+      p item
       item[:price][curr] * item[:count]
     end.sum
   end
 
   def total_payment_paid(curr=nil)
-    curr ||= payment_currency || 'usd'
+    curr ||= payment_currency.to_sym || :usd
+    curr = curr.to_sym
     approved_payments.collect(&:amount).sum
   end
 

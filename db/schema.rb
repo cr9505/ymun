@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140307223309) do
+ActiveRecord::Schema.define(version: 20140310163554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140307223309) do
     t.integer  "step"
     t.string   "payment_currency"
     t.string   "payment_type"
+    t.text     "warnings",         array: true
   end
 
   create_table "options", force: true do |t|

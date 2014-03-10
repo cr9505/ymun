@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
         if user.delegation.andand.registration_finished?
           delegation_path
         else
-          delegation_edit_path
+          edit_delegation_path
         end
       when 'Delegate'
         edit_registration_path(:delegate)

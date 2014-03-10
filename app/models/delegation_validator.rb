@@ -8,7 +8,7 @@ class DelegationValidator < ActiveModel::Validator
       delegation_size = delegation.delegation_size
       if Option.get('max_delegates_per_advisor').present? &&
          delegation.advisors.count * Option.get('max_delegates_per_advisor') < delegation_size
-        delegation.errors[:advisors] << "You must bring 1 advisor for every #{Option.get('max_delegates_per_advisor')} delegates."
+        delegation.warnings << "You must bring 1 advisor for every #{Option.get('max_delegates_per_advisor')} delegates."
       end
       size_by_committee_type = delegation.committee_type_selections.map(&:delegate_count).sum
       if size_by_committee_type != delegation_size
