@@ -1,6 +1,24 @@
 // @import "bootswatch/journal/variables";
 
 $brand-primary: #169fe6;
+$border-radius-base: 2px;
+$brand-primary: #169fe6;
+
+$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+$headings-font-weight: 600;
+
+@import "bootstrap/variables";
+
+$btn-primary-border: $btn-primary-bg;
+$btn-success-border: $btn-success-bg;
+$btn-info-border: $btn-info-bg;
+$btn-warning-border: $btn-warning-bg;
+$btn-danger-border: $btn-danger-bg;
+
+$input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 3);
+$input-height-large: (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 3);
+$input-height-small: (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 3);
 
 // Then bootstrap itself
 @import "devise";
@@ -20,6 +38,39 @@ $brand-primary: #169fe6;
 @import "bootstrap-tagsinput";
 // @import "metro";
 // @import "lblue";
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+label span {
+  font-weight: lighter;
+  color: $gray-light;
+}
+
+.btn {
+  border-bottom-width: 2px;
+}
+
+.btn-primary {
+  border-bottom: 2px solid darken($btn-primary-bg, 5%);
+}
+
+.btn-success {
+  border-bottom: 2px solid darken($btn-success-bg, 5%);
+}
+
+.btn-info {
+  border-bottom: 2px solid darken($btn-info-bg, 5%);
+}
+
+.btn-warning {
+  border-bottom: 2px solid darken($btn-warning-bg, 5%);
+}
+
+.btn-danger {
+  border-bottom: 2px solid darken($btn-danger-bg, 5%);
+}
 
 .site-wide-alert {
   background: lighten($brand-warning, 30%);

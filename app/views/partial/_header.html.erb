@@ -1,3 +1,13 @@
+<% if (alert = Option.get('alert')).present? -%>
+  <div class="site-wide-alert">
+    <div class="container"><%= alert.html_safe %></div>
+  </div>
+<% end -%>
+
+<div class="site-wide-alert hidden" id="browser-unsupported">
+  <div class="container">Your browser is not supported by this system. If you have any trouble using it, please download Google Chrome <a href="http://www.google.com/chrome">here</a>.</div>
+</div>
+
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">

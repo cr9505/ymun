@@ -92,7 +92,7 @@ SimpleForm.setup do |config|
   # config.item_wrapper_class = nil
 
   # How the label text should be generated altogether with the required text.
-  # config.label_text = lambda { |label, required| "#{required} #{label}" }
+  config.label_text = lambda { |label, required| "#{label} #{if required.present? then '<span>(required)</span>'.html_safe else '' end}" }
 
   # You can define the class to use on all labels. Default is nil.
   config.label_class = 'control-label'
