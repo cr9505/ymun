@@ -13,26 +13,3 @@ select.form-control.col-sm-11 {
 .input-group .form-control.input-group-last {
   border-radius: 0 0 3px 0;
 }
-
-.weak {
-  color: #999;
-}
-
-.green-text {
-  color: $brand-success;
-}
-
-.alert.hidden {
-  display: none;
-}
-
-a.disabled {
-  cursor: default;
-}
-
-.list-group a.disabled {
-  color: #999;
-  &:hover {
-    background: #fff;
-  }
-}

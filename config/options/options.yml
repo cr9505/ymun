@@ -35,3 +35,7 @@ options:
     slug: alert
     class_name: Text
     default: 
+  - name: Privacy Policy
+    slug: privacy_policy
+    class_name: Text
+    default: 

@@ -19,6 +19,8 @@ Site::Application.routes.draw do
   devise_for :delegates, :controllers => { :registrations => 'delegate_registrations', :confirmations => 'confirmations' }, :skip => :sessions
   devise_for :admin_users, :controllers => { :registrations => 'admin_registrations', :confirmations => 'confirmations' }, :skip => :sessions
 
+  get 'privacy' => 'home#privacy_policy', as: :privacy_policy
+
   root :to => "home#index"
 
   # The priority is based upon order of creation: first created -> highest priority.

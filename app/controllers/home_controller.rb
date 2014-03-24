@@ -10,4 +10,8 @@ class HomeController < ApplicationController
       redirect_to new_registration_path(:advisor) and return
     end
   end
+
+  def privacy_policy
+    
+  end
 end

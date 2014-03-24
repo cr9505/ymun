@@ -1,5 +1,6 @@
 // @import "bootswatch/journal/variables";
 
+$grid-float-breakpoint: 992px;
 $brand-primary: #169fe6;
 $border-radius-base: 2px;
 $brand-primary: #169fe6;
@@ -103,3 +104,25 @@ footer.content-footer {
   }
 }
 
+.weak {
+  color: #999;
+}
+
+.green-text {
+  color: $brand-success;
+}
+
+.alert.hidden {
+  display: none;
+}
+
+a.disabled {
+  cursor: default;
+}
+
+.list-group a.disabled {
+  color: #999;
+  &:hover {
+    background: #fff;
+  }
+}

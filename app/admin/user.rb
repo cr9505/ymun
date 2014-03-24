@@ -10,7 +10,7 @@ ActiveAdmin.register User do
       user.type.underscore.humanize
     end
     column :delegation do |user|
-      if user.delegation_id then link_to user.delegation.name, admin_delegation_path(user.delegation), :class => "delegation_link" else '-' end
+      if user.delegation then link_to user.delegation.name, admin_delegation_path(user.delegation), :class => "delegation_link" else '-' end
     end
     actions
   end
