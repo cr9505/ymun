@@ -1,4 +1,6 @@
-class Country < ActiveRecord::Base
+class MUNCountry < ActiveRecord::Base
+  # class must be named MUNCountry because of country_select's Country class. Annoying
+  self.table_name = 'countries'
   has_many :country_committees
   has_many :committees, through: :country_committees
 

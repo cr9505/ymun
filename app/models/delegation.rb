@@ -1,14 +1,14 @@
 class Delegation < ActiveRecord::Base
   has_many :users
   has_many :delegates
-  has_many :advisors
+  has_many :advisors, order: 'created_at'
 
   has_many :payments
 
   has_one :address, as: :addressable, dependent: :destroy
 
   has_many :committees
-  has_many :countries
+  has_many :countries, class_name: 'MUNCountry'
 
   has_many :preferences, -> { order 'rank' }
 

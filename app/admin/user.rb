@@ -1,4 +1,6 @@
 ActiveAdmin.register User do
+  permit_params :first_name, :last_name, :email, :type, :delegation_id, :to_be_invited, :inviter_id
+
   filter :email
   filter :created_at
   filter :delegation
@@ -27,9 +29,13 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs "User" do
+      f.input :first_name
+      f.input :last_name
       f.input :email
       f.input :type
       f.input :delegation
+      f.input :to_be_invited, as: :hidden, value: true
+      f.input :inviter_id, as: :hidden, value: current_user.id
     end
     f.actions
   end

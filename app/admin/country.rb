@@ -1,4 +1,4 @@
-ActiveAdmin.register Country do
+ActiveAdmin.register MUNCountry, as: 'Country' do
   permit_params :name, committee_ids: []
 
   form do |f|
