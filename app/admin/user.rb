@@ -31,6 +31,7 @@ ActiveAdmin.register User do
       f.input :type
       f.input :delegation
     end
+    f.actions
   end
   
   # See permitted parameters documentation:
