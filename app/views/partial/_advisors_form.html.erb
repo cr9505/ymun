@@ -1,31 +1,47 @@
-<h3>Advisors</h3>
-<% if description.present? -%>
-  <p class="help-block"><%= description %></p>
-<% end -%>
-<% f.object.advisors.each_with_index do |advisor, index| -%>
-  <%= f.simple_fields_for :advisors, advisor, wrapper: :with_addons, as: :advisors_attributes do |a| %>
-    <div class="form-group col-sm-12">
-      <div class="input-group">
-        <span class="input-group-addon"><%= index + 1 %></span>
-        <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', readonly: true %>
-        <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
-        <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
+<div class="advisors-form">
+  <h3>Advisors</h3>
+  <% if description.present? -%>
+    <p class="help-block"><%= description %></p>
+  <% end -%>
+  <% i = 0 %>
+  <% f.object.advisors.each do |advisor| -%>
+    <%= f.simple_fields_for :advisors, advisor, wrapper: :with_addons, as: :advisors_attributes do |a| %>
+      <div class="form-group col-sm-12" data-index="<%= i %>">
+        <div class="input-group-wrapper">
+          <div class="input-group">
+            <span class="input-group-addon"><%= i + 1 %></span>
+            <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', readonly: true %>
+            <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
+            <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
+            <%= a.hidden_field :_destroy, value: 0, class: 'should-delete', tabindex: '-1' %>
+          </div>
+          <a href="#" class="delete-advisor">Delete</a>
+        </div>
+        <% if advisor.new_record? -%>
+          <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
+          <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
+        <% end -%>
       </div>
+    <% end -%>
+    <% i += 1 %>
+  <% end -%>
+  <%= f.simple_fields_for :advisors, Advisor.new, wrapper: :with_addons, as: :advisors_attributes do |a| %>
+    <div class="form-group col-sm-12">
+      <div class="input-group-wrapper">
+        <div class="input-group">
+          <span class="input-group-addon">New</span>
+          <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first' %>
+          <%= a.input_field :first_name, placeholder: 'First (Given) Name', class: 'duplicatable' %>
+          <%= a.input_field :last_name, placeholder: 'Last (Family) Name', class: 'duplicatable input-group-last' %>
+          <%= a.hidden_field :_destroy, value: 0, class: 'should-delete' %>
+        </div>
+        <a href="#" class="delete-advisor">Delete</a>
+      </div>
+      <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
+      <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
     </div>
   <% end -%>
-<% end -%>
-<%= f.simple_fields_for :advisors, Advisor.new, wrapper: :with_addons, as: :advisors_attributes do |a| %>
   <div class="form-group col-sm-12">
-    <div class="input-group">
-      <span class="input-group-addon">New</span>
-      <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first' %>
-      <%= a.input_field :first_name, placeholder: 'First (Given) Name', class: 'duplicatable' %>
-      <%= a.input_field :last_name, placeholder: 'Last (Family) Name', class: 'duplicatable input-group-last' %>
-    </div>
+    <button class="btn btn-default btn-block col-sm-12 add-one">Add an Additional Advisor</button>
   </div>
-  <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
-  <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
-<% end -%>
-<div class="form-group col-sm-12">
-  <button class="btn btn-default btn-block col-sm-12 add-one">Add an Additional Advisor</button>
 </div>

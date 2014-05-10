@@ -15,9 +15,10 @@ class Delegation < ActiveRecord::Base
   accepts_nested_attributes_for :preferences
 
   accepts_nested_attributes_for :address
-  accepts_nested_attributes_for :advisors, reject_if: ->(advisor) { advisor[:email].blank? &&
-                                                                    advisor[:first_name].blank? &&
-                                                                    advisor[:last_name].blank? }
+  accepts_nested_attributes_for :advisors, :allow_destroy => true,
+                                reject_if: ->(advisor) { advisor[:email].blank? &&
+                                                         advisor[:first_name].blank? &&
+                                                         advisor[:last_name].blank? }
 
   has_many :fields, class_name: 'DelegationFieldValue', dependent: :destroy
   accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: :all_blank

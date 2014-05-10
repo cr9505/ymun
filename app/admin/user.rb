@@ -5,6 +5,23 @@ ActiveAdmin.register User do
   filter :created_at
   filter :delegation
 
+  action_item :only => :show do
+    link_to('Log in as User', become_admin_user_path(user))
+  end
+
+  member_action :become, :method => :get do
+    user = User.find(params[:id])
+    sign_in(:user, user)
+    redirect_to root_url
+  end
+
+  member_action :confirm, :method => :get do
+    user = User.find(params[:id])
+    user.skip_confirmation!
+    user.save
+    redirect_to admin_user_path(user)
+  end
+
   index do
     selectable_column
     column :email
@@ -14,7 +31,14 @@ ActiveAdmin.register User do
     column :delegation do |user|
       if user.delegation then link_to user.delegation.name, admin_delegation_path(user.delegation), :class => "delegation_link" else '-' end
     end
-    actions
+    actions do |user|
+      link_to('Log in as', become_admin_user_path(user), class: 'member_link') + ' ' +
+        if user.confirmed?
+          'Already Confirmed'
+        else
+          link_to('Confirm Email', confirm_admin_user_path(user), class: 'member_link')
+        end
+    end
   end
 
   show do |user|
@@ -34,8 +58,10 @@ ActiveAdmin.register User do
       f.input :email
       f.input :type
       f.input :delegation
-      f.input :to_be_invited, as: :hidden, value: true
-      f.input :inviter_id, as: :hidden, value: current_user.id
+      if f.object.new_record?
+        f.input :to_be_invited, as: :hidden, value: true
+        f.input :inviter_id, as: :hidden, value: current_user.id
+      end
     end
     f.actions
   end

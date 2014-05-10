@@ -7,9 +7,41 @@ select.form-control.col-sm-11 {
 }
 
 .input-group .form-control.input-group-first {
-  border-radius: 0 3px 0 0 !important;
+  border-radius: 0 $border-radius-base 0 0 !important;
 }
 
 .input-group .form-control.input-group-last {
-  border-radius: 0 0 3px 0;
+  border-radius: 0 0 $border-radius-base 0;
+}
+
+.advisors-form .form-group .input-group-wrapper {
+  position: relative;
+  .input-group {
+    position: relative;
+    z-index: 6;
+  }
+  &:hover a.delete-advisor {
+    left: -100px;
+  }
+}
+
+a.delete-advisor {
+  position: absolute;
+  margin-top: -15px;
+  width: 100px;
+  -webkit-transition: left 0.5s;
+  -moz-transition: left 0.5s;
+  -ms-transition: left 0.5s;
+  -o-transition: left 0.5s;
+  transition: left 0.5s;
+  left: 0;
+  top: 50%;
+  background-color: lighten($brand-danger, 30%);
+  border: 1px solid lighten($brand-danger, 20%);
+  color: $brand-danger;
+  border-width: 1px 0 1px 1px;
+  border-radius: $border-radius-base 0 0 $border-radius-base;
+  text-align: center;
+  line-height: 28px;
+  z-index: 5;
 }

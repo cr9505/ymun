@@ -152,7 +152,7 @@ class DelegationsController < InheritedResources::Base
     params.permit(:delegation => [:name, address_attributes: [:id, :line1, :line2, :city, :state, :zip, :country],
                                   preferences_attributes: [:country_id, :id],
                                   fields_attributes: [:id, :delegation_field_id, :value],
-                                  advisors_attributes: [:id, :email, :first_name, :last_name, :to_be_invited, :inviter_id],
+                                  advisors_attributes: [:id, :email, :first_name, :last_name, :to_be_invited, :inviter_id, :_destroy],
                                   committee_type_selections_attributes: [:id, :delegate_count, :committee_type_id]])
   end
 end

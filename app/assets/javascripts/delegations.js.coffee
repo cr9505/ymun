@@ -19,12 +19,13 @@ $(document).ready ->
 
   $('.add-one').click (e) ->
     e.preventDefault()
-    duplicatableGroup = $('.duplicatable').last().parents('.form-group').clone()
-    duplicatable = duplicatableGroup.find('.duplicatable')
+    duplicatableGroup = $('.duplicatable').last().parents('.form-group').clone().show()
     duplicatableGroup.insertBefore($(this).parent())
-    name = duplicatable.attr('name').replace /\[([0-9]+)]/, (str, index) ->
+    duplicatableGroup.find('.duplicatable').each ->
+      duplicatable = $(this)
+      name = duplicatable.attr('name').replace /\[([0-9]+)]/, (str, index) ->
       "[#{parseInt(index) + 1}]"
-    duplicatable.attr('name', name)
+      duplicatable.attr('name', name)
     false
 
   $('input.other').each ->
@@ -122,5 +123,17 @@ $(document).ready ->
       $this.text(text)
       successAlert('All information saved!')
     , 500)
+
+  # $('.advisors-form .form-group').hover ->
+  #   $(this).find('a.delete-advisor').animate({left: -100});
+  # , ->
+  #   $(this).find('a.delete-advisor').animate({left: 0});
+
+  $('a.delete-advisor').click ->
+    form_group = $(this).closest('.form-group')
+    index = form_group.data('index')
+    form_group.find('.should-delete').val(true)
+    form_group.hide();
+    false
 
   hideAlert()
