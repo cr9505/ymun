@@ -1,0 +1,92 @@
+/* line 10, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_content .ui-sortable > * {
+  cursor: move;
+}
+/* line 13, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .disclose {
+  cursor: pointer;
+  width: 10px;
+  display: none;
+}
+/* line 19, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable .resource_selection_toggle_panel {
+  padding-left: 12px;
+}
+/* line 22, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable > ol {
+  margin: 16px 0;
+}
+/* line 26, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li {
+  cursor: default !important;
+}
+/* line 29, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li.placeholder {
+  background: white;
+  border: 1px dashed #d9e4ec;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 34, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li.placeholder.cantdoit {
+  border: 1px dashed #ff5757;
+}
+/* line 37, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li .item {
+  width: 100%;
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+}
+/* line 15, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/gems/bourbon-3.2.1/app/assets/stylesheets/addons/_clearfix.scss */
+body.active_admin .index_as_sortable ol li .item:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* line 43, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li .item.even {
+  background: white;
+}
+/* line 46, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li .item.odd {
+  background: #f4f5f5;
+}
+/* line 49, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li .item:hover {
+  background-color: #d9e4ec;
+  cursor: move;
+}
+/* line 53, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li .item .cell {
+  margin: 0;
+  padding: 10px 12px 8px 12px;
+}
+/* line 57, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li .item h3.cell {
+  font-size: 16px;
+  line-height: 14px;
+  color: black;
+}
+/* line 62, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol > li > ol {
+  margin-left: 30px;
+}
+/* line 65, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li.mjs-nestedSortable-collapsed > ol {
+  display: none;
+}
+/* line 68, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li.mjs-nestedSortable-branch > div > .disclose {
+  display: block;
+  float: left;
+  padding: 10px 5px 8px 5px;
+}
+/* line 73, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li.mjs-nestedSortable-collapsed > div > .disclose > span:before {
+  content: "+ ";
+}
+/* line 76, /Users/graham/.rvm/gems/ruby-2.0.0-p451@mun/bundler/gems/activeadmin-sortable-tree-d4f28e8d0700/app/assets/stylesheets/active_admin/sortable.css.sass */
+body.active_admin .index_as_sortable ol li.mjs-nestedSortable-expanded > div > .disclose > span:before {
+  content: "- ";
+}
