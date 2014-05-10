@@ -24,8 +24,14 @@ $(document).ready ->
     duplicatableGroup.find('.duplicatable').each ->
       duplicatable = $(this)
       name = duplicatable.attr('name').replace /\[([0-9]+)]/, (str, index) ->
-      "[#{parseInt(index) + 1}]"
+        "[#{parseInt(index) + 1}]"
       duplicatable.attr('name', name)
+    duplicatableGroup.find('a.delete').click ->
+      form_group = $(this).closest('.form-group')
+      index = form_group.data('index')
+      form_group.find('.should-delete').val(true)
+      form_group.slideUp();
+      false
     false
 
   $('input.other').each ->
@@ -129,11 +135,11 @@ $(document).ready ->
   # , ->
   #   $(this).find('a.delete-advisor').animate({left: 0});
 
-  $('a.delete-advisor').click ->
+  $('a.delete').click ->
     form_group = $(this).closest('.form-group')
     index = form_group.data('index')
     form_group.find('.should-delete').val(true)
-    form_group.hide();
+    form_group.slideUp();
     false
 
   hideAlert()

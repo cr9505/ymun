@@ -13,13 +13,13 @@
             <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', readonly: true %>
             <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
             <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
-            <%= a.hidden_field :_destroy, value: 0, class: 'should-delete', tabindex: '-1' %>
+            <%= a.hidden_field :_destroy, value: 0, class: 'duplicatable should-delete', tabindex: '-1' %>
           </div>
-          <a href="#" class="delete-advisor">Delete</a>
+          <a href="#" class="delete">Delete</a>
         </div>
         <% if advisor.new_record? -%>
-          <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
-          <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
+          <%= a.input :to_be_invited, as: :hidden, input_html: { value: true }, class: 'duplicatable' %>
+          <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id }, class: 'duplicatable' %>
         <% end -%>
       </div>
     <% end -%>
@@ -33,12 +33,12 @@
           <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first' %>
           <%= a.input_field :first_name, placeholder: 'First (Given) Name', class: 'duplicatable' %>
           <%= a.input_field :last_name, placeholder: 'Last (Family) Name', class: 'duplicatable input-group-last' %>
-          <%= a.hidden_field :_destroy, value: 0, class: 'should-delete' %>
+          <%= a.hidden_field :_destroy, value: 0, class: 'duplicatable should-delete' %>
         </div>
-        <a href="#" class="delete-advisor">Delete</a>
+        <a href="#" class="delete">Delete</a>
       </div>
-      <%= a.input :to_be_invited, as: :hidden, input_html: { value: true } %>
-      <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id } %>
+      <%= a.input :to_be_invited, as: :hidden, input_html: { value: true, class: 'duplicatable' } %>
+      <%= a.input :inviter_id, as: :hidden, input_html: { value: current_user.id, class: 'duplicatable' } %>
     </div>
   <% end -%>
   <div class="form-group col-sm-12">

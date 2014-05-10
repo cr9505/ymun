@@ -20,12 +20,12 @@ select.form-control.col-sm-11 {
     position: relative;
     z-index: 6;
   }
-  &:hover a.delete-advisor {
+  &:hover a.delete {
     left: -100px;
   }
 }
 
-a.delete-advisor {
+a.delete {
   position: absolute;
   margin-top: -15px;
   width: 100px;
