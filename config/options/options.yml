@@ -95,3 +95,7 @@ options:
     slug: privacy_policy
     class_name: Text
     default: 
+  - name: Favicon URL
+    slug: favicon
+    class_name: String
+    default: 
