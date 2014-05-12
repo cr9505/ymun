@@ -59,6 +59,8 @@ gem 'newrelic_rpm'
 
 gem 'paypal-sdk-rest'
 
+gem 'thin'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
