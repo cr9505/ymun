@@ -1,5 +1,5 @@
 ActiveAdmin.register DelegationPage do
-  permit_params :name, :step, delegation_fields_attributes: [:name, :class_name, :id, :_destroy]
+  permit_params :name, :step, :save_button, delegation_fields_attributes: [:name, :class_name, :id, :_destroy]
 
   sortable sorting_attribute: :step_index
   
@@ -40,6 +40,7 @@ ActiveAdmin.register DelegationPage do
   form do |f|
     f.inputs do
       f.input :name, required: true
+      f.input :save_button, required: false
       
       if f.object.id
         f.form_buffers.last << Arbre::Context.new({}, f.template) do
