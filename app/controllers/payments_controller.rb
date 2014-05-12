@@ -44,15 +44,17 @@ class PaymentsController < ActionController::Base
 
   def create
     @delegation = current_user.delegation
-    @delegation.payment_type = :paypal
-    if @delegation.payment_currency != :usd
+    @delegation.payment_type = 'paypal'
+    if @delegation.payment_currency != 'usd'
       if @delegation.approved_payments.where(currency: :eur).any?
         flash[:error] = 'You may not pay with paypal, as you have already partially paid with euros.'
         redirect_to delegation_payments_url and return
       end
-      @delegation.payment_currency = :usd
-      @delegation.save
+      @delegation.payment_currency = 'usd'
     end
+    @delegation.save
+
+    puts @delegation.inspect
 
     @amount =
       case params[:payment][:type]
@@ -87,7 +89,7 @@ class PaymentsController < ActionController::Base
         :amount => {
           :total => "%.2f" % @amount,
           :currency => "USD" },
-        :description => "#{Option.get('site_title')} Registration Payment" }]})
+        :description => "#{Option.get('site_title')} Registration Payment ($#{@amount})" }]})
 
     if @payment.create
       @delegation.payments << Payment.new_from_payment(@payment)

@@ -3,7 +3,7 @@ Site::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   resource :delegation do
-    get 'change_payment_type' => 'delegations#change_payment_type'
+    get 'change_payment_type/:payment_type' => 'delegations#change_payment_type', as: :change_payment_type
     get 'change_payment_currency' => 'delegations#change_payment_currency'
     get 'edit/:step' => 'delegations#edit', as: :edit_page
     put 'update/:step' => 'delegations#update', as: :update_page

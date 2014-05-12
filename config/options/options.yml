@@ -25,16 +25,20 @@ options:
     default: 'PO Box 203352 <br>New Haven, CT 06520'
   - name: Phone
     slug: phone
+    default: +1 (412) 877-1272
     class_name: String
   - name: Check Address
     slug: check_address
     class_name: Text
-    default: +1 (412) 877-1272
     default: |
       <strong>Yale Model Government Europe</strong><br>
       &#8453; David Steiner<br>
       P.O. Box 203352<br>
       New Haven, CT 06520
+  - name: Copyright
+    slug: copyright
+    class_name: Text
+    default: 'Copyright 2010-2014 Yale Model Government Europe CZ, o.s.'
   - name: Main Email
     slug: main_email
     class_name: String
@@ -58,7 +62,11 @@ options:
   - name: Accept EUR as Payment
     slug: accept_eur
     class_name: Boolean
-    default: true
+    default: 1
+  - name: Allow Bank Transfer
+    slug: allow_bank_transfer
+    class_name: Boolean
+    default: 1
   - name: Delegate Fee (USD)
     slug: delegate_fee
     class_name: Integer
