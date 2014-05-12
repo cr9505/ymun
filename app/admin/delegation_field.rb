@@ -28,7 +28,7 @@ ActiveAdmin.register DelegationField do
 
       f.input :name, required: true
       f.input :slug, required: true
-      f.input :description
+      f.input :description, as: :html_editor
       f.input :class_name, as: :select, collection: [['Text', 'String'],
                                                      ['Integer', 'Integer'],
                                                      ['Multiple Choice', 'Select'],
