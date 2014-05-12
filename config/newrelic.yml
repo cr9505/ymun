@@ -186,7 +186,7 @@ common: &default_settings
 # NOTE if your application has other named environments, you should
 # provide newrelic configuration settings for these environments here.
 
-development:
+development: &dev
   <<: *default_settings
   # Turn off communication to New Relic service in development mode (also
   # 'enabled').
@@ -203,6 +203,14 @@ development:
 
   # Enable textmate links
   # textmate: true
+
+ymun:
+  <<: *dev
+  license_key: 'a2fb322708b6a43b33d5a8c8989675175e8bcf26'
+
+ymge:
+  <<: *dev
+  license_key: '0e1beef6afe1c040fa79e973b23a9a71ea31c779'
 
 test:
   <<: *default_settings
