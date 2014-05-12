@@ -1,5 +1,5 @@
 <% title = Option.get('site_title') %>
-<p class="article-title">Hello <%= @resource.delegation.name || title %> Advisor!</p>
+<p class="article-title">Hello <%= @resource.delegation.andand.name || title %> Advisor!</p>
 
 <p>You've been registered as an advisor for <%= title %>! To sign up and edit your delegation, please click the link below.</p>
 

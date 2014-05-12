@@ -13,6 +13,12 @@ class Option < ActiveRecord::Base
         Date.new(opt.value)
       when 'Text'
         opt.value
+      when 'Boolean'
+        if opt.value =~ (/(true|t|yes|y|1)$/i)
+          true
+        else
+          false
+        end
       end
     else
       nil
@@ -27,6 +33,7 @@ class Option < ActiveRecord::Base
       opts['options'].each do |opt|
         if current_opt = where(slug: opt['slug']).first
           current_opt.name = opt['name']
+          current_opt.class_name = opt['class_name']
           current_opt.value = opt['default'] if current_opt.value.blank?
           current_opt.save if current_opt.changed?
         else
