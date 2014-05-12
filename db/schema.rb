@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140310163554) do
+ActiveRecord::Schema.define(version: 20140512173751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20140310163554) do
   create_table "delegation_pages", force: true do |t|
     t.string  "name"
     t.integer "step"
+    t.string  "save_button"
   end
 
   create_table "delegations", force: true do |t|
