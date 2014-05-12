@@ -24,7 +24,29 @@ test: &default
 development:
   <<: *default
 
+ymge:
+  <<: *default
+  client_id: AfJuCRANwMA0KXRatBm08NfEJHg9eXDefpYmZIbK3254nj0Ubz6zUFTHyb37
+  client_secret: ECZuuBBx0dHctqiXBmf0F6cw7ZYb5Lu5OO-2eiXLUPlvpCLYogCKDZxfYmQ-
+
+ymun:
+  <<: *default
+  client_id: AQYzbRC9xXyRtasF076cIcd4sEoY-lOARakZ_HdgAkoAw_n9KlDU8a2Nz_Ha
+  client_secret: EOzViBDkf5mqMld1g5PHuUXmXVlc4RBv_Op7_KrBttwb071oX0OggSn4gaSm
+
 production:
+  <<: *default
+  client_id: ASb29hDqBkJdgo_RT0wnVmNYtLTphq4H0eprkFt60z_bW5EGjRubDLWbYl8W
+  client_secret: EO5pqRCru2L-c9JwM8tMwr3t2QqRWaPPxbK9h7qj90QeJp9Ng_5pWzUK1HxQ
+  mode: live
+
+ymun_production:
+  <<: *default
+  client_id: Abnh1BBylFJIyjOgJQycOITNoJDDZlTmO2mCUFKsVpP89UEn1Gw3P-8uf9DH
+  client_secret: EIAjJRDB1lIHF574CffDW2g6Lt7U-t_yVZYSqB61YXtQbD6LZppxMUV-aA0c
+  mode: live
+
+ymge_production:
   <<: *default
   client_id: ASb29hDqBkJdgo_RT0wnVmNYtLTphq4H0eprkFt60z_bW5EGjRubDLWbYl8W
   client_secret: EO5pqRCru2L-c9JwM8tMwr3t2QqRWaPPxbK9h7qj90QeJp9Ng_5pWzUK1HxQ
