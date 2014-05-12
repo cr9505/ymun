@@ -84,58 +84,65 @@ deposit within eight business days of completing this form.  Please choose from 
       <h3 class="panel-title">Pay with PayPal</h3>
     </div>
     <div class="panel-body">
-      <form action="<%= delegation_payments_path %>" method="post" class="form-inline">
-        <div class="input-group" data-toggle="buttons">
-          <div class="input-group-btn">
-            <label class="btn btn-default">
-              <input type="radio" name="payment[type]" value="deposit"> Pay Deposit ($<%= Option.get('deposit_usd') %>)
-            </label>
-            <label class="btn btn-default">
-              <input type="radio" name="payment[type]" value="full"> Pay Full Balance ($<%= @delegation.payment_balance %>)
-            </label>
-            <label class="btn btn-default">
-              <input type="radio" name="payment[type]" value="custom"> Pay Custom Amount:
-            </label>
+      <% active = @delegation.payment_type == 'paypal' %>
+      <%= link_to (if active then 'Using this Method' else 'Choose this Method' end), change_payment_type_delegation_path('paypal'), class: 'btn btn-primary btn-block' + if active then ' disabled' else '' end %><br>
+      <% if @delegation.payment_type == 'paypal' -%>
+        <form action="<%= delegation_payments_path %>" method="post" class="form-inline">
+          <div class="input-group" data-toggle="buttons">
+            <div class="input-group-btn">
+              <label class="btn btn-default">
+                <input type="radio" name="payment[type]" value="deposit"> Pay Deposit ($<%= Option.get('deposit_usd') %>)
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="payment[type]" value="full"> Pay Full Balance ($<%= @delegation.payment_balance %>)
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="payment[type]" value="custom"> Pay Custom Amount:
+              </label>
+            </div>
+            <input type="number" class="form-control" name="payment[amount]" placeholder="Custom Amount...">
+            <div class="input-group-btn">
+              <button type="submit" id="payment-submit" class="btn btn-primary">Pay <%= icon('chevron-right') %>
+            </div>
           </div>
-          <input type="number" class="form-control" name="payment[amount]" placeholder="Custom Amount...">
-          <div class="input-group-btn">
-            <button type="submit" id="payment-submit" class="btn btn-primary">Pay <%= icon('chevron-right') %>
-          </div>
-        </div>
-      </form>
-
+        </form>
+      <% end -%>
     </div>
   </div>
 </div>
 
-<div class="col-sm-6">
+<div class="col-sm-<%= if Option.get('allow_bank_transfer') then 6 else 12 end %>">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Pay by Check</h3>
     </div>
     <div class="panel-body">
-      <button class="btn btn-primary btn-block payment-type-button" data-payment-type="check">Choose this Method</button><br>
+      <% active = @delegation.payment_type == 'check' %>
+      <%= link_to (if active then 'Using this Method' else 'Choose this Method' end), change_payment_type_delegation_path('check'), class: 'btn btn-primary btn-block' + if active then ' disabled' else '' end %><br>
       Please mail checks to:<br><br>
       <%= Option.get('check_address') %>
     </div>
   </div>
 </div>
 
-<div class="col-sm-6">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Pay with Bank Transfer</h3>
-    </div>
-    <div class="panel-body">
-      <button class="btn btn-primary btn-block payment-type-button" data-payment-type="bank">Choose this Method</button><br>
-      If you choose this option, our Finance Director will email you with instructions on
-      how to send the wire transfer.
-      <br><br>
-      If you have any questions about payment, you may contact us at
-      <a href="mailto:<%= Option.get('payment_email') %>"><%= Option.get('payment_email') %></a>.
+<% if Option.get('allow_bank_transfer') -%>
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Pay with Bank Transfer</h3>
+      </div>
+      <div class="panel-body">
+        <% active = @delegation.payment_type == 'bank' %>
+        <%= link_to (if active then 'Using this Method' else 'Choose this Method' end), change_payment_type_delegation_path('bank'), class: 'btn btn-primary btn-block' + if active then ' disabled' else '' end %><br>
+        If you choose this option, our Finance Director will email you with instructions on
+        how to send the wire transfer.
+        <br><br>
+        If you have any questions about payment, you may contact us at
+        <a href="mailto:<%= Option.get('payment_email') %>"><%= Option.get('payment_email') %></a>.
+      </div>
     </div>
   </div>
-</div>
+<% end -%>
 
 <p class="help-block">
   Refund policy available upon request.

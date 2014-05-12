@@ -98,6 +98,7 @@ class Delegation < ActiveRecord::Base
     @@payment_items ||= -> do
       delegation_price = Option.get('delegation_price')
       return [] if delegation_price.blank?
+      delegation_price.gsub! /<br( \/)?>/, "\n"
       items_with_names_and_prices = delegation_price.lines
       items = items_with_names_and_prices.map do |i|
         name, item_with_price = i.split(':')
@@ -131,8 +132,11 @@ class Delegation < ActiveRecord::Base
 
   def payment_items
     Delegation.payment_items.map do |item|
-      { name: item[:name], price: item[:price], count: payment_property(item[:property]) }
-    end
+      count = payment_property(item[:property])
+      if count > 0
+        { name: item[:name], price: item[:price], count: count }
+      end
+    end.compact
   end
 
   def total_payment_owed(curr=nil)
@@ -202,6 +206,26 @@ class Delegation < ActiveRecord::Base
 
   def total_tshirts
     DelegationField.where('slug LIKE ?', '%_tshirts').map{|df| get_field_value(df)}.compact.sum
+  end
+
+  def is_small_delegation
+    if self.delegation_size <= 5
+      1
+    else
+      0
+    end
+  end
+
+  def is_big_delegation
+    1 - self.is_small_delegation
+  end
+
+  def paying_with_paypal
+    if self.payment_type == 'paypal'
+      1
+    else
+      0
+    end
   end
 
   # def respond_to?(sym, include_private = false)
