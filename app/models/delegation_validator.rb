@@ -30,6 +30,19 @@ class DelegationValidator < ActiveModel::Validator
       delegation.errors[:payment_type] << 'Invalid Payment Type'
     end
 
+    # ghetto uniqueness validation
+    country_ids = []
+
+    delegation.preferences.each do |pref|
+      unless pref.country_id.nil?
+        if country_ids.include? pref.country_id
+          delegation.errors[:preferences] << 'Countries must be unique.'
+          break
+        end
+        country_ids.push(pref.country_id)
+      end
+    end
+
     delegation.advisors.target.each do |advisor|
       if advisor.first_name.blank? || advisor.last_name.blank?
         delegation.errors[:advisors] << 'All advisors must have a first and a last name listed.'
