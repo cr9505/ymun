@@ -1,34 +1,39 @@
 <h2>
   Payment
-  <% 
-  usd_class = if @delegation.payment_currency.blank? ||
-                 @delegation.payment_currency == 'usd' 
-                'active'
-              elsif @delegation.payments.any? &&
-                    @delegation.payment_currency != 'usd'
-                'disabled'
-              else
-                ''
-              end
-  eur_class = if @delegation.payment_currency == 'eur' 
-                'active'
-              elsif @delegation.payments.any? &&
-                    @delegation.payment_currency != 'eur'
-                'disabled'
-              else
-                ''
-              end
-  %>
-  <button id="usd-button" class="btn btn-default <%= usd_class %>">
-    <span class="weak"><%= icon('usd') %></span>
-    Pay With USD
-  </button>
-  <button id="eur-button" class="btn btn-default <%= eur_class %>">
-    <span class="weak"><%= icon('eur') %></span> 
-    Pay With EUR
-  </button>
+  <% if Option.get('accept_eur') -%>
+    <%
+    usd_class = if @delegation.payment_currency.blank? ||
+                   @delegation.payment_currency == 'usd' 
+                  'active'
+                elsif @delegation.payments.any? &&
+                      @delegation.payment_currency != 'usd'
+                  'disabled'
+                else
+                  ''
+                end
+    eur_class = if @delegation.payment_currency == 'eur' 
+                  'active'
+                elsif @delegation.payments.any? &&
+                      @delegation.payment_currency != 'eur'
+                  'disabled'
+                else
+                  ''
+                end
+    %>
+    <button id="usd-button" class="btn btn-default <%= usd_class %>">
+      <span class="weak"><%= icon('usd') %></span>
+      Pay With USD
+    </button>
+    <button id="eur-button" class="btn btn-default <%= eur_class %>">
+      <span class="weak"><%= icon('eur') %></span> 
+      Pay With EUR
+    </button>
+    <% currencies = [:usd, :eur] -%>
+  <% else -%>
+    <% currencies = [:usd] -%>
+  <% end -%>
 </h2>
-<% [:usd, :eur].each do |curr| %>
+<% currencies.each do |curr| %>
   <table id="payment-<%= curr.to_s %>" class="table table-striped">
     <thead>
       <tr>
@@ -67,7 +72,9 @@
 
 <% unless @delegation.paid_deposit? -%>
 <p class="help-block">
-In order to finalize your delegation's registration, you must pay a USD 450/EUR 300 deposit within eight business days of completing this form.  Please choose from one of the options below.
+In order to finalize your delegation's registration, you must pay a USD 
+<%= Option.get('deposit_usd') %><% if Option.get('accept_eur') %>/EUR <%= Option.get('deposit_eur') %><% end %>
+deposit within eight business days of completing this form.  Please choose from one of the options below.
 </p>
 <% end -%>
 
@@ -109,10 +116,7 @@ In order to finalize your delegation's registration, you must pay a USD 450/EUR 
     <div class="panel-body">
       <button class="btn btn-primary btn-block payment-type-button" data-payment-type="check">Choose this Method</button><br>
       Please mail checks to:<br><br>
-      <strong>Yale Model Government Europe</strong><br>
-      &#8453; David Steiner<br>
-      P.O. Box 203352<br>
-      New Haven, CT 06520
+      <%= Option.get('check_address').html_safe %>
     </div>
   </div>
 </div>
@@ -128,7 +132,7 @@ In order to finalize your delegation's registration, you must pay a USD 450/EUR 
       how to send the wire transfer.
       <br><br>
       If you have any questions about payment, you may contact us at
-      <a href="mailto:finance@ymge.org">finance@ymge.org</a>.
+      <a href="mailto:<%= Option.get('payment_email') %>"><%= Option.get('payment_email') %></a>.
     </div>
   </div>
 </div>

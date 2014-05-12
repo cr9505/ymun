@@ -31,6 +31,7 @@ gem 'bootstrap-sass'
 gem 'bootswatch-rails'
 
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'active_admin_editor'
 
 gem 'devise'
 
