@@ -6,11 +6,59 @@ options:
   - name: Site Title
     slug: site_title
     class_name: String
-    default: Yale Model Government Europe
+    default: YMGE
+  - name: Long Site Title
+    slug: long_site_title
+    class_name: String
+    default: Yale Model Government Europe 2014
+  - name: Public Site URL
+    slug: public_site_url
+    class_name: String
+    default: http://ymge.org
+  - name: Registration URL
+    slug: registration_url
+    class_name: String
+    default: http://registration.ymge.org
+  - name: Address
+    slug: address
+    class_name: Text
+    default: 'PO Box 203352 <br>New Haven, CT 06520'
+  - name: Phone
+    slug: phone
+    class_name: String
+  - name: Check Address
+    slug: check_address
+    class_name: Text
+    default: +1 (412) 877-1272
+    default: |
+      <strong>Yale Model Government Europe</strong><br>
+      &#8453; David Steiner<br>
+      P.O. Box 203352<br>
+      New Haven, CT 06520
+  - name: Main Email
+    slug: main_email
+    class_name: String
+    default: recruitment@ymge.org
+  - name: Technology Email
+    slug: tech_email
+    class_name: String
+    default: technology@ymge.org
+  - name: Payment Email
+    slug: payment_email
+    class_name: String
+    default: finance@ymge.org
+  - name: Email Sender
+    slug: from_email
+    class_name: String
+    default: info@ymge.org
   - name: Registration Due Date
     slug: registration_due_date
     class_name: Date
     default: '2014-03-31'
+  - name: Accept EUR as Payment
+    slug: accept_eur
+    class_name: Boolean
+    default: true
   - name: Delegate Fee (USD)
     slug: delegate_fee
     class_name: Integer

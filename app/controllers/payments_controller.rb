@@ -33,7 +33,7 @@ class PaymentsController < ActionController::Base
         puts "ODD: payment with payment state=#{@payment.state}"
       end
     end
-    flash[:error] = 'There was an error processing your request and you were not charged. Please contact technology@ymge.org for assistance.'
+    flash[:error] = "There was an error processing your request and you were not charged. Please contact #{Option.get('tech_email')} for assistance."
     redirect_to delegation_payments_url
   end
 
@@ -87,7 +87,7 @@ class PaymentsController < ActionController::Base
         :amount => {
           :total => "%.2f" % @amount,
           :currency => "USD" },
-        :description => "YMGE Registration Payment" }]})
+        :description => "#{Option.get('site_title')} Registration Payment" }]})
 
     if @payment.create
       @delegation.payments << Payment.new_from_payment(@payment)

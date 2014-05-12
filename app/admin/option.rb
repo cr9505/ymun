@@ -24,6 +24,8 @@ ActiveAdmin.register Option do
         f.input :value
       when 'Date'
         f.input :value, as: :datepicker
+      when 'Boolean'
+        f.input :value, as: :boolean
       end
     end
     f.actions

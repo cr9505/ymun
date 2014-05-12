@@ -1,31 +1,29 @@
 <footer class="content-footer">
   <div class="container">
-    <h4>Yale Model Government Europe</h4>
+    <h4><%= Option.get('long_site_title') %></h4>
 
       <dl class="dl-horizontal">
         <dt>
            <%= icon('map-marker') %> <strong>Address:</strong>
         </dt>
         <dd>
-          PO Box 203352 <br>New Haven, CT 06520
+          <%= Option.get('address') %>
         </dd>
         <dt>
            <%= icon('phone') %> <strong>Phone:</strong>
         </dt>
         <dd>
-          +1 (412) 877-1272
+          <%= Option.get('phone') %>
         </dd>
         <dt>
            <%= icon('envelope') %> <strong>Email:</strong>
         </dt>
         <dd>
-          <a href="mailto:recruitment@ymge.org">recruitment@ymge.org</a>
+          <a href="mailto:<%= Option.get('main_email') %>"><%= Option.get('main_email') %></a>
         </dd>
       </dl>
     <div class="textwidget">
-      <%= link_to 'YMGE Home', 'http://ymge.org/' %>
-      <span class="weak">|</span>
-      <%= link_to 'Contact Us', 'http://ymge.org/about-ymge/contact/' %>
+      <%= link_to "#{Option.get('site_title')} Home", Option.get('public_site_url') %>
       <span class="weak">|</span>
       <%= link_to 'Privacy Policy', privacy_policy_path %>
     </div>
@@ -33,7 +31,7 @@
       Copyright 2010-2014 Yale Model Government Europe CZ, o.s.
     </div>
   </div>
-  <!--[if lte IE 6]>
+  <!--[if lte IE 7]>
   <script type="text/javascript">
   $('browser-unsupported').show();
   </script>
