@@ -7,7 +7,13 @@ ActiveAdmin.register Option do
     attributes_table do
       row :name
       row :slug
-      row :value
+      row :value do
+        if option.class_name == 'Text'
+          option.value.html_safe
+        else
+          option.value
+        end
+      end
       row :updated_at
     end
   end
@@ -17,7 +23,7 @@ ActiveAdmin.register Option do
       f.input :name
       case f.object.class_name
       when 'Text'
-        f.input :value, as: :text
+        f.input :value, as: :html_editor
       when 'String'
         f.input :value
       when 'Integer'
@@ -33,7 +39,13 @@ ActiveAdmin.register Option do
 
   index do
     column :name
-    column :value
+    column :value do |option|
+      if option.class_name == 'Text'
+        option.value.andand.html_safe
+      else
+        option.value
+      end
+    end
     column :updated_at
     actions
   end
