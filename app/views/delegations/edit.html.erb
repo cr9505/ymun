@@ -44,6 +44,6 @@
   </div>
 
   <div class="form-actions col-sm-12">
-    <%= f.button :submit, @page.save_button || "Save" %>
+    <%= f.button :submit, if @page.save_button.blank? then "Save" else @page.save_button end %>
   </div>
 <% end %>
