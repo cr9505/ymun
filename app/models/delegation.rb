@@ -1,7 +1,7 @@
 class Delegation < ActiveRecord::Base
   has_many :users
   has_many :delegates
-  has_many :advisors, order: 'created_at'
+  has_many :advisors, -> { order 'created_at' }
 
   has_many :payments
 
