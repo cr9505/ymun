@@ -1,7 +1,7 @@
 class Delegation < ActiveRecord::Base
   has_many :users
   has_many :delegates
-  has_many :advisors, order: 'created_at'
+  has_many :advisors, -> { order 'created_at' }
 
   has_many :payments
 
@@ -12,7 +12,7 @@ class Delegation < ActiveRecord::Base
 
   has_many :preferences, -> { order 'rank' }
 
-  accepts_nested_attributes_for :preferences
+  accepts_nested_attributes_for :preferences, allow_destroy: true
 
   accepts_nested_attributes_for :address
   accepts_nested_attributes_for :advisors, :allow_destroy => true,
@@ -33,15 +33,6 @@ class Delegation < ActiveRecord::Base
   def init_defaults
     self.step ||= 1
     self.address ||= Address.new
-  end
-
-  def pad_preferences
-    num_preferences = Option.get('num_preferences')
-    i = 0
-    while preferences.length < num_preferences
-      preferences << Preference.new(rank: i)
-      i += 1
-    end
   end
 
   # returns the value (integer, string, or array) associated with the field or slug FIELD

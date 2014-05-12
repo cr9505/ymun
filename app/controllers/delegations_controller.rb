@@ -55,6 +55,14 @@ class DelegationsController < InheritedResources::Base
       params[:step] = @delegation.step
     end
 
+    if params[:delegation].andand[:preferences_attributes]
+      params[:delegation][:preferences_attributes].each do |i, pref|
+        if pref[:country_id].blank?
+          pref[:_destroy] = true
+        end
+      end
+    end
+
     update! do |success, failure|
       flash.keep
       failure.html do
@@ -150,7 +158,7 @@ class DelegationsController < InheritedResources::Base
 
   def permitted_params
     params.permit(:delegation => [:name, address_attributes: [:id, :line1, :line2, :city, :state, :zip, :country],
-                                  preferences_attributes: [:country_id, :id],
+                                  preferences_attributes: [:country_id, :id, :rank, :_destroy],
                                   fields_attributes: [:id, :delegation_field_id, :value],
                                   advisors_attributes: [:id, :email, :first_name, :last_name, :to_be_invited, :inviter_id, :_destroy],
                                   committee_type_selections_attributes: [:id, :delegate_count, :committee_type_id]])

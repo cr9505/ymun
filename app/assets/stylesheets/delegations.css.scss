@@ -6,6 +6,14 @@ select.form-control.col-sm-11 {
   @extend .col-sm-11;
 }
 
+select.form-control.col-sm-10 {
+  @extend .col-sm-10;
+}
+
+select.form-control.col-sm-9 {
+  @extend .col-sm-9;
+}
+
 .input-group .form-control.input-group-first {
   border-radius: 0 $border-radius-base 0 0 !important;
 }

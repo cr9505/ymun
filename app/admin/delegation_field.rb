@@ -36,6 +36,7 @@ ActiveAdmin.register DelegationField do
                                                      ['Address (inc. city, state, etc)', 'Address'],
                                                      ['Advisor Info (Names & Emails)', 'Advisors'],
                                                      ['Breakdown of Committees', 'CommitteeTypeSelection'],
+                                                     ['Committee Preferences', 'Preferences'],
                                                      ['Section Subtitle', 'Title']
                                                     ],
                required: true,

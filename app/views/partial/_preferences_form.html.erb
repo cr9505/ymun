@@ -1,10 +1,16 @@
 <br style="clear: both" />
 <h3>Country Preferences:</h3>
-<div class="form-inputs col-sm-<%= cols %>">
-  <%# Option.get('num_preferences').times do |i| -%>
-    <%= f.simple_fields_for :preferences, as: :preferences_attributes do |p| %>
-      <%= p.input(:country_id, label: "#{p.object.rank + 1}.", :required => false, label_html: {class: 'col-sm-1'}, wrapper_html: {class: 'col-sm-12'}, as: :select, :include_blank => 'None',
-                  placeholder: I18n.t('delegation.example.country'), input_html: {class: 'col-sm-11 chosen-select'}, collection: Country.options_for_select) %>
+<div class="form-inputs form-inputs-rank col-sm-<%= cols %>">
+  <% num_preferences = Option.get('num_preferences') -%>
+  <% preferences = f.object.preferences -%>
+  <% while preferences.length < num_preferences -%>
+    <% preferences << Preference.new -%>
+  <% end -%>
+  <% preferences.each_with_index do |preference, i| -%>
+    <%= f.simple_fields_for :preferences, preference, as: :preferences_attributes do |p| %>
+      <%= p.input(:country_id, label: "#{i + 1}.", :required => false, label_html: {class: 'col-sm-2'}, wrapper_html: {class: 'col-sm-12'}, as: :select, :include_blank => 'None',
+                  placeholder: I18n.t('delegation.example.country'), input_html: {class: 'col-sm-9 chosen-select'}, collection: MUNCountry.options_for_select) %>
+      <%= p.input :rank, as: :hidden, input_html: { value: i } %>
     <% end -%>
-  <%# end -%>
+  <% end -%>
 </div>
