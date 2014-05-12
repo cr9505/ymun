@@ -12,7 +12,7 @@ class Option < ActiveRecord::Base
       when 'Date'
         Date.new(opt.value)
       when 'Text'
-        opt.value.html_safe
+        opt.value.andand.html_safe
       when 'Boolean'
         if opt.value =~ (/(true|t|yes|y|1)$/i)
           true
