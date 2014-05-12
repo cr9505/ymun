@@ -99,3 +99,7 @@ options:
     slug: favicon
     class_name: String
     default: 
+  - name: Delegate Cap
+    slug: delegate_cap
+    class_name: Integer
+    default: 
