@@ -3,10 +3,13 @@ class DelegationFieldValue < ActiveRecord::Base
   belongs_to :delegation
 
   def to_value
+    puts delegation_field.class_name
     case delegation_field.class_name
     when 'Integer'
       value.to_i
     when 'String'
+      value
+    when 'Select'
       value
     end
   end
