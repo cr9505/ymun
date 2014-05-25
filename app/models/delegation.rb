@@ -28,6 +28,8 @@ class Delegation < ActiveRecord::Base
 
   after_initialize :init_defaults
 
+  before_save :send_notification
+
   validates_with DelegationValidator
 
   def init_defaults
@@ -225,6 +227,35 @@ class Delegation < ActiveRecord::Base
       1
     else
       0
+    end
+  end
+
+  def creator
+    if self.advisors.any?
+      self.advisors.first
+    elsif delegates.any?
+      self.delegate.first
+    else
+      nil
+    end
+  end
+
+  def send_notification
+    if self.new_record?
+      mail = DelegationMailer.create_notification(self)
+    else
+      mail = DelegationMailer.update_notification(self)
+    end
+    mail.deliver
+  end
+
+  def all_changes
+    reflections = Delegation.reflect_on_all_associations(:has_many, :has_one)
+    changes = []
+    reflections.each do |reflection|
+      if reflection.collection?
+        puts reflection.inspect
+      end
     end
   end
 

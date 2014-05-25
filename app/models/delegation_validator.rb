@@ -1,6 +1,9 @@
 class DelegationValidator < ActiveModel::Validator
   def validate(delegation)
     puts "STARTING VALIDATION"
+    if delegation.name.blank?
+      delegation.errors[:name] << 'Delegation name cannot be blank.'
+    end
     if delegation.persisted? && delegation.advisors.count < 1
       delegation.errors[:'advisors'] << 'At least one advisor is required per delegation.'
     end

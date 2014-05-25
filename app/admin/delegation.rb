@@ -51,6 +51,10 @@ ActiveAdmin.register Delegation do
           row 'Advisors' do |n|
             delegation.advisors.map{|a| "#{a.first_name} #{a.last_name}: #{a.email}"}.join('<br>').html_safe
           end
+        when 'Preferences'
+          row 'Preferences' do |n|
+            delegation.preferences.map{|p| "#{p.rank}: #{p.country.andand.name || 'None'}"}.join('<br>').html_safe
+          end
         else
           row field.delegation_field.name do |n|
             field.to_value

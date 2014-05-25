@@ -1,0 +1,19 @@
+<% content_for(:title) do -%>
+New Delegation: <%= @delegation.name || '[Not yet named]' %>
+<% end -%>
+
+<h3>
+  Delegation updated:
+</h3>
+<ul>
+  <li>Name: <%= @delegation.name || '[Not yet named]' %></li>
+  <li>Creator: <%= @delegation.creator.email %></li>
+  <li>
+    Changed fields:
+    <ul>
+      <%= delegation.changes.each do |field, change| %>
+        
+      <% end -%>
+    </ul>
+  </li>
+</ul>
