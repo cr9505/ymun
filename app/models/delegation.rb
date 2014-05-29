@@ -1,4 +1,5 @@
 class Delegation < ActiveRecord::Base
+
   has_many :users
   has_many :delegates
   has_many :advisors, -> { order 'created_at' }
@@ -29,6 +30,8 @@ class Delegation < ActiveRecord::Base
   after_initialize :init_defaults
 
   before_save :send_notification
+
+  attr_accessor :changer
 
   validates_with DelegationValidator
 
@@ -242,21 +245,53 @@ class Delegation < ActiveRecord::Base
 
   def send_notification
     if self.new_record?
-      mail = DelegationMailer.create_notification(self)
+      mail = DelegationMailer.create_notification(self, @changer)
     else
-      mail = DelegationMailer.update_notification(self)
+      mail = DelegationMailer.update_notification(self, @changer)
     end
     mail.deliver
   end
 
-  def all_changes
-    reflections = Delegation.reflect_on_all_associations(:has_many, :has_one)
-    changes = []
+  def nested_changes
+    reflections = Delegation.reflect_on_all_associations
+    changes = {}
     reflections.each do |reflection|
       if reflection.collection?
-        puts reflection.inspect
+        objs = self.send(reflection.name).target
+        reflection_changes = objs.map do |obj|
+          if obj.marked_for_destruction?
+            { identifier: obj.human_identifier, state: 'deleted', changes: nil }
+          elsif obj.id.nil?
+            puts "NOOOOOOOOOO"
+            { identifier: obj.human_identifier, state: 'created', changes: Hash[obj.attributes.map {|key, val| val && [key, [nil, val]]}.compact] }
+          elsif obj.changed?
+            { identifier: obj.human_identifier, state: 'changed', changes: obj.changes }
+          else
+            nil
+          end
+        end.compact
+        changes[reflection.name] = reflection_changes unless reflection_changes.empty?
+      else
+        if self.association(reflection.name).loaded?
+          obj = self.send(reflection.name)
+          if obj
+            reflection_change = 
+              if obj.marked_for_destruction?
+                { identifier: obj.human_identifier, state: 'deleted', changes: nil }
+              elsif obj.id.nil?
+                { identifier: obj.human_identifier, state: 'created', changes: Hash[obj.attributes.map {|key, val| val && [key, [nil, val]]}.compact] }
+              elsif obj.changed?
+                { identifier: obj.human_identifier, state: 'changed', changes: obj.changes }
+              else
+                nil
+              end
+            changes[reflection.name] = [reflection_change] unless reflection_change.nil?
+          end
+        end
       end
     end
+    puts changes.inspect
+    changes
   end
 
   # def respond_to?(sym, include_private = false)

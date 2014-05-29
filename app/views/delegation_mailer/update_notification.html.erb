@@ -7,12 +7,47 @@ New Delegation: <%= @delegation.name || '[Not yet named]' %>
 </h3>
 <ul>
   <li>Name: <%= @delegation.name || '[Not yet named]' %></li>
-  <li>Creator: <%= @delegation.creator.email %></li>
+  <% if @current_user -%>
+    <li>Changer: <%= @current_user.email %><% if @current_user.admin? %> <b>(Admin)</b><% end %></li>
+  <% end -%>
   <li>
-    Changed fields:
+    Changes:
     <ul>
-      <%= delegation.changes.each do |field, change| %>
-        
+      <% @delegation.changes.each do |field, change| %>
+        <li><%= field.to_s.humanize %> changed from "<%= change[0] %>" to "<%= change[1] %>".</li>
+      <% end -%>
+      <% @delegation.nested_changes.each do |field, changes| %>
+        <li>
+          <%= field.to_s.humanize %>:
+          <ul>
+            <% changes.each do |obj| %>
+              <% case obj[:state] %>
+              <% when 'changed' %>
+                <li>
+                  <%= obj[:identifier] %>:
+                  <ul>
+                    <% obj[:changes].each do |field, change| %>
+                      <li><%= field.to_s.humanize %> changed from "<%= change[0] %>" to "<%= change[1] %>".</li>
+                    <% end -%>
+                  </ul>
+                </li>
+              <% when 'created' %>
+                <li>
+                  <%= obj[:identifier] %>:
+                  <ul>
+                    <% obj[:changes].each do |field, change| %>
+                      <li><%= field.to_s.humanize %> set to "<%= change[1] %>".</li>
+                    <% end -%>
+                  </ul>
+                </li>
+              <% when 'deleted' %>
+                <li>
+                  Deleted <%= obj[:identifier] %>.
+                </li>
+              <% end -%>
+            <% end -%>
+          </ul>
+        </li>
       <% end -%>
     </ul>
   </li>
