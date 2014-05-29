@@ -40,6 +40,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :test, :development do
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+end
+
 gem 'rails_12factor'
 
 gem 'simple_form'
