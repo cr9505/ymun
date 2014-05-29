@@ -1,0 +1,21 @@
+<% graham = Advisor.new(email: 'technology@ymge.org', password: 'whatever') %>
+<% graham.skip_confirmation! %>
+graham:
+<% graham.attributes.except('id', 'delegation_id').each do |k, v| %>
+  <%= k %>: <%= v %>
+<% end %>
+  delegation: graham_delegation
+  first_name: Graham
+  last_name: Kaemmer
+
+<% confirmed_advisor = Advisor.new(email: 'confirmed_advisor@example.com', password: 'whatever') %>
+<% confirmed_advisor.skip_confirmation! %>
+confirmed_advisor:
+<% confirmed_advisor.attributes.except('id', 'delegation_id').each do |k, v| %>
+  <%= k %>: <%= v %>
+<% end %>
+
+new_advisor:
+  email: new_advisor@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'whatever') %>
+  type: Advisor

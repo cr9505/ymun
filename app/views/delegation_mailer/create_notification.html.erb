@@ -1,0 +1,12 @@
+<% content_for(:title) do -%>
+New Delegation: <%= @delegation.name || '[Not yet named]' %>
+<% end -%>
+
+<h3>
+  Delegation created:
+</h3>
+<ul>
+  <li>Name: <%= @delegation.name || '[Not yet named]' %></li>
+  <li>Creator: <%= @delegation.creator.email %></li>
+  <li>Details can be viewed at <%= link_to(admin_delegation_url(@delegation.id), admin_delegation_url(@delegation.id)) %>.</li>
+</ul>

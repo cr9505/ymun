@@ -43,6 +43,10 @@ options:
     slug: main_email
     class_name: String
     default: recruitment@ymge.org
+  - name: Notification Recipient Emails
+    slug: notification_emails
+    class_name: String
+    default: 'recruitment@ymge.org, technology@ymge.org'
   - name: Technology Email
     slug: tech_email
     class_name: String
