@@ -33,6 +33,10 @@ module Site
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
 
+    config.generators do |g|
+      g.test_framework :rspec
+    end
+
     config.assets.initialize_on_precompile = false
   end
 end
