@@ -2,9 +2,9 @@
 <h3>Country Preferences:</h3>
 <div class="form-inputs form-inputs-rank col-sm-<%= cols %>">
   <% num_preferences = Option.get('num_preferences') -%>
-  <% preferences = f.object.preferences -%>
+  <% preferences = f.object.preferences.to_a -%>
   <% while preferences.length < num_preferences -%>
-    <% preferences << Preference.new -%>
+    <% preferences. << Preference.new -%>
   <% end -%>
   <% preferences.each_with_index do |preference, i| -%>
     <%= f.simple_fields_for :preferences, preference, as: :preferences_attributes do |p| %>

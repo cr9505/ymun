@@ -2,15 +2,15 @@ class DelegationMailer < ActionMailer::Base
   default from: Option.get('from_email')
 # layout :email
 
-  def create_notification(delegation)
+  def create_notification(delegation, changer)
     @delegation = delegation
-    mail(from: Option.get('from_email'), to: Option.get('main_email'), subject: "#{Option.get('site_title')} Notifier: Delegation (ID=#{@delegation.id})")
+    @current_user = changer || @delegation.creator
+    mail(from: Option.get('from_email'), to: Option.get('tech_email'), subject: "#{Option.get('site_title')} Notifier: Delegation (ID=#{@delegation.id})")
   end
 
-  def update_notification(delegation)
+  def update_notification(delegation, changer)
     @delegation = delegation
-    @changes = @delegation.all_changes
-    return nil
-    mail(from: Option.get('from_email'), to: Option.get('main_email'), subject: "#{Option.get('site_title')} Notifier: Delegation (ID=#{@delegation.id})")
+    @current_user = changer || @delegation.creator
+    mail(from: Option.get('from_email'), to: Option.get('tech_email'), subject: "#{Option.get('site_title')} Notifier: Delegation (ID=#{@delegation.id})")
   end
 end

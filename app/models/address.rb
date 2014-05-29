@@ -1,6 +1,10 @@
 class Address < ActiveRecord::Base
   belongs_to :addressable, polymorphic: true
 
+  def human_identifier
+    'Main'
+  end
+
   def line3
     "#{city}, #{state} #{zip}"
   end

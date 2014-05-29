@@ -16,6 +16,8 @@ class DelegationsController < InheritedResources::Base
   end
 
   def create
+    @delegation = Delegation.new(params[:delegation])
+    @delegation.changer = current_user
     create! do |success, failure|
       success.html do
         current_user.delegation = @delegation
@@ -50,6 +52,7 @@ class DelegationsController < InheritedResources::Base
 
   def update
     @delegation = current_user.delegation
+    @delegation.changer = current_user
     unless params[:step]
       # this is weird
       params[:step] = @delegation.step

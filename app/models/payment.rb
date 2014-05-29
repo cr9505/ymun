@@ -8,6 +8,10 @@ class Payment < ActiveRecord::Base
     where(state: 'approved')
   end
 
+  def human_identifier
+    "#{payment_id} (#{currency.upcase} #{amount})"
+  end
+
   def self.new_from_payment(payment)
     self.new(payment_id: payment.id, 
              state: payment.state, 
