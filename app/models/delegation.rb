@@ -29,9 +29,10 @@ class Delegation < ActiveRecord::Base
 
   after_initialize :init_defaults
 
-  before_save :send_notification
+  before_save :send_update_notification
+  after_save :send_create_notification
 
-  attr_accessor :changer
+  attr_accessor :changer, :send_notification
 
   validates_with DelegationValidator
 
@@ -243,13 +244,18 @@ class Delegation < ActiveRecord::Base
     end
   end
 
-  def send_notification
-    if self.new_record?
-      mail = DelegationMailer.create_notification(self, @changer)
-    else
+  def send_update_notification
+    if send_notification && !self.new_record?
       mail = DelegationMailer.update_notification(self, @changer)
+      mail.deliver
     end
-    mail.deliver
+  end
+
+  def send_create_notification
+    if send_notification && self.id_changed?
+      mail = DelegationMailer.create_notification(self, @changer)
+      mail.deliver
+    end
   end
 
   def nested_changes
@@ -262,10 +268,9 @@ class Delegation < ActiveRecord::Base
           if obj.marked_for_destruction?
             { identifier: obj.human_identifier, state: 'deleted', changes: nil }
           elsif obj.id.nil?
-            puts "NOOOOOOOOOO"
-            { identifier: obj.human_identifier, state: 'created', changes: Hash[obj.attributes.map {|key, val| val && [key, [nil, val]]}.compact] }
+            { identifier: obj.human_identifier, state: 'created', changes: obj.human_changes }
           elsif obj.changed?
-            { identifier: obj.human_identifier, state: 'changed', changes: obj.changes }
+            { identifier: obj.human_identifier, state: 'changed', changes: obj.human_changes }
           else
             nil
           end
@@ -279,9 +284,9 @@ class Delegation < ActiveRecord::Base
               if obj.marked_for_destruction?
                 { identifier: obj.human_identifier, state: 'deleted', changes: nil }
               elsif obj.id.nil?
-                { identifier: obj.human_identifier, state: 'created', changes: Hash[obj.attributes.map {|key, val| val && [key, [nil, val]]}.compact] }
+                { identifier: obj.human_identifier, state: 'created', changes: obj.human_changes }
               elsif obj.changed?
-                { identifier: obj.human_identifier, state: 'changed', changes: obj.changes }
+                { identifier: obj.human_identifier, state: 'changed', changes: obj.human_changes }
               else
                 nil
               end
@@ -290,7 +295,6 @@ class Delegation < ActiveRecord::Base
         end
       end
     end
-    puts changes.inspect
     changes
   end
 

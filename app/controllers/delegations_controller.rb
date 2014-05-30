@@ -53,6 +53,7 @@ class DelegationsController < InheritedResources::Base
   def update
     @delegation = current_user.delegation
     @delegation.changer = current_user
+    @delegation.send_notification = true
     unless params[:step]
       # this is weird
       params[:step] = @delegation.step

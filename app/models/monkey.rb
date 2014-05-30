@@ -7,5 +7,9 @@ module ActiveRecord
         self.id
       end
     end
+
+    def human_changes
+      changes
+    end
   end
 end
