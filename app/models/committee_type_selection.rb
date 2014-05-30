@@ -9,4 +9,14 @@ class CommitteeTypeSelection < ActiveRecord::Base
   def init
     self.delegate_count ||= 0
   end
+
+  def human_changes
+    changes.inject({}) do |filtered_changes, (field, change)|
+      if field == "committee_type_id"
+        old_committee_type = CommitteeType.find(change[0])
+        new_committee_type = CommitteeType.find(change[1])
+        filtered_changes["committee_type"] = [old_committee_type.name, new_committee_type.name]
+      end
+    end
+  end
 end

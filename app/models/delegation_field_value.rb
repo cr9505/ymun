@@ -22,6 +22,10 @@ class DelegationFieldValue < ActiveRecord::Base
     delegation_field.name
   end
 
+  def name
+    label
+  end
+
   def multiple
     delegation_field.multiple
   end
@@ -37,5 +41,14 @@ class DelegationFieldValue < ActiveRecord::Base
 
   def required
     false
+  end
+
+  def human_changes
+    changes.inject({}) do |filtered_changes, (field, change)|
+      if field == "value"
+        filtered_changes[field] = change
+      end
+      filtered_changes
+    end
   end
 end
