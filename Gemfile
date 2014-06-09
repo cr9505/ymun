@@ -43,6 +43,7 @@ end
 group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'faker'
 end
 
 gem 'rails_12factor'
