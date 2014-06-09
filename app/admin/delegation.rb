@@ -55,6 +55,10 @@ ActiveAdmin.register Delegation do
           row 'Preferences' do |n|
             delegation.preferences.map{|p| "#{p.rank}: #{p.country.andand.name || 'None'}"}.join('<br>').html_safe
           end
+        when 'DelegationSize'
+          row 'Delegation Size' do |n|
+            delegation.delegation_size
+          end
         else
           row field.delegation_field.name do |n|
             field.to_value

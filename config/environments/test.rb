@@ -33,6 +33,7 @@ Site::Application.configure do
   config.action_mailer.default_url_options = {
     host: 'test.mun'
   }
+  config.action_mailer.logger = nil
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

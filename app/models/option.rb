@@ -3,14 +3,14 @@ class Option < ActiveRecord::Base
 
   def self.get(slug)
     opt = Option.where(slug: slug.to_s).first
-    if opt
+    if opt && opt.value.present?
       case opt.class_name
       when 'Integer'
         opt.value.to_i
       when 'String'
         opt.value
       when 'Date'
-        Date.new(opt.value)
+        Date.parse(opt.value)
       when 'Text'
         opt.value.andand.html_safe
       when 'Boolean'

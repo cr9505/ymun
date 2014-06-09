@@ -29,8 +29,12 @@ class Delegation < ActiveRecord::Base
 
   after_initialize :init_defaults
 
+  before_create :check_for_late_registration
+
   before_save :send_update_notification
   after_save :send_create_notification
+
+  before_save :check_for_late_delegates
 
   attr_accessor :changer, :send_notification
 
@@ -39,6 +43,9 @@ class Delegation < ActiveRecord::Base
   def init_defaults
     self.step ||= 1
     self.address ||= Address.new
+    self.late_delegate_count ||= 0
+    self.late_advisor_count ||= 0
+    self.is_late_delegation ||= false
   end
 
   # returns the value (integer, string, or array) associated with the field or slug FIELD
@@ -196,12 +203,6 @@ class Delegation < ActiveRecord::Base
     @warnings = val
   end
 
-  def delegation_size
-    field = DelegationField.where(slug: 'delegation_size').first
-    return 0 unless field
-    fields.target.find{|f| f.delegation_field_id == field.id}.andand.to_value || get_field_value(field)
-  end
-
   def advisor_count
     advisors.count
   end
@@ -232,6 +233,14 @@ class Delegation < ActiveRecord::Base
     else
       0
     end
+  end
+
+  def early_delegate_count
+    delegation_size - late_delegate_count
+  end
+
+  def early_advisor_count
+    advisor_count - late_advisor_count
   end
 
   def creator
@@ -296,6 +305,31 @@ class Delegation < ActiveRecord::Base
       end
     end
     changes
+  end
+
+  def check_for_late_registration
+    late_registration_date = Option.get('late_registration_date')
+    if late_registration_date && Date.today > late_registration_date
+      self.is_late_delegation = true
+    else
+      self.is_late_delegation = false
+    end
+    true
+  end
+
+  def check_for_late_delegates
+    puts "CHANGES: #{changes}"
+    if changes['delegation_size']
+      late_registration_date = Option.get('late_registration_date')
+      if late_registration_date && Date.today > late_registration_date
+        before, after = changes['delegation_size'].map(&:to_i)
+        self.late_delegate_count += (after - before)
+        if self.late_delegate_count < 0
+          self.late_delegate_count = 0
+        end
+      end
+    end
+    true
   end
 
   # def respond_to?(sym, include_private = false)

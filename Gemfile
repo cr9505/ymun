@@ -44,6 +44,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'faker'
+  gem 'timecop'
 end
 
 gem 'rails_12factor'

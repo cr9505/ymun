@@ -106,4 +106,8 @@ options:
   - name: Delegate Cap
     slug: delegate_cap
     class_name: Integer
-    default: 
+    default:
+  - name: Late Registration Date (Blank for none)
+    slug: late_registration_date
+    class_name: Date
+    default:
