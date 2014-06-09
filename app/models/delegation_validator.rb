@@ -16,14 +16,16 @@ class DelegationValidator < ActiveModel::Validator
          delegation.advisors.count * Option.get('max_delegates_per_advisor') < delegation_size
         delegation.warnings << "You must bring 1 advisor for every #{Option.get('max_delegates_per_advisor')} delegates."
       end
-      size_by_committee_type = delegation.committee_type_selections.map(&:delegate_count).sum
-      if size_by_committee_type != delegation_size
-        delegation.errors[:'committee_type_selections'] << 'Number of delegates does not match total delegation size.'
-      end
-      # TODO clean this up
-      council_selection = delegation.committee_type_selections.find{|cts| cts.committee_type_id == 1 }
-      if council_selection && council_selection.delegate_count > 0.5 * delegation_size
-        delegation.errors[:'committee_type_selections'] << 'No more than half of your delegates may be National Cabinets/Councils of Ministers.'
+      if delegation.committee_type_selections.any?
+        size_by_committee_type = delegation.committee_type_selections.map(&:delegate_count).sum
+        if size_by_committee_type != delegation_size
+          delegation.errors[:'committee_type_selections'] << 'Number of delegates does not match total delegation size.'
+        end
+        # TODO clean this up
+        council_selection = delegation.committee_type_selections.find{|cts| cts.committee_type_id == 1 }
+        if council_selection && council_selection.delegate_count > 0.5 * delegation_size
+          delegation.errors[:'committee_type_selections'] << 'No more than half of your delegates may be National Cabinets/Councils of Ministers.'
+        end
       end
     end
     delegation.fields.target.each do |field|

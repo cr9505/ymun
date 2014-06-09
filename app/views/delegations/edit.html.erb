@@ -13,6 +13,8 @@
       <% elsif fi.object.delegation_field.class_name == 'Name' -%>
           <%= f.input :name, label: 'School/Delegation Name', :required => true, :autofocus => true, wrapper_html: {class: 'col-sm-12'},
                       placeholder: I18n.t('delegation.example.name') %>
+      <% elsif fi.object.delegation_field.class_name == 'DelegationSize' -%>
+        <%= f.input(:delegation_size, label: fi.object.label, hint: fi.object.delegation_field.description.andand.html_safe, wrapper_html: {class: 'col-sm-12'}, required: fi.object.required %>
       <% elsif fi.object.delegation_field.class_name == 'Address' -%>
         <%= render partial: '/partial/address_form', locals: {f: f, resource: resource, cols: '9'} %>
       <% elsif fi.object.delegation_field.class_name == 'Payment' -%>

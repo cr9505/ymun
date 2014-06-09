@@ -33,6 +33,7 @@ ActiveAdmin.register DelegationField do
                                                      ['Integer', 'Integer'],
                                                      ['Multiple Choice', 'Select'],
                                                      ['Delegation Name', 'Name'],
+                                                     ['Delegation Size', 'DelegationSize'],
                                                      ['Address (inc. city, state, etc)', 'Address'],
                                                      ['Advisor Info (Names & Emails)', 'Advisors'],
                                                      ['Breakdown of Committees', 'CommitteeTypeSelection'],
