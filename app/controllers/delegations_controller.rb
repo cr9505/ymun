@@ -95,6 +95,7 @@ class DelegationsController < InheritedResources::Base
 
   def change_payment_type
     delegation = current_user.delegation
+    delegation.send_notification = true
     @payment_type = params[:payment_type]
     delegation.payment_type = @payment_type
     if delegation.save
@@ -122,6 +123,7 @@ class DelegationsController < InheritedResources::Base
 
   def change_payment_currency
     delegation = current_user.delegation
+    delegation.send_notification = true
     @currency = params[:currency]
     delegation.payment_currency = @currency
     if delegation.save
