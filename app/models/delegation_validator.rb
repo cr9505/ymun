@@ -9,7 +9,7 @@ class DelegationValidator < ActiveModel::Validator
     end
     if delegation.delegation_size.present?
       delegation_size = delegation.delegation_size
-      if Option.get('delegate_cap').present? && delegation_size > Option.get('delegate_cap')
+      if Option.get('delegate_cap').to_i > 0 && delegation_size > Option.get('delegate_cap')
         delegation.errors[:fields] << "You may bring no more than #{Option.get('delegate_cap')} delegates."
       end
       if Option.get('max_delegates_per_advisor').present? &&
