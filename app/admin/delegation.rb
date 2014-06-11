@@ -66,8 +66,16 @@ ActiveAdmin.register Delegation do
         end
       end
 
-      row :payment_balance do |n|
-        "#{delegation.payment_balance(delegation.payment_currency || 'usd')} (Using: #{delegation.payment_type.andand.capitalize || 'Unknown payment method'} with #{delegation.payment_currency || 'unknown currency'})"
+      row 'Total Delegation Payment' do
+        "#{(delegation.payment_currency || 'usd').upcase} #{delegation.total_payment_owed(delegation.payment_currency || 'usd')}"
+      end
+
+      row 'Total Amount Paid' do
+        "#{(delegation.payment_currency || 'usd').upcase} #{delegation.total_payment_paid(delegation.payment_currency || 'usd')} (Using: #{delegation.payment_type.andand.capitalize || 'Unknown payment method'})"
+      end
+
+      row 'Remaining Balance' do |n|
+        "#{(delegation.payment_currency || 'usd').upcase} #{delegation.payment_balance(delegation.payment_currency || 'usd')}"
       end
 
       a 'Add a Payment', href: new_admin_delegation_payment_path(delegation.id)
