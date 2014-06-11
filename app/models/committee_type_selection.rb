@@ -17,6 +17,7 @@ class CommitteeTypeSelection < ActiveRecord::Base
         new_committee_type = CommitteeType.find(change[1])
         filtered_changes["committee_type"] = [old_committee_type.name, new_committee_type.name]
       end
+      filtered_changes
     end
   end
 end
