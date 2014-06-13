@@ -2,8 +2,13 @@ require 'spec_helper'
 
 describe Delegation do
   it "should not save without name" do
-    d = build(:delegation, name: nil)
+    d = build(:delegation, name: nil, step: 2)
     expect(d.save).to be false
+  end
+
+  it "should be creatable" do
+    d = create(:delegation)
+    expect(d.save).to be true
   end
 
   context "with late registration enabled" do
@@ -55,7 +60,10 @@ describe Delegation do
       end
 
       it 'should add any new advisors as late advisors' do
-        d = create(:delegation)
+        d = nil
+        Timecop.travel(2.weeks.ago) do
+          d = create(:delegation)
+        end
         a = build(:advisor)
         a.delegation_id = d.id
         a.save
@@ -64,7 +72,10 @@ describe Delegation do
       end
 
       it 'should properly adjust late advisors when advisor count decreases' do
-        d = build(:delegation, delegation_size: 10, late_advisor_count: 2, advisor_count: 4)
+        d = nil
+        Timecop.travel(2.weeks.ago) do
+          d = create(:delegation, delegation_size: 10, late_advisor_count: 2, advisor_count: 4)
+        end
 
         d.advisors.last.destroy
         expect(d.late_advisor_count).to eq 1

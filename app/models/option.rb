@@ -1,27 +1,33 @@
 class Option < ActiveRecord::Base
   before_save :reset_delegation_payment_items
 
+  before_save :clear_options_cache
+
+  @@cache = {}
+
   def self.get(slug)
-    opt = Option.where(slug: slug.to_s).first
-    if opt && opt.value.present?
-      case opt.class_name
-      when 'Integer'
-        opt.value.to_i
-      when 'String'
-        opt.value
-      when 'Date'
-        Date.parse(opt.value)
-      when 'Text'
-        opt.value.andand.html_safe
-      when 'Boolean'
-        if opt.value =~ (/(true|t|yes|y|1)$/i)
-          true
-        else
-          false
+    @@cache[slug] ||= begin
+      opt = Option.where(slug: slug.to_s).first
+      if opt && opt.value.present?
+        case opt.class_name
+        when 'Integer'
+          opt.value.to_i
+        when 'String'
+          opt.value
+        when 'Date'
+          Date.parse(opt.value)
+        when 'Text'
+          opt.value.andand.html_safe
+        when 'Boolean'
+          if opt.value =~ (/(true|t|yes|y|1)$/i)
+            true
+          else
+            false
+          end
         end
+      else
+        nil
       end
-    else
-      nil
     end
   end
 
@@ -51,5 +57,13 @@ class Option < ActiveRecord::Base
 
   def reset_delegation_payment_items
     Delegation.reset_payment_items
+  end
+
+  def clear_options_cache
+    Option.clear_cache
+  end
+
+  def self.clear_cache
+    @@cache = {}
   end
 end
