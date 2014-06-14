@@ -320,6 +320,7 @@ class Delegation < ActiveRecord::Base
     late_registration_date = Option.get('late_registration_date')
     if late_registration_date && Date.today > late_registration_date
       self.is_late_delegation = true
+      self.late_advisor_count = self.advisors.count
     else
       self.is_late_delegation = false
     end
