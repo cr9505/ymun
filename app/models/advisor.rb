@@ -18,9 +18,11 @@ class Advisor < User
   def increment_late_advisors
     late_registration_date = Option.get('late_registration_date')
     if late_registration_date && Date.today > late_registration_date
-      self.delegation.late_advisor_count ||= 0
-      self.delegation.late_advisor_count += 1
-      self.delegation.save
+      if self.delegation
+        self.delegation.late_advisor_count ||= 0
+        self.delegation.late_advisor_count += 1
+        self.delegation.save
+      end
     end
   end
 
