@@ -227,6 +227,9 @@ production:
   monitor_mode: true
   license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
 
+ymun_production:
+  <<: *default_settings
+
 # Many applications have a staging environment which behaves
 # identically to production. Support for that environment is provided
 # here.  By default, the staging environment has the agent turned on.
