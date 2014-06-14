@@ -87,5 +87,4 @@ Site::Application.configure do
     user_name:            'graham.kaemmer@gmail.com',
     password:             'zsRmVj3WxK0KLaLqbbPFYA'
   }
-  config.action_mailer.logger = Logger.new('log/mailer.log')
 end
