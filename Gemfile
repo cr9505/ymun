@@ -45,6 +45,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'faker'
   gem 'timecop'
+  gem 'debugger'
 end
 
 gem 'rails_12factor'
