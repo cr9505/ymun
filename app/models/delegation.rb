@@ -136,7 +136,12 @@ class Delegation < ActiveRecord::Base
     else
       # must be a member method
       if self.respond_to? property
-        send(property).to_i
+        val = send(property)
+        if val
+          val.to_i
+        else
+          0
+        end
       else
         0
       end
@@ -236,11 +241,15 @@ class Delegation < ActiveRecord::Base
   end
 
   def early_delegate_count
-    delegation_size - late_delegate_count
+    (delegation_size || 0) - (late_delegate_count || 0)
   end
 
   def early_advisor_count
-    advisor_count - late_advisor_count
+    (advisor_count || 0) - (late_advisor_count || 0)
+  end
+
+  def is_early_delegation
+    if is_late_delegation then 0 else 1 end
   end
 
   def creator
