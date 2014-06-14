@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
       inviter = User.find(@inviter_id)
       @to_be_invited = @inviter_id = nil
       @password = ''
+      skip_reconfirmation!
       self.invite!(inviter)
     end
   end

@@ -24,6 +24,7 @@ class Advisor < User
         self.delegation.save
       end
     end
+    true
   end
 
   def decrement_late_advisors
@@ -33,5 +34,6 @@ class Advisor < User
         self.delegation.save
       end
     end
+    true
   end
 end
