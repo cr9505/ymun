@@ -42,7 +42,7 @@ common: &default_settings
   #       - Ajax Service
   #       - All Services
   #
-  app_name: My Application
+  app_name: <%= ENV['APPLICATION_NAME'] %>
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at
@@ -225,6 +225,7 @@ test:
 production:
   <<: *default_settings
   monitor_mode: true
+  license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
 
 # Many applications have a staging environment which behaves
 # identically to production. Support for that environment is provided
