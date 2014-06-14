@@ -138,7 +138,11 @@ class Delegation < ActiveRecord::Base
       if self.respond_to? property
         val = send(property)
         if val
-          val.to_i
+          if val.respond_to? :to_i
+            val.to_i
+          else
+            1
+          end
         else
           0
         end
