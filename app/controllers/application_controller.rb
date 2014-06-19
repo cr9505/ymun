@@ -35,8 +35,24 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
+  def new_advisor_session_path
+    new_user_session_path
+  end
+
+  def new_delegate_session_path
+    new_user_session_path
+  end
+
   def destroy_admin_user_session_path
     destroy_user_session_path
+  end
+
+  def destroy_advisor_session_path
+    new_user_session_path
+  end
+
+  def destroy_delegate_session_path
+    new_user_session_path
   end
 
 end
