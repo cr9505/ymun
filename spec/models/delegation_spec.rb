@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Delegation do
-  it "should not save without name" do
+  it "should not save without name when step > 1" do
     d = build(:delegation, name: nil, step: 2)
     expect(d.save).to be false
   end
@@ -152,10 +152,17 @@ describe Delegation do
       d.send_notification = true
       d.advisors << create(:advisor, :confirmed)
       df = create(:delegation_field, name: 'Test Field')
+      delegation_size = create(:delegation_field, name: 'Delegation Size', slug: 'delegation_size')
       country = create(:mun_country)
+      council_of_ministers = create(:committee_type)
+      other_committee_type = create(:committee_type)
       attributes = {
-        fields_attributes: [{ delegation_field_id: df.id, value: 'Test' }],
-        preferences_attributes: [{ country_id: country.id }]
+        fields_attributes: [
+          { delegation_field_id: df.id, value: 'Test' },
+          { delegation_field_id: delegation_size.id, value: 6 }
+        ],
+        preferences_attributes: [{ country_id: country.id }],
+        committee_type_selections_attributes: [{ committee_type_id: other_committee_type.id, delegate_count: 6 }]
       }
       expect { d.update_attributes(attributes) }.to change { ActionMailer::Base.deliveries.size }.by(1)
 
