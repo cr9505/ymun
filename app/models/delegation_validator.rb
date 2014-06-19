@@ -62,13 +62,13 @@ class DelegationValidator < ActiveModel::Validator
     delegation.payments.each do |p|
       if delegation.payment_currency.blank? ||
          delegation.payments.length <= 1
-        delegation.payment_currency = p.currency
-      elsif delegation.payment_currency != p.currency
+        delegation.payment_currency = p.currency.downcase
+      elsif delegation.payment_currency.downcase != p.currency.downcase
         delegation.errors[:payments] << 'All payments must be in the same currency!'
         p.errors[:currency] << 'All payments must be in the same currency!'
       end
     end
-    if delegation.payment_currency != :usd && @payment_type == :paypal
+    if delegation.payment_currency.downcase != 'usd' && delegation.payment_type == 'paypal'
       delegation.errors[:payment_type] << 'You can only pay with paypal if you use USD.'
     end
     puts "VALIDATION FINISHED"
