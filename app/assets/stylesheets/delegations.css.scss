@@ -59,3 +59,33 @@ a.delete {
   line-height: 28px;
   z-index: 5;
 }
+
+.complete {
+  .overview .panel-body {
+    display: table;
+    width: 100%;
+  }
+  .overview-item {
+    display: table-row;
+  }
+  dt, dd {
+    display: table-cell;
+    vertical-align: baseline;
+    padding: 5px;
+  }
+  dt {
+    font-weight: 200;
+    width: 50%;
+    text-align: right;
+  }
+  dd {
+    font-weight: 700;
+    font-size: 2em;
+  }
+  .status-complete {
+    color: $brand-success;
+  }
+  .status-incomplete {
+    color: $brand-danger;
+  }
+}
