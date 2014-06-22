@@ -1,14 +1,4 @@
-<% if (alert = Option.get('alert')).present? -%>
-  <div class="site-wide-alert">
-    <div class="container"><%= alert.html_safe %></div>
-  </div>
-<% end -%>
-
-<div class="site-wide-alert hidden" id="browser-unsupported">
-  <div class="container">Your browser is not supported by this system. If you have any trouble using it, please download Google Chrome <a href="http://www.google.com/chrome">here</a>.</div>
-</div>
-
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -54,3 +44,13 @@
     </div> 
   </div>
 </nav>
+
+<% if (alert = Option.get('alert')).present? -%>
+  <div class="site-wide-alert">
+    <div class="container"><%= alert.html_safe %></div>
+  </div>
+<% end -%>
+
+<div class="site-wide-alert hidden" id="browser-unsupported">
+  <div class="container">Your browser is not supported by this system. If you have any trouble using it, please download Google Chrome <a href="http://www.google.com/chrome">here</a>.</div>
+</div>
