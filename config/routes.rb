@@ -7,6 +7,7 @@ Site::Application.routes.draw do
     get 'change_payment_currency' => 'delegations#change_payment_currency'
     get 'edit/:step' => 'delegations#edit', as: :edit_page
     put 'update/:step' => 'delegations#update', as: :update_page
+    get 'overview' => 'delegations#overview', as: :overview
     resources :payments do
       get 'execute' => 'payments#execute_payment', as: :execute, on: :collection
     end

@@ -144,6 +144,19 @@ class DelegationsController < InheritedResources::Base
 
   end
 
+  def overview
+    @delegation = current_user.delegation
+    @payment_balance = @delegation.payment_balance(@delegation.payment_currency)
+    @currency_symbol = case @delegation.payment_currency
+    when /eur/i
+      '&euro;'.html_safe
+    when /usd/i
+      '$'
+    else
+      '$'
+    end
+  end
+
   private
 
   def attach_id

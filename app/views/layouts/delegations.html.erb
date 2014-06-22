@@ -17,6 +17,10 @@
                 current_user.delegation.andand.registration_finished? ? delegation_payments_path : '#',
                 class: 'list-group-item ' + (if params[:controller] == 'payments' then 'active' elsif current_user.delegation.andand.registration_finished? then '' else ' disabled' end),
                 :'data-disabled-because' => 'Please finish creating your delegation before you pay.') %>
+    <%= link_to('Overview',
+                current_user.delegation.andand.paid_deposit? ? overview_delegation_path : '#',
+                class: 'list-group-item ' + (if params[:action] == 'overview' then 'active' elsif current_user.delegation.andand.paid_deposit? then '' else ' disabled' end),
+                :'data-disabled-because' => 'Overview is available when you have paid your deposit.') %>
   </div>
 <% end -%>
 <%= render template: 'layouts/application' %>
