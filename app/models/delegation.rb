@@ -162,7 +162,7 @@ class Delegation < ActiveRecord::Base
   end
 
   def total_payment_owed(curr=nil)
-    curr ||= payment_currency.downcase || 'usd'
+    curr ||= payment_currency || 'usd'
     curr = curr.to_s.downcase.to_sym
     payment_items.collect do |item|
       p item
