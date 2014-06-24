@@ -223,7 +223,7 @@ class Delegation < ActiveRecord::Base
   end
 
   def is_small_delegation
-    if self.delegation_size <= 5
+    if (self.delegation_size || 0) <= 5
       1
     else
       0
