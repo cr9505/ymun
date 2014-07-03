@@ -2,7 +2,8 @@ module Mun
   class DelegationFieldType
     include AbstractController::Rendering
     attr_accessor :class_name, :human_name, :description, :interface,
-                  :validator, :form_renderer, :admin_renderer, :valuer
+                  :validator, :form_renderer, :admin_renderer, :valuer,
+                  :input_type, :should_admin_render
     class << self
       def register_types(&block)
         self.instance_eval(&block)
@@ -60,29 +61,36 @@ module Mun
       def admin_render(partial = nil, &block)
         if block_given?
           @delegation_field_type.admin_renderer = block
-        else
+        elsif partial
           @delegation_field_type.admin_renderer = Proc.new do |delegation, delegation_field|
             render(partial: partial, locals: { delegation: delegation, delegation_field: delegation_field })
           end
+        else
+          @delegation_field_type.should_admin_render = false
         end
       end
 
       def value(&block)
         @delegation_field_type.valuer = block
       end
+
+      def input_type(input_type)
+        @delegation_field_type.input_type = input_type
+      end
     end
 
     def initialize(class_name)
       @class_name = class_name
       @human_name ||= @class_name
+      @should_admin_render = true
       @interface = DslInterface.new(self)
     end
 
-    def form_render(form_helper, delegation)
+    def form_render(form_helper, fields_attributes_helper, delegation)
       if form_renderer
-        form_renderer.call(form_helper)
+        form_renderer.call(form_helper, fields_attributes_helper, delegation)
       else
-        render(partial: 'delegation_field_types/base', locals: { f: form_helper, delegation_field_type: self })
+        render(partial: 'delegation_field_types/base', locals: { f: form_helper, fi: fields_attributes_helper, delegation_field_type: self })
       end
     end
 
@@ -94,7 +102,7 @@ module Mun
       end
     end
 
-    def valid?(value_string, delegation)
+    def validate(value_string, delegation)
       if validator
         validator.call(value_string, delegation)
       else
