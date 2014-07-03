@@ -43,7 +43,7 @@
                        required: fi.object.required, multiple: fi.object.multiple) %>
         <% end -%>
       <% end %>
-      <%= fi.object.delegation_field.delegation_field_type.form_render(fi, resource) %>
+      <%= fi.object.delegation_field.delegation_field_type.form_render(f, fi, resource) %>
       <% i += 1 -%>
     <% end -%>
   </div>
