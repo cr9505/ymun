@@ -33,6 +33,6 @@ class DelegationField < ActiveRecord::Base
   end
 
   def delegation_field_type
-    Mun::DelegationFieldType.types[class_name]
+    Mun::DelegationFieldType.types[class_name] or raise "No DelegationFieldType found for field type '#{class_name}'"
   end
 end

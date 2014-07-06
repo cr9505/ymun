@@ -2,7 +2,7 @@ module Mun
   class DelegationFieldType
     include AbstractController::Rendering
     attr_accessor :class_name, :human_name, :description, :interface,
-                  :validator, :form_renderer, :admin_renderer, :valuer,
+                  :validator, :form_partial, :admin_renderer, :valuer,
                   :input_type, :should_admin_render
     class << self
       def register_types(&block)
@@ -48,14 +48,8 @@ module Mun
         @delegation_field_type.validator = block
       end
 
-      def form_render(partial = nil, &block)
-        if block_given?
-          @delegation_field_type.form_renderer = block
-        else
-          @delegation_field_type.form_renderer = Proc.new do |form_helper|
-            render(partial: partial, locals: { f: form_helper })
-          end
-        end
+      def form_partial(partial)
+        @delegation_field_type.form_partial = partial
       end
 
       def admin_render(partial = nil, &block)
@@ -83,28 +77,21 @@ module Mun
       @class_name = class_name
       @human_name ||= @class_name
       @should_admin_render = true
+      @form_partial = 'delegation_field_types/base'
       @interface = DslInterface.new(self)
-    end
-
-    def form_render(form_helper, fields_attributes_helper, delegation)
-      if form_renderer
-        form_renderer.call(form_helper, fields_attributes_helper, delegation)
-      else
-        render(partial: 'delegation_field_types/base', locals: { f: form_helper, fi: fields_attributes_helper, delegation_field_type: self })
-      end
     end
 
     def admin_render(value_string, delegation)
       if admin_renderer
-        admin_renderer.call(value_string, delegation)
+        instance_exec(value_string, delegation, &admin_renderer)
       else
         value(value_string)
       end
     end
 
-    def validate(value_string, delegation)
+    def validate(delegation_field_value, delegation)
       if validator
-        validator.call(value_string, delegation)
+        instance_exec(delegation_field_value, delegation, &validator)
       else
         true
       end

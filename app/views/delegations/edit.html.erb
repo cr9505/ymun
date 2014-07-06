@@ -43,7 +43,8 @@
                        required: fi.object.required, multiple: fi.object.multiple) %>
         <% end -%>
       <% end %>
-      <%= fi.object.delegation_field.delegation_field_type.form_render(f, fi, resource) %>
+      <% delegation_field_type = fi.object.delegation_field.delegation_field_type %>
+      <%= render partial: delegation_field_type.form_partial, locals: { f: f, fi: fi, delegation_field_type: delegation_field_type } %>
       <% i += 1 -%>
     <% end -%>
   </div>
