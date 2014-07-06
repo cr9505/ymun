@@ -85,6 +85,10 @@ class Delegation < ActiveRecord::Base
     field_values
   end
 
+  def get_field_or_build(field)
+    get_fields_or_build(field).andand.first
+  end
+
   def get_fields(field)
     unless field.is_a? DelegationField
       field_slug = field.to_s

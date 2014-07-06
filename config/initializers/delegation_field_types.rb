@@ -66,9 +66,10 @@ Mun::DelegationFieldType.register_types do
       if delegation.address.nil?
         delegation.errors[:address] << "You must provide an address."
       else
-        delegation.address.errors[:street] << "You must specify a street address." if delegation.address.line1.blank?
-        delegation.address.errors[:city] << "You must specify a city name." if delegation.address.city.blank?
-        delegation.address.errors[:country] << "You must specify a country." if delegation.address.country.blank?
+        delegation.errors[:address] << "You must specify a street address." if delegation.address.line1.blank?
+        delegation.errors[:address] << "You must specify a city name." if delegation.address.city.blank?
+        delegation.errors[:address] << "You must specify a zip code." if delegation.address.zip.blank?
+        delegation.errors[:address] << "You must specify a country." if delegation.address.country.blank?
       end
     end
 
