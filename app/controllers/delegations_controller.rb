@@ -58,6 +58,7 @@ class DelegationsController < InheritedResources::Base
       # this is weird
       params[:step] = @delegation.step
     end
+    @delegation.saving_step = params[:step]
 
     if params[:delegation].andand[:preferences_attributes]
       params[:delegation][:preferences_attributes].each do |i, pref|

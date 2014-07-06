@@ -36,7 +36,7 @@ class Delegation < ActiveRecord::Base
 
   before_save :check_for_late_delegates
 
-  attr_accessor :changer, :send_notification
+  attr_accessor :changer, :send_notification, :saving_step
 
   validates_with DelegationValidator
 
