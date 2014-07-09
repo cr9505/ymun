@@ -43,7 +43,7 @@ Mun::DelegationFieldType.register_types do
 
     validate do |delegation_field_value, delegation|
       if delegation.delegation_size.blank?
-        delegation[:errors] << 'You must specify a number of delegates.'
+        delegation.errors[:delegation_size] << 'You must specify a number of delegates.'
       elsif (delegate_cap = Option.get('delegate_cap')).to_i > 0 &&
             delegation.delegation_size > delegate_cap
         delegation.errors[:delegation_size] << "You may bring no more than #{delegate_cap} delegates."
@@ -104,7 +104,7 @@ Mun::DelegationFieldType.register_types do
     validate do |delegation_field_value, delegation|
       if delegation.committee_type_selections.any?
         if delegation.delegation_size.present?
-          size_by_committee_type = delegation.committee_type_selections.map(&:delegate_count).sum
+          size_by_committee_type = delegation.committee_type_selections.map(&:delegate_count).compact.sum
           if size_by_committee_type != delegation.delegation_size
             delegation.errors[:'committee_type_selections'] << 'Number of delegates does not match total delegation size.'
           end

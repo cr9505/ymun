@@ -4,6 +4,7 @@ module Mun
     attr_accessor :class_name, :human_name, :description, :interface,
                   :validator, :form_partial, :admin_renderer, :valuer,
                   :input_type, :should_admin_render
+
     class << self
       def register_types(&block)
         self.instance_eval(&block)
@@ -17,7 +18,12 @@ module Mun
       end
 
       def types
-        @types ||= {}
+        if @types.nil?
+          @types = {}
+          # WART
+          load "#{File.dirname(__FILE__)}/delegation_field_type/register.rb"
+        end
+        @types
       end
 
       def type_options
