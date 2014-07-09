@@ -78,7 +78,7 @@ class Delegation < ActiveRecord::Base
       field = DelegationField.where(slug: field_slug).first
       return nil if field.nil?
     end
-    field_values = self.fields.where(delegation_field_id: field.id).includes(:delegation_field)
+    field_values = get_fields(field)
     if field_values.empty?
       field_values = [self.fields.build(delegation_field_id: field.id)]
     end
