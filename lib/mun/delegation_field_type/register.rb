@@ -34,6 +34,17 @@ Mun::DelegationFieldType.register_types do
     human_name 'Multiple Choice'
 
     form_partial 'delegation_field_types/select'
+
+    validate do |delegation_field_value, delegation|
+      options = delegation_field_value.delegation_field.options.andand.split(',')
+      if options
+        unless options.include?('other')
+          unless options.include?(delegation_field_value.to_value)
+            delegation.errors[:fields] = "Invalid value for #{delegation_field_value.delegation_field.name}: #{delegation_field_value.to_value}"
+          end
+        end
+      end
+    end
   end
 
   type 'DelegationSize' do
