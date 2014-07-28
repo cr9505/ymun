@@ -70,4 +70,45 @@ describe Mun::DelegationFieldType do
       expect(delegation.errors[:address]).to be_present
     end
   end
+
+  context 'when type is Address' do
+    let(:field) { fields['Address'] }
+
+    it 'should be valid only when all required fields are present' do
+      field.delegation_field_type.validate(delegation.get_field_or_build(field), delegation)
+      expect(delegation.errors[:name]).not_to be_present
+
+      delegation.address.line1 = ''
+      field.delegation_field_type.validate(delegation.get_field_or_build(field), delegation)
+      expect(delegation.errors[:address]).to be_present
+    end
+  end
+
+  context 'when type is Select' do
+    let(:field) { fields['Select'] }
+
+    it 'should be valid only when value is among the options' do
+      field.options = 'one,two,three'
+      field.save
+
+      field_value = delegation.get_field_or_build(field)
+      field_value.value = 'one'
+      field.delegation_field_type.validate(field_value, delegation)
+      expect(delegation.errors[:fields]).not_to be_present
+
+      field_value.value = 'four'
+      field.delegation_field_type.validate(field_value, delegation)
+      expect(delegation.errors[:fields]).to be_present
+    end
+
+    it 'should allow any value if "other" is an option' do 
+      field.options = 'one,two,three,other'
+      field.save
+
+      field_value = delegation.get_field_or_build(field)
+      field_value.value = 'another'
+      field.delegation_field_type.validate(field_value, delegation)
+      expect(delegation.errors[:fields]).not_to be_present
+    end
+  end
 end
