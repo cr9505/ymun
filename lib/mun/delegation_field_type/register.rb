@@ -99,6 +99,9 @@ Mun::DelegationFieldType.register_types do
         if advisor.first_name.blank? || advisor.last_name.blank?
           delegation.errors[:advisors] << 'All advisors must have a first and a last name listed.'
         end
+        if advisor.email.blank?
+          delegation.errors[:advisors] << 'All advisors must have an email listed.'
+        end
       end
     end
 
