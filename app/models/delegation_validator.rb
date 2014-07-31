@@ -3,6 +3,7 @@ class DelegationValidator < ActiveModel::Validator
     puts "STARTING VALIDATION"
     if delegation.saving_step
       page = DelegationPage.find_by(step: delegation.saving_step)
+      logger.info delegation.fields.target.inspect
       delegation.fields.target.each do |delegation_field_value|
         type = delegation_field_value.delegation_field_type
         type.validate(delegation_field_value, delegation)
