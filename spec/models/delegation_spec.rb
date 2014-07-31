@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Delegation do
+  it "should not save without name when step > 1" do
+    d = build(:delegation, name: nil, step: 2)
+    expect(d.save).to be false
+  end
+
   it "should be creatable" do
     d = create(:delegation)
     expect(d.save).to be true

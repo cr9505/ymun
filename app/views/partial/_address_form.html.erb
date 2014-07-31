@@ -1,4 +1,4 @@
-<% cols ||= 9 %>
+<% cols ||= 6 %>
 <br style="clear: both" />
 <%= f.simple_fields_for :address, as: :address_attributes do |a| %>
   <%= a.input(:line1, label: 'Address Line 1', :required => true, wrapper_html: {class: 'col-sm-12'},

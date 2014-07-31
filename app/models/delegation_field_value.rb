@@ -51,8 +51,4 @@ class DelegationFieldValue < ActiveRecord::Base
       filtered_changes
     end
   end
-
-  def delegation_field_type
-    delegation_field.delegation_field_type
-  end
 end
