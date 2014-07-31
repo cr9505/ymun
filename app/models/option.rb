@@ -55,15 +55,19 @@ class Option < ActiveRecord::Base
     end
   end
 
+  def self.clear_cache
+    @@cache = {}
+  end
+
+  def self.stub(slug, value)
+    @@cache[slug] = value
+  end
+
   def reset_delegation_payment_items
     Delegation.reset_payment_items
   end
 
   def clear_options_cache
     Option.clear_cache
-  end
-
-  def self.clear_cache
-    @@cache = {}
   end
 end

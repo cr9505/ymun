@@ -58,6 +58,10 @@ class DelegationsController < InheritedResources::Base
       # this is weird
       params[:step] = @delegation.step
     end
+    @step = params[:step].to_i
+    @delegation.saving_step = @step
+    @page = DelegationPage.find_by(step: @step)
+    @fields = @delegation.fields.target
 
     if params[:delegation].andand[:preferences_attributes]
       params[:delegation][:preferences_attributes].each do |i, pref|
@@ -72,7 +76,7 @@ class DelegationsController < InheritedResources::Base
       failure.html do
         # flash[:error] = resource.errors.inspect
         # redirect_to edit_page_delegation_path(params[:step])
-        edit
+        render :edit
       end
       success.html do
         curr_step = params[:step].to_i

@@ -36,7 +36,7 @@ class Delegation < ActiveRecord::Base
 
   before_save :check_for_late_delegates
 
-  attr_accessor :changer, :send_notification
+  attr_accessor :changer, :send_notification, :saving_step
 
   validates_with DelegationValidator
 
@@ -78,11 +78,15 @@ class Delegation < ActiveRecord::Base
       field = DelegationField.where(slug: field_slug).first
       return nil if field.nil?
     end
-    field_values = self.fields.where(delegation_field_id: field.id).includes(:delegation_field)
+    field_values = get_fields(field)
     if field_values.empty?
       field_values = [self.fields.build(delegation_field_id: field.id)]
     end
     field_values
+  end
+
+  def get_field_or_build(field)
+    get_fields_or_build(field).andand.first
   end
 
   def get_fields(field)
