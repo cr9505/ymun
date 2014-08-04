@@ -10,7 +10,13 @@ class DelegationsController < InheritedResources::Base
     unless current_user.delegation
       delegation = Delegation.new
       create_resource(delegation)
-      current_user.update_attributes(delegation_id: delegation.id)
+      if current_user.update_attributes(delegation_id: delegation.id)
+        redirect_to action: :edit and return
+      else
+        flash[:error] = delegation.errors.inspect
+        sign_out(current_user)
+        redirect_to after_sign_out_path_for(:advisor)
+      end
     end
     redirect_to action: :edit
   end

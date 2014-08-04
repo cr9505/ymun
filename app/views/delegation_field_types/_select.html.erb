@@ -1,0 +1,9 @@
+<%= fi.input(:delegation_field_id, as: :hidden) %>
+<% select_details = select_details(fi.object) -%>
+<% value = if select_details[:is_other] then { value: 'other' } else {} end -%>
+<%= fi.input(:value, label: fi.object.label, as: :select, hint: fi.object.delegation_field.description.andand.html_safe,
+             wrapper_html: {class: 'col-sm-12'},
+             required: fi.object.required, collection: select_details[:options],
+             input_html: { class: 'with-other' }.merge(value), ) %>
+<%= fi.input(:value, label: false, as: :string, disabled: !select_details[:is_other],
+             wrapper_html: {class: 'col-sm-12'}, input_html: {class: 'other'}) %>

@@ -29,17 +29,7 @@ ActiveAdmin.register DelegationField do
       f.input :name, required: true
       f.input :slug, required: true
       f.input :description, as: :html_editor
-      f.input :class_name, as: :select, collection: [['Text', 'String'],
-                                                     ['Integer', 'Integer'],
-                                                     ['Multiple Choice', 'Select'],
-                                                     ['Delegation Name', 'Name'],
-                                                     ['Delegation Size', 'DelegationSize'],
-                                                     ['Address (inc. city, state, etc)', 'Address'],
-                                                     ['Advisor Info (Names & Emails)', 'Advisors'],
-                                                     ['Breakdown of Committees', 'CommitteeTypeSelection'],
-                                                     ['Committee Preferences', 'Preferences'],
-                                                     ['Section Subtitle', 'Title']
-                                                    ],
+      f.input :class_name, as: :select, collection: Mun::DelegationFieldType.type_options,
                required: true,
                label: 'Type of Input'
       f.input :options, input_html: { class: 'select-options tags', :'data-role' => 'tagsinput' }
