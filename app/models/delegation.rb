@@ -70,7 +70,7 @@ class Delegation < ActiveRecord::Base
 
   def init_defaults
     self.step ||= 1
-    self.address ||= Address.new
+    # self.address ||= Address.new
     self.late_delegate_count ||= 0
     self.late_advisor_count ||= 0
     self.is_late_delegation ||= false
@@ -106,11 +106,15 @@ class Delegation < ActiveRecord::Base
       field = DelegationField.where(slug: field_slug).first
       return nil if field.nil?
     end
-    field_values = self.fields.where(delegation_field_id: field.id).includes(:delegation_field)
+    field_values = get_fields(field)
     if field_values.empty?
       field_values = [self.fields.build(delegation_field_id: field.id)]
     end
     field_values
+  end
+
+  def get_field_or_build(field)
+    get_fields_or_build(field).andand.first
   end
 
   def get_fields(field)
