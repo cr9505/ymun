@@ -29,8 +29,8 @@ module DelegationsHelper
       text_node "Please correct the following errors:"
 
       ul do
-        delegation.errors.messages.map{|f,e| e}.flatten.each do |error|
-          li error
+        delegation.errors.full_messages.each do |msg|
+          li "#{msg}."
         end
       end
     end.to_s

@@ -14,7 +14,8 @@
     eur_class = if @delegation.payment_currency == 'eur' 
                   'active'
                 elsif @delegation.payments.any? &&
-                      @delegation.payment_currency != 'eur'
+                      @delegation.payment_currency != 'eur' ||
+                      @delegation.payment_type == 'paypal'
                   'disabled'
                 else
                   ''
