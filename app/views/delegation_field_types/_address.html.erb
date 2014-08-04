@@ -1,6 +1,6 @@
 <% cols ||= 9 %>
 <br style="clear: both" />
-<%= f.simple_fields_for :address, as: :address_attributes do |a| %>
+<%= f.simple_fields_for :address, f.object.address || Address.new, as: :address_attributes do |a| %>
   <%= a.input(:line1, label: 'Address Line 1', :required => true, wrapper_html: {class: 'col-sm-12'},
               placeholder: I18n.t('delegation.example.line1')) %>
   <%= a.input(:line2, label: 'Address Line 2', required: false, wrapper_html: {class: 'col-sm-12'},
