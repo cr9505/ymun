@@ -4,13 +4,14 @@ class Advisor < User
   after_create :increment_late_advisors
   after_destroy :decrement_late_advisors
 
+  validates_presence_of :first_name, :last_name, :if => :delegation_exists?
+
   def human_identifier
     "#{first_name} #{last_name} (#{email})"
   end
 
   def make_default_pass
     if self.encrypted_password.nil?
-      puts "FUCKYOUUUUUUUUUU"
       self.password = 'blahblah'
     end
   end
@@ -35,5 +36,9 @@ class Advisor < User
       end
     end
     true
+  end
+
+  def delegation_exists?
+    !!delegation
   end
 end

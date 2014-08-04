@@ -58,6 +58,10 @@ class DelegationsController < InheritedResources::Base
       # this is weird
       params[:step] = @delegation.step
     end
+    @step = params[:step].to_i
+    @delegation.saving_step = @step
+    @page = DelegationPage.find_by(step: @step)
+    @delegation.saving_page = @page
 
     if params[:delegation].andand[:preferences_attributes]
       params[:delegation][:preferences_attributes].each do |i, pref|
@@ -70,9 +74,12 @@ class DelegationsController < InheritedResources::Base
     update! do |success, failure|
       flash.keep
       failure.html do
-        # flash[:error] = resource.errors.inspect
-        # redirect_to edit_page_delegation_path(params[:step])
-        edit
+        fields_target = @delegation.fields.target
+        fields_from_db = @delegation.all_fields(@page)
+        @fields = fields_from_db.map do |field|
+          fields_target.find { |f| f.delegation_field_id == field.delegation_field_id } || field
+        end
+        render :edit
       end
       success.html do
         curr_step = params[:step].to_i
@@ -111,10 +118,10 @@ class DelegationsController < InheritedResources::Base
     else
       respond_to do |format|
         format.json do
-          render json: {success: false, error: delegation.errors.inspect}
+          render json: {success: false, error: delegation.errors.full_messages.join("\n".html_safe)}
         end
         format.html do
-          flash[:error] = 'Payment method could not be changed.'
+          flash[:error] = delegation.errors.full_messages.join("<br />".html_safe)
           redirect_to delegation_payments_path
         end
       end
@@ -133,6 +140,16 @@ class DelegationsController < InheritedResources::Base
         end
         format.html do
           flash[:notice] = 'Currency changed successfully.'
+          redirect_to delegation_payments_path
+        end
+      end
+    else
+      respond_to do |format|
+        format.json do
+          render json: {success: false, error: delegation.errors.full_messages.join("\n".html_safe)}
+        end
+        format.html do
+          flash[:error] = delegation.errors.full_messages.join("<br />".html_safe)
           redirect_to delegation_payments_path
         end
       end
@@ -167,7 +184,7 @@ class DelegationsController < InheritedResources::Base
                                   address_attributes: [:id, :line1, :line2, :city, :state, :zip, :country],
                                   preferences_attributes: [:country_id, :id, :rank, :_destroy],
                                   fields_attributes: [:id, :delegation_field_id, :value],
-                                  advisors_attributes: [:id, :email, :first_name, :last_name, :to_be_invited, :inviter_id, :_destroy],
+                                  advisors_attributes: [:id, :email, :first_name, :last_name, :to_be_invited, :inviter_id, :_destroy, :updated_at],
                                   committee_type_selections_attributes: [:id, :delegate_count, :committee_type_id]])
   end
 end

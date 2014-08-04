@@ -22,6 +22,12 @@ select.form-control.col-sm-9 {
   border-radius: 0 0 $border-radius-base 0;
 }
 
+.advisors-form .invalid .input-group-addon {
+  background-color: lighten($brand-danger, 30%);
+  border-color: lighten($brand-danger, 20%);
+  color: $brand-danger;
+}
+
 .advisors-form .form-group .input-group-wrapper {
   position: relative;
   .input-group {
