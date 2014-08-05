@@ -33,7 +33,7 @@ module Site
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
 
-    onfig.autoload_paths << "#{config.root}/lib"
+    config.autoload_paths << "#{config.root}/lib"
 
     config.generators do |g|
       g.test_framework :rspec
