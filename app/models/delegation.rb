@@ -58,6 +58,13 @@ class Delegation < ActiveRecord::Base
     end
   end
 
+  validate :committee_type_selections do |delegation|
+    council_selection = delegation.committee_type_selections.find{|cts| cts.committee_type_id == 1 }
+    if council_selection && council_selection.delegate_count > 0.5 * delegation_size
+      delegation.errors[:'committee_type_selections'] << 'are invalid: no more than half of your delegates may be National Cabinets/Councils of Ministers'
+    end
+  end
+
   validate :payment_type do |delegation|
     if delegation.payment_type == 'paypal'
       if delegation.payment_currency.present? && delegation.payment_currency.downcase != 'usd'
