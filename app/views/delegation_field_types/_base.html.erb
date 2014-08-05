@@ -1,0 +1,5 @@
+<%= fi.input(:delegation_field_id, as: :hidden) %>
+<%= fi.input(:value, label: fi.object.label,
+             hint: fi.object.delegation_field.description.andand.html_safe,
+             as: fi.object.input_type, wrapper_html: {class: 'col-sm-12'},
+             required: fi.object.required) %>

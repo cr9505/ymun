@@ -30,3 +30,22 @@ en:
       zip: "12345"
       country: "USA"
   hello: "Hello world"
+  activerecord:
+    attributes:
+      delegation:
+        name: 'Delegation Name'
+        advisors: 'All advisors'
+      address:
+        line1: 'Address Line 1'
+        line2: 'Address Line 2'
+        city: 'City'
+        state: 'State'
+        zip: 'Zip/Postal'
+        country: 'Country'
+    errors:
+      models:
+        delegation:
+          attributes:
+            advisors:
+              name: 
+              invalid: 'must have a name and an email listed.'

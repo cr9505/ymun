@@ -22,7 +22,7 @@ class Delegation < ActiveRecord::Base
                                                          advisor[:last_name].blank? }
 
   has_many :fields, class_name: 'DelegationFieldValue', dependent: :destroy
-  accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :fields, allow_destroy: true, reject_if: ->(dfv) { dfv[:value].blank? }
 
   has_many :committee_type_selections, dependent: :destroy
   accepts_nested_attributes_for :committee_type_selections, allow_destroy: true
@@ -36,13 +36,41 @@ class Delegation < ActiveRecord::Base
 
   before_save :check_for_late_delegates
 
-  attr_accessor :changer, :send_notification
+  attr_accessor :changer, :send_notification, :saving_step, :saving_page
+
+  validates_presence_of :name, :if => :should_validate_name?
+  validates_presence_of :delegation_size, :if => :should_validate_delegation_size?
+  validate :delegation_size, :if => :should_validate_delegation_size? do |delegation|
+    if Option.get('delegate_cap') && delegation.delegation_size > Option.get('delegate_cap')
+      delegation.errors[:delegation_size] = "must be less than or equal to #{Option.get('delegate_cap')}"
+    end
+  end
+  validates_numericality_of :delegation_size, greater_than_or_equal_to: 0, :if => :should_validate_delegation_size?
+
+  validate :delegation_size, :if => :should_validate_delegation_size? do |delegation|
+    if delegation.committee_type_selections
+      delegate_sum = delegation.committee_type_selections.reduce(0) do |sum, cts|
+        sum += cts.delegate_count || 0
+      end
+      if delegate_sum != delegation.delegation_size
+        delegation.errors[:delegation_size] << 'does not match committee type selection numbers'
+      end
+    end
+  end
+
+  validate :payment_type do |delegation|
+    if delegation.payment_type == 'paypal'
+      if delegation.payment_currency.present? && delegation.payment_currency.downcase != 'usd'
+        delegation.errors[:payment_type] = 'can only be paypal if you are paying with USD'
+      end
+    end
+  end
 
   validates_with DelegationValidator
 
   def init_defaults
     self.step ||= 1
-    self.address ||= Address.new
+    # self.address ||= Address.new
     self.late_delegate_count ||= 0
     self.late_advisor_count ||= 0
     self.is_late_delegation ||= false
@@ -78,11 +106,15 @@ class Delegation < ActiveRecord::Base
       field = DelegationField.where(slug: field_slug).first
       return nil if field.nil?
     end
-    field_values = self.fields.where(delegation_field_id: field.id).includes(:delegation_field)
+    field_values = get_fields(field)
     if field_values.empty?
       field_values = [self.fields.build(delegation_field_id: field.id)]
     end
     field_values
+  end
+
+  def get_field_or_build(field)
+    get_fields_or_build(field).andand.first
   end
 
   def get_fields(field)
@@ -344,17 +376,37 @@ class Delegation < ActiveRecord::Base
     true
   end
 
+  def should_validate_name?
+    return false unless saving_step
+    @saving_page ||= Page.find_by(step: @saving_step)
+    @saving_page.delegation_fields.where(class_name: 'Name').any?
+  end
+
+  def should_validate_delegation_size?
+    return false unless saving_step
+    @saving_page ||= Page.find_by(step: @saving_step)
+    @saving_page.delegation_fields.where(class_name: 'DelegationSize').any?
+  end
+
+  def saving_advisors?
+    return false unless @saving_step
+    @saving_page ||= Page.find_by(step: @saving_step)
+    @saving_page.delegation_fields.where(class_name: 'Advisors').any?
+  end
+
+  def save(*args)
+    super
+  rescue ActiveRecord::RecordNotUnique => error
+    if error.message =~ /index_preferences/
+      errors[:preferences] << 'must be unique'
+      preferences.target.each { |p| p.id = nil }
+    else
+      errors[:base] << error.message
+    end
+    false
+  end
+
   # def respond_to?(sym, include_private = false)
   #   !!DelegationField.where(slug: sym.to_s).first
-  # end
-
-  # def method_missing(sym, *args, &block)
-  #   # check whether sym is a valid field
-  #   field = get_field_value(sym)
-  #   if field
-  #     field
-  #   else
-  #     super(sym, *args, &block)
-  #   end
   # end
 end

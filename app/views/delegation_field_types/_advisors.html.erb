@@ -1,18 +1,26 @@
 <div class="advisors-form">
   <h3>Advisors</h3>
+  <% description = fi.object.delegation_field.description.andand.html_safe %>
   <% if description.present? -%>
     <p class="help-block"><%= description %></p>
   <% end -%>
   <% i = 0 %>
   <% f.object.advisors.each do |advisor| -%>
+    <% error = '' -%>
+    <% if advisor.errors.any? -%>
+      <% error = 'invalid' -%>
+    <% end -%>
     <%= f.simple_fields_for :advisors, advisor, wrapper: :with_addons, as: :advisors_attributes do |a| %>
-      <div class="form-group col-sm-12" data-index="<%= i %>">
+      <div class="form-group col-sm-12 <%= error %>" data-index="<%= i %>">
         <div class="input-group-wrapper">
           <div class="input-group">
             <span class="input-group-addon"><%= i + 1 %></span>
             <%= a.input_field :email, placeholder: 'Email', class: 'duplicatable input-group-first', readonly: true %>
             <%= a.input_field :first_name, placeholder: 'First Name', class: 'duplicatable' %>
             <%= a.input_field :last_name, placeholder: 'Last Name', class: 'duplicatable input-group-last' %>
+            <% if a.object.first_name.blank? && a.object.last_name.blank? %>
+              <%= a.input_field :updated_at, as: :hidden, value: Time.now %>
+            <% end -%>
             <%= a.hidden_field :_destroy, value: 0, class: 'duplicatable should-delete', tabindex: '-1' %>
           </div>
           <a href="#" class="delete">Delete</a>

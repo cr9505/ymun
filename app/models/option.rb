@@ -66,4 +66,8 @@ class Option < ActiveRecord::Base
   def self.clear_cache
     @@cache = {}
   end
+
+  def self.stub(slug, value)
+    @@cache[slug] = value
+  end
 end

@@ -1,14 +1,58 @@
 require 'spec_helper'
 
 describe Delegation do
-  it "should not save without name when step > 1" do
+  it "should not save without name when should_validate_name? is true" do
     d = build(:delegation, name: nil, step: 2)
+    d.stub(:should_validate_name?).and_return(true)
     expect(d.save).to be false
   end
 
   it "should be creatable" do
     d = create(:delegation)
     expect(d.save).to be true
+  end
+
+  describe "payments" do
+    let(:delegation) { build_stubbed(:delegation) }
+
+    context "with payment type = paypal" do
+      before do
+        delegation.payment_type = 'paypal'
+      end
+
+      it "should not be valid with payment currency != usd" do
+        delegation.payment_currency = 'eur'
+        expect(delegation.valid?).to be false
+      end
+
+      it "should be valid with payment currency = usd" do
+        delegation.payment_currency = 'usd'
+        expect(delegation.valid?).to be true
+        delegation.payment_currency = 'USD'
+        expect(delegation.valid?).to be true
+      end
+
+      after do
+        delegation.payment_type = nil
+      end
+    end
+
+    context "with USD payments" do
+      before do
+        delegation.stub(:payments).and_return(build_list(:payment, 2, currency: 'usd'))
+      end
+
+      it "should not be valid with a payment currency != usd" do
+        delegation.payment_currency = 'eur'
+        expect(delegation.valid?).to be false
+      end
+
+      it "should be valid with payment currency = usd" do
+        delegation.payment_currency = 'usd'
+        expect(delegation.valid?).to be true
+      end
+    end
+
   end
 
   context "with late registration enabled" do
