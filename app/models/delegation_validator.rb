@@ -9,8 +9,8 @@ class DelegationValidator < ActiveModel::Validator
          delegation.payments.length <= 1
         delegation.payment_currency = p.currency.downcase
       elsif delegation.payment_currency.downcase != p.currency.downcase
-        delegation.errors[:payments] << 'All payments must be in the same currency!'
-        p.errors[:currency] << 'All payments must be in the same currency!'
+        delegation.errors[:payments] << 'must all be in the same currency!'
+        break
       end
     end
 

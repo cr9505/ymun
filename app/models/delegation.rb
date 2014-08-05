@@ -60,7 +60,7 @@ class Delegation < ActiveRecord::Base
 
   validate :payment_type do |delegation|
     if delegation.payment_type == 'paypal'
-      if delegation.payment_currency.present? && delegation.payment_currency != 'usd'
+      if delegation.payment_currency.present? && delegation.payment_currency.downcase != 'usd'
         delegation.errors[:payment_type] = 'can only be paypal if you are paying with USD'
       end
     end
