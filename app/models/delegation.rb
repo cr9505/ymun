@@ -41,7 +41,7 @@ class Delegation < ActiveRecord::Base
   validates_presence_of :name, :if => :should_validate_name?
   validates_presence_of :delegation_size, :if => :should_validate_delegation_size?
   validate :delegation_size, :if => :should_validate_delegation_size? do |delegation|
-    if Option.get('delegate_cap') && delegation.delegation_size > Option.get('delegate_cap')
+    if Option.get('delegate_cap') && delegation.delegation_size.to_i > Option.get('delegate_cap')
       delegation.errors[:delegation_size] = "must be less than or equal to #{Option.get('delegate_cap')}"
     end
   end
