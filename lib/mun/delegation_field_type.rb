@@ -91,7 +91,7 @@ module Mun
       if admin_renderer
         instance_exec(value_string, delegation, &admin_renderer)
       else
-        value(value_string)
+        value(value_string, delegation)
       end
     end
 

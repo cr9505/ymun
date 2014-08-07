@@ -76,6 +76,10 @@ class Delegation < ActiveRecord::Base
     self.is_late_delegation ||= false
   end
 
+  def self.with_name
+    where.not(name: '')
+  end
+
   # returns the value (integer, string, or array) associated with the field or slug FIELD
   # TODO: arrays
   def get_field_value(field)
