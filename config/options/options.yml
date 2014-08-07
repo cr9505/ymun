@@ -111,3 +111,7 @@ options:
     slug: late_registration_date
     class_name: Date
     default:
+  - name: Links to Topic Guides
+    slug: overview_page_text
+    class_name: Text
+    default:
