@@ -13,12 +13,20 @@ ActiveAdmin.register Delegation do
   #  permitted
   # end
 
+  controller do
+    def scoped_collection
+      Delegation.with_name
+    end
+  end
+
   index do
     selectable_column
     column :name
     column :address do |delegation|
-      delegation.address.to_html
+      delegation.address.andand.to_html
     end
+    column :delegation_size
+    column :advisor_count
     actions do |delegation|
       link_to 'Payments', admin_delegation_payments_path(delegation.id)
     end
@@ -28,40 +36,15 @@ ActiveAdmin.register Delegation do
     attributes_table do
       row :name
 
-      row 'Address' do |n|
-        delegation.address.to_html
-      end
-
       row 'Assigned Countries' do
         delegation.countries.map(&:name).join(', ')
       end
 
       delegation.all_fields.each do |field|
-        case field.delegation_field.class_name
-        when 'Title'
-        when 'Name'
-        when 'Address'
-        when 'CommitteeTypeSelection'
-          delegation.committee_type_selections.each do |cts|
-            row cts.committee_type.name do |n|
-              cts.delegate_count
-            end
-          end
-        when 'Advisors'
-          row 'Advisors' do |n|
-            delegation.advisors.map{|a| "#{a.first_name} #{a.last_name}: #{a.email}"}.join('<br>').html_safe
-          end
-        when 'Preferences'
-          row 'Preferences' do |n|
-            delegation.preferences.map{|p| "#{p.rank}: #{p.country.andand.name || 'None'}"}.join('<br>').html_safe
-          end
-        when 'DelegationSize'
-          row 'Delegation Size' do |n|
-            delegation.delegation_size
-          end
-        else
-          row field.delegation_field.name do |n|
-            field.to_value
+        dft = field.delegation_field_type
+        if dft.admin_renderer
+          row field.name do
+            dft.admin_render(field.value, delegation)
           end
         end
       end
