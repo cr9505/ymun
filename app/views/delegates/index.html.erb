@@ -1,0 +1,36 @@
+<% content_for(:javascript_includes) do -%>
+  <%= javascript_include_tag('angular.min') %>
+  <%= javascript_include_tag('ui-bootstrap-tpls-0.11.0.min') %>
+  <%= javascript_include_tag('DelegatesController') %>
+<% end -%>
+
+<h2>Delegates</h2>
+
+<div ng-app='delegatesApp'>
+  <div ng-controller="DelegatesController">
+    <form name="delegates">
+      <div class="form-group" ng-repeat='(i, delegate) in delegates'>
+        <ng-form name="delegateForm" class="form-inline">
+          <div class="popover" ng-if="delegate.first_name" ng-bind="delegate.first_name"></div>
+          <div ng-init="setForm(delegate, delegateForm)">
+            <div class="form-group" ng-class="{ 'has-error' : delegateForm.first_name.$invalid && delegateForm.first_name.$dirty }">
+              <input type="text" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.first_name" name="first_name" required>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : delegateForm.last_name.$invalid && delegateForm.last_name.$dirty }">
+              <input type="text" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.last_name" name="last_name" required>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : delegateForm.email.$invalid && delegateForm.email.$dirty }">
+              <input type="email" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.email" name="email" required>
+            </div>
+            <span ng-if="delegate.id !== undefined && delegate.id !== null || delegateForm.$dirty">
+              <span ng-if="delegateForm.$dirty && !delegate.saving">Unsaved.</span>
+              <span ng-if="delegate.saving">Saving...</span>
+              <span ng-if="!delegateForm.$dirty">Saved.</span>
+            </span>
+            <span ng-bind="delegate.error"></span>
+          </div>
+        </ng-form>
+      </div>
+    </form>
+  </div>
+</div>
