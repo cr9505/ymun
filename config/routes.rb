@@ -11,6 +11,9 @@ Site::Application.routes.draw do
     resources :payments do
       get 'execute' => 'payments#execute_payment', as: :execute, on: :collection
     end
+    resources :delegates do
+      
+    end
   end
 
   # get 'delegation' => 'delegations#index', as: :delegation

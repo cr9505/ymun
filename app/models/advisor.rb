@@ -12,7 +12,7 @@ class Advisor < User
 
   def make_default_pass
     if self.encrypted_password.nil?
-      self.password = 'blahblah'
+      self.password = Devise.friendly_token(10)
     end
   end
 
