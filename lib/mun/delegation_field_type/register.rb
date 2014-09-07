@@ -82,7 +82,7 @@ Mun::DelegationFieldType.register_types do
     form_partial 'delegation_field_types/preferences'
 
     admin_render do |delegation_field_value, delegation|
-      delegation.preferences.map{|p| "#{p.rank + 1}: #{p.country.andand.name || 'None'}"}.join('<br>').html_safe
+      delegation.preferences.map{|p| "#{p.rank.andand + 1}: #{p.country.andand.name || 'None'}"}.join('<br>').html_safe
     end
   end
 
