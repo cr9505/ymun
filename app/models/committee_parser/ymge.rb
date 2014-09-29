@@ -5,14 +5,18 @@ module CommitteeParser
       delegation_hash = {}
       for row in 2..ws.num_rows
         delegation = ws[row, 1]
-        delegation_hash[delegation] ||= {}
-        for col in 2..ws.num_cols
+        delegation_id = ws[row, 2].to_i
+        delegation_hash[delegation_id] ||= {'characters' => []}
+        for col in 3..ws.num_cols
           committee_and_position = ws[row, col]
-          committee, position = committee_and_position.split(':')
-          committee.strip!
+          *committees, position = committee_and_position.split(':')
+          committees.map {|c| c.strip! }
           position.strip!
-          delegation_hash[delegation][committee] ||= []
-          delegation_hash[delegation][committee] << position
+          delegation_hash[delegation_id]
+          delegation_hash[delegation_id]['characters'] << {
+            'name' => position,
+            'committees' => committees
+          }
         end
       end
       delegation_hash
