@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803094038) do
+ActiveRecord::Schema.define(version: 20140929034548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,20 @@ ActiveRecord::Schema.define(version: 20140803094038) do
     t.string   "addressable_type"
   end
 
+  create_table "character_committees", force: true do |t|
+    t.integer "character_id"
+    t.integer "committee_id"
+  end
+
+  add_index "character_committees", ["character_id"], name: "index_character_committees_on_character_id", using: :btree
+  add_index "character_committees", ["committee_id"], name: "index_character_committees_on_committee_id", using: :btree
+
   create_table "characters", force: true do |t|
     t.string   "name"
     t.integer  "delegation_id"
-    t.integer  "committee_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "seat_index"
   end
 
   create_table "committee_type_selections", force: true do |t|
