@@ -20,57 +20,31 @@ class Committee < ActiveRecord::Base
 
   # CommitteeParsers should return:
   # {
-  #   'countries' => {
-  #     CountryName => [CommitteeName]
-  #   },
-  #   'delegations' => {
-  #     DelegationID => {
-  #       'characters' => [
-  #         {
-  #           'name' => SeatName
-  #           'committees' => [CommitteeName]
-  #         }
-  #       ]
-  #         SeatName => [CommitteeName]
-  #       },
-  #       'countries' => [CountryName]
+  #   DelegationID => [
+  #     {
+  #       'name' => SeatName (e.g. "Barack Obama" or "USA (DISEC)")
+  #       'seats' => SeatCount (e.g. 1)
+  #       'committees' => [CommitteeName] (Usually just one)
   #     }
-  #   }
+  #   ]
   # }
   def self.handle_committee_parser(parse_result)
     sync_errors = []
-    parse_result['countries'].andand.each do |country_name, committee_names|
-      country = MUNCountry.find_or_create_by_name(country_name)
-      committee_names.each do |committee_name|
-        committee = Committee.find_or_create_by_name(committee_name)
-        unless country.committees.exists?(id: committee.id)
-          country.committees << committee
-        end
-      end
-    end
 
-    parse_result['delegations'].andand.each do |delegation_id, delegation_info|
+    parse_result.each do |delegation_id, characters|
       delegation = Delegation.find_by(id: delegation_id)
       if delegation.nil?
         sync_errors << "Delegation with ID=#{delegation_id} does not exist."
       else
-        delegation_info['characters'].andand.each_with_index do |character_info, i|
-          character = Character.find_or_create_by_seat_index(delegation, i)
-          character.name = character_info['name']
-          character_info['committees'].each do |committee_name|
-            committee = Committee.find_or_create_by_name(committee_name)
-            unless character.committees.exists?(id: committee.id)
-              character.committees << committee
-            end
+        delegation.seats = characters.map do |character_info|
+          character = Character.find_or_create_by_name(character_info['name'])
+          character.seat_count = character_info['seat_count']
+          character.committees = character_info['committees'].map do |committee_name|
+            Committee.find_or_create_by_name(committee_name)
           end
           character.save
-        end
-        delegation_info['countries'].andand.each do |country_name|
-          country = MUNCountry.find_or_create_by_name(country_name)
-          unless delegation.countries.exists?(id: country.id)
-            delegation.countries << country
-          end
-        end
+          Seat.find_or_create_for(delegation, character)
+        end.flatten
       end
     end
 
