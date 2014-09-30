@@ -48,7 +48,7 @@ group :test, :development do
   gem 'debugger'
 end
 
-gem 'rails_12factor'
+gem 'rails_12factor', group: :production
 
 gem 'simple_form'
 gem 'country_select'

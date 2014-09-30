@@ -15,9 +15,9 @@ Site::Application.routes.draw do
   # get 'delegation' => 'delegations#index', as: :delegation
 
   devise_for :users, :controllers => { :sessions => 'sessions', :confirmations => 'confirmations' }, :skip => :registrations
-  devise_for :advisors, :controllers => { :registrations => 'advisor_registrations', :confirmations => 'confirmations' }, :skip => :sessions
-  devise_for :delegates, :controllers => { :registrations => 'delegate_registrations', :confirmations => 'confirmations' }, :skip => :sessions
-  devise_for :admin_users, :controllers => { :registrations => 'admin_registrations', :confirmations => 'confirmations' }, :skip => :sessions
+  devise_for :advisors, :controllers => { :registrations => 'advisor_registrations', :confirmations => 'confirmations', :passwords => 'passwords' }, :skip => :sessions
+  devise_for :delegates, :controllers => { :registrations => 'delegate_registrations', :confirmations => 'confirmations', :passwords => 'passwords' }, :skip => :sessions
+  devise_for :admin_users, :controllers => { :registrations => 'admin_registrations', :confirmations => 'confirmations', :passwords => 'passwords' }, :skip => :sessions
 
   get 'privacy' => 'home#privacy_policy', as: :privacy_policy
 
