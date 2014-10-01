@@ -54,5 +54,4 @@ class ApplicationController < ActionController::Base
   def destroy_delegate_session_path
     new_user_session_path
   end
-
 end

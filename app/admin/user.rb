@@ -32,12 +32,14 @@ ActiveAdmin.register User do
       if user.delegation then link_to user.delegation.name, admin_delegation_path(user.delegation), :class => "delegation_link" else '-' end
     end
     actions do |user|
-      link_to('Log in as', become_admin_user_path(user), class: 'member_link') + ' ' +
-        if user.confirmed?
-          'Already Confirmed'
-        else
-          link_to('Confirm Email', confirm_admin_user_path(user), class: 'member_link')
-        end
+      if user.type == 'Advisor'
+        link_to('Log in as', become_admin_user_path(user), class: 'member_link') + ' ' +
+          if user.confirmed?
+            'Already Confirmed'
+          else
+            link_to('Confirm Email', confirm_admin_user_path(user), class: 'member_link')
+          end
+      end
     end
   end
 

@@ -48,7 +48,7 @@ class DelegatesController < InheritedResources::Base
   end
 
   def permitted_params
-    params.permit(:delegate => [:first_name, :last_name, :email, :delegation_id])
+    params.permit(:delegate => [:first_name, :last_name, :email, :delegation_id, :seat_id])
   end
 
   def collection

@@ -12,6 +12,8 @@ class Delegation < ActiveRecord::Base
   has_many :countries, class_name: 'MUNCountry'
   has_many :characters
 
+  has_many :seats
+
   has_many :preferences, -> { order 'rank' }
 
   accepts_nested_attributes_for :preferences, allow_destroy: true

@@ -2,7 +2,7 @@ class Character < ActiveRecord::Base
   has_many :character_committees
   has_many :committees, through: :character_committees
 
-  has_one :seat
+  has_many :seats
 
   belongs_to :delegation
 

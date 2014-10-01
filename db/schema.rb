@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929034548) do
+ActiveRecord::Schema.define(version: 20140929160753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20140929034548) do
     t.integer  "delegation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "seat_index"
+    t.integer  "seat_count"
   end
 
   create_table "committee_type_selections", force: true do |t|
@@ -169,6 +169,15 @@ ActiveRecord::Schema.define(version: 20140929034548) do
   end
 
   add_index "preferences", ["delegation_id", "country_id"], name: "index_preferences_on_delegation_id_and_country_id", unique: true, using: :btree
+
+  create_table "seats", force: true do |t|
+    t.integer  "delegation_id"
+    t.integer  "character_id"
+    t.integer  "country_committee_id"
+    t.integer  "delegate_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "type"
