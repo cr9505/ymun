@@ -8,28 +8,36 @@
 
 <div ng-app='delegatesApp'>
   <div ng-controller="DelegatesController">
-    <form name="delegates">
-      <div class="form-group" ng-repeat='(i, delegate) in delegates'>
-        <ng-form name="delegateForm" class="form-inline">
+    <form class="delegates-form" name="delegates">
+      <div class="delegate-row" ng-repeat='(i, delegate) in delegates'>
+        <ng-form name="delegateForm" class="form-inline" ng-class="{ 'unsaved': delegateForm.$dirty && !delegate.saving, 'saving': delegate.saving, 'saved': '!delegateForm.$dirty' }">
           <div class="popover" ng-if="delegate.first_name" ng-bind="delegate.first_name"></div>
           <div ng-init="setForm(delegate, delegateForm)">
-            <div class="form-group" ng-class="{ 'has-error' : delegateForm.first_name.$invalid && delegateForm.first_name.$dirty }">
+            <div class="form-group text" ng-class="{ 'has-error' : delegateForm.first_name.$invalid && delegateForm.first_name.$dirty }">
               <input type="text" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.first_name" name="first_name" required>
             </div>
-            <div class="form-group" ng-class="{ 'has-error' : delegateForm.last_name.$invalid && delegateForm.last_name.$dirty }">
+            <div class="form-group text" ng-class="{ 'has-error' : delegateForm.last_name.$invalid && delegateForm.last_name.$dirty }">
               <input type="text" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.last_name" name="last_name" required>
             </div>
-            <div class="form-group" ng-class="{ 'has-error' : delegateForm.email.$invalid && delegateForm.email.$dirty }">
+            <div class="form-group text" ng-class="{ 'has-error' : delegateForm.email.$invalid && delegateForm.email.$dirty }">
               <input type="email" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.email" name="email" required>
             </div>
-            <span ng-if="delegate.id !== undefined && delegate.id !== null || delegateForm.$dirty">
+            <div class="form-group seat">
+              <select class="form-control" ng-model="delegate.seat" ng-options="seat.name for seat in (seats | unclaimedFor:delegate)" ng-focus="delegate.oldSeat = delegate.seat" ng-change="saveSeat(delegate.seat, delegate, delegateForm)">
+                <option value="">None</option>
+              </select>
+            </div>
+            <span class="status" ng-if="delegate.id !== undefined && delegate.id !== null || delegateForm.$dirty">
               <span ng-if="delegateForm.$dirty && !delegate.saving">Unsaved.</span>
               <span ng-if="delegate.saving">Saving...</span>
               <span ng-if="!delegateForm.$dirty">Saved.</span>
             </span>
-            <span ng-bind="delegate.error"></span>
           </div>
         </ng-form>
+        <span ng-bind="delegate.error"></span>
+<!--         <div class="status-bar-unsaved" ng-if="delegateForm.$dirty && !delegate.saving"></div>
+        <div class="status-bar-saving" ng-if="delegate.saving"></div>
+        <div class="status-bar-saved" ng-if="!delegateForm.$dirty"></div> -->
       </div>
     </form>
   </div>

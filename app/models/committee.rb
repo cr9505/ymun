@@ -39,6 +39,7 @@ class Committee < ActiveRecord::Base
         delegation.seats = characters.map do |character_info|
           character = Character.find_or_create_by_name(character_info['name'])
           character.seat_count = character_info['seat_count']
+          character.delegation_id = delegation.id
           character.committees = character_info['committees'].map do |committee_name|
             Committee.find_or_create_by_name(committee_name)
           end

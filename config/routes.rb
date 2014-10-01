@@ -14,6 +14,7 @@ Site::Application.routes.draw do
     resources :delegates do
       
     end
+    resources :seats
   end
 
   # get 'delegation' => 'delegations#index', as: :delegation
