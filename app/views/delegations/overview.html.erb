@@ -1,0 +1,56 @@
+<h2>Congratulations! <small>You're Registered!</small></h2>
+<div class="complete row">
+  <div class="col-sm-6">
+    <section class="overview panel panel-default">
+      <div class="panel-body">
+        <div class="overview-item">
+          <dt>
+            Delegates
+          </dt>
+          <dd>
+            <%= @delegation.delegation_size %>
+          </dd>
+        </div>
+        <div class="overview-item">
+          <dt>
+            Advisors
+          </dt>
+          <dd>
+            <%= @delegation.advisor_count %>
+          </dd>
+        </div>
+        <div class="overview-item">
+          <dt>
+            Deposit Paid
+          </dt>
+          <dd>
+            <span class="status-complete">
+              <i class="fa fa-check"></i>
+            </span>
+          </dd>
+        </div>
+        <div class="overview-item">
+          <dt>
+            Payment Due
+          </dt>
+          <dd>
+            <span class="payment_balance <%= if @payment_balance == 0 then 'status-complete' else 'status-incomplete' end %>">
+              <%= @currency_symbol %><%= @payment_balance %>
+            </span>
+          </dd>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="col-sm-6">
+    <section class="overview panel panel-default">
+      <div class="panel-body">
+        <%= Option.get("overview_page_text") %>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="col-sm-6">
+  
+</div>
