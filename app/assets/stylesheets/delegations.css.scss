@@ -90,12 +90,14 @@ a.delete {
 }
 
 form.delegates-form {
+  margin-top: $padding-base-vertical;
   .delegate-row {
     border-bottom: 1px solid $gray-lighter;
     margin-bottom: $padding-base-vertical;
-    .status {
+    padding-bottom: $padding-base-vertical;
+    .error {
+      padding-top: $padding-base-vertical;
       display: block;
-      margin: $padding-base-vertical;
     }
     .text {
       width: 20%;
@@ -108,6 +110,12 @@ form.delegates-form {
       select {
         width: 100%;
       }
+    }
+  }
+  .key {
+    span {
+      display: inline-block;
+      width: 20%;
     }
   }
   .status-bar-unsaved, .status-bar-saving, .status-bar-saved {
