@@ -6,16 +6,23 @@ class Committee < ActiveRecord::Base
   
   has_many :characters
 
-  def self.sync_with_drive
-    if google_doc = Option.get('committee_assignments_google_doc')
-      google_doc_key = google_doc[/key=([^&])/, 1]
+  def self.sync_with_drive(google_doc, username, password, committee_parser)
+    google_doc_key = google_doc[/key=([^&]+)/, 1]
+    google_doc_key = google_doc[/d\/([^\/]+)(\/edit)?/, 1] unless google_doc_key
+    if username && password
       if google_doc_key
         session = GoogleDrive.login(username, password)
         spreadsheet = session.spreadsheet_by_key(google_doc_key)
-        parse_result = CommitteeParsers::YMGE.parse(spreadsheet.worksheets)
+        parse_result = committee_parser.parse(spreadsheet.worksheets)
         sync_errors = Committee.handle_committee_parser(parse_result)
+        return sync_errors
       end
     end
+    sync_errors = ['Could not access committee assignments spreadsheet. ' +
+                   'You must specify a committee document URL, as well as ' +
+                   'a Google account username and password that has access ' +
+                   'to that document.']
+    sync_errors
   end
 
   # CommitteeParsers should return:

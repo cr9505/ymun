@@ -20,54 +20,57 @@ describe CommitteeParser::YMGE do
     it 'should properly parse a well-formed committee document' do
       result = CommitteeParser::YMGE.parse(worksheets)
       expected_result = {
-        1 => {
-          'characters' => [
-            {
-              'name' => 'A',
-              'committees' => ['A']
-            },
-            {
-              'name' => 'A',
-              'committees' => ['B']
-            },
-            {
-              'name' => 'B',
-              'committees' => ['B']
-            }
-          ]
-        },
-        2 => {
-          'characters' => [
-            {
-              'name' => 'C',
-              'committees' => ['C']
-            },
-            {
-              'name' => 'B',
-              'committees' => ['A']
-            },
-            {
-              'name' => 'C',
-              'committees' => ['A']
-            }
-          ]
-        },
-        3 => {
-          'characters' => [
-            {
-              'name' => 'C',
-              'committees' => ['C', 'B']
-            },
-            {
-              'name' => 'B',
-              'committees' => ['A']
-            },
-            {
-              'name' => 'C',
-              'committees' => ['A']
-            }
-          ]
-        },
+        1 => [
+          {
+            'name' => 'A',
+            'seat_count' => 1,
+            'committees' => ['A']
+          },
+          {
+            'name' => 'A',
+            'seat_count' => 1,
+            'committees' => ['B']
+          },
+          {
+            'name' => 'B',
+            'seat_count' => 1,
+            'committees' => ['B']
+          }
+        ],
+        2 => [
+          {
+            'name' => 'C',
+            'seat_count' => 1,
+            'committees' => ['C']
+          },
+          {
+            'name' => 'B',
+            'seat_count' => 1,
+            'committees' => ['A']
+          },
+          {
+            'name' => 'C',
+            'seat_count' => 1,
+            'committees' => ['A']
+          }
+        ],
+        3 => [
+          {
+            'name' => 'C',
+            'seat_count' => 1,
+            'committees' => ['C', 'B']
+          },
+          {
+            'name' => 'B',
+            'seat_count' => 1,
+            'committees' => ['A']
+          },
+          {
+            'name' => 'C',
+            'seat_count' => 1,
+            'committees' => ['A']
+          }
+        ]
       }
       expect(result).to eq(expected_result)
     end

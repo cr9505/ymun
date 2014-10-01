@@ -137,4 +137,20 @@ angular.module('delegatesApp', [])
       });
     }
   };
+  $scope.saveStatus = function(delegates) {
+    var savedDelegates = 0;
+    var unsavedDelegates = 0;
+    $.each(delegates, function(i, delegate) {
+      if (delegate.saving) {
+        return "Saving...";
+      }
+      if (delegate.form.$dirty || !delegate.id) {
+        unsavedDelegates++;
+      } else {
+        savedDelegates++;
+      }
+    });
+    return savedDelegates + " delegate" + (savedDelegates == 1 ? '' : 's') + " saved, "
+      + unsavedDelegates + " delegate" + (unsavedDelegates == 1 ? '' : 's') + " unsaved."
+  }
 });
