@@ -60,6 +60,10 @@ a.delete {
   z-index: 5;
 }
 
+.delegates-app {
+  min-height: 300px;
+}
+
 form.delegates-form {
   margin-top: $padding-base-vertical;
   .delegate-row {

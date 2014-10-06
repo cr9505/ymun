@@ -3,16 +3,18 @@
   <%= javascript_include_tag('ui-bootstrap-tpls-0.11.0.min') %>
   <%= javascript_include_tag('ui-select.min') %>
   <%= stylesheet_link_tag('ui-select.min') %>
+  <%= javascript_include_tag('angular-block-ui.min') %>
+  <%= stylesheet_link_tag('angular-block-ui.min') %>
   <%= javascript_include_tag('DelegatesController') %>
 <% end -%>
 
 <h2>Delegates</h2>
 <h4>Please specify the names and emails of your delegates.</h4>
-<div ng-app='delegatesApp'>
+<div ng-app='delegatesApp' block-ui="delegateBlockUI" class="delegates-app">
   <div ng-controller="DelegatesController">
     <div class="no-seats" ng-if="loaded && seats.length == 0">You have not been assigned any seats yet. We will notify you when committee assignments go out.</div>
     <div class="yes-seats" ng-if="loaded && seats.length > 0">Your seats have been assigned. You may assign your delegates to committee positions below.</div>
-    <form class="delegates-form" name="delegates">
+    <form class="delegates-form" name="delegates-form">
       <div class="status" ng-bind="saveStatus(delegates)"></div>
       <div class="key">
         <span>First Name</span>
