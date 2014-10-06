@@ -6,6 +6,17 @@ class SeatsController < InheritedResources::Base
   before_action :set_delegation
   before_action :force_delegation
 
+  def by_committee
+    @seats = @delegation.seats.includes(character: :committee)
+    @committees = @seats.group_by { |s| s.character.committee }
+    @committees = @committees.map do |committee, seats|
+      { name: committee.name, seats: seats }
+    end
+    respond_to do |format|
+      format.json { render json: @committees }
+    end
+  end
+
   def permitted_params
     params.permit(:seat => [:delegate_id])
   end
@@ -40,7 +51,7 @@ class SeatsController < InheritedResources::Base
   end
 
   def collection
-    @delegates ||= begin
+    @seats ||= begin
       @delegation.seats
     end
   end

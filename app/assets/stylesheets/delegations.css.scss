@@ -100,22 +100,28 @@ form.delegates-form {
       display: block;
     }
     .text {
-      width: 20%;
+      width: 33%;
+      display: inline-block;
+      margin-bottom: $padding-base-vertical;
       input.form-control {
         width: 100%;
       }
     }
-    .seat {
-      width: 38%;
-      select {
+    .select {
+      width: 100%;
+      margin: 0;
+      ui-select {
         width: 100%;
       }
+    }
+    .saved {
+      background-color: lighten($brand-success, 50%);
     }
   }
   .key {
     span {
       display: inline-block;
-      width: 20%;
+      width: 33%;
     }
   }
   .status-bar-unsaved, .status-bar-saving, .status-bar-saved {
@@ -130,5 +136,51 @@ form.delegates-form {
   }
   .status-bar-saved {
     background-color: $brand-success;
+  }
+}
+
+.yes-seats, .no-seats {
+  @extend .alert;
+}
+
+.yes-seats {
+  @extend .alert-warning;
+}
+
+.no-seats {
+  @extend .alert-danger;
+}
+
+.complete {
+  .overview .panel-body {
+    display: table;
+    width: 100%;
+  }
+  .overview-item {
+    display: table-row;
+  }
+  dt, dd {
+    display: table-cell;
+    vertical-align: baseline;
+    padding: 5px;
+  }
+  dt {
+    font-weight: 200;
+    width: 50%;
+    text-align: right;
+  }
+  dd {
+    font-weight: 700;
+    font-size: 2em;
+    .weak {
+      font-size: 0.5em;
+      font-weight: normal;
+    }
+  }
+  .status-complete {
+    color: $brand-success;
+  }
+  .status-incomplete {
+    color: $brand-danger;
   }
 }
