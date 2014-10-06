@@ -32,7 +32,7 @@
               <input type="email" placeholder="Email" class="form-control" ng-blur="saveDelegate(delegate, delegateForm)" ng-model="delegate.email" name="email" required>
             </div>
             <div class="form-group select">
-              <ui-select ng-model="delegate.seat" theme="bootstrap" ng-disabled="!delegate.id" ng-focus="delegate.oldSeat = delegate.seat" ng-change="saveSeat(delegate.seat, delegate, delegateForm)">
+              <ui-select ng-model="delegate.seat" theme="bootstrap" ng-disabled="!delegate.id || !seats.length" ng-focus="delegate.oldSeat = delegate.seat" ng-change="saveSeat(delegate.seat, delegate, delegateForm)">
                 <ui-select-match placeholder="No seat selected.">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="seat in (seats | unclaimedFor:delegate | filter: $select.search)">
                   <div ng-bind="seat.name"></div>
@@ -45,5 +45,6 @@
         <span ng-bind="delegate.error"></span>
       </div>
     </form>
+    <button class="btn btn-primary" onclick="successAlert('All information saved!')">Save</button>
   </div>
 </div>
