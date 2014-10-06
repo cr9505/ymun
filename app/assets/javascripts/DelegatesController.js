@@ -1,5 +1,5 @@
 angular.module('delegatesApp', ['ui.select', 'blockUI'])
-.config(['uiSelectService', 'blockUIConfig', function(uiSelectConfig, blockUIConfig) {
+.config(['uiSelectConfig', 'blockUIConfig', function(uiSelectConfig, blockUIConfig) {
   uiSelectConfig.theme = 'bootstrap';
   blockUIConfig.autoBlock = false;
   blockUIConfig.autoInjectBodyBlock = false;
@@ -81,7 +81,7 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
     }
   };
 })
-.controller('DelegatesController', ['$scope', '$http', '$q', '$timeout', 'blockUI', 'DelegatesService', 'SeatsService', function($scope, $http, $q, $timeout, blockUI, DelegatesService, SeatsService) {
+.controller('DelegatesController', ['$scope', '$http', '$q', 'blockUI', 'DelegatesService', 'SeatsService', function($scope, $http, $q, blockUI, DelegatesService, SeatsService) {
   $scope.delegates = [];
   $scope.seats = [];
   $scope.loaded = false;
