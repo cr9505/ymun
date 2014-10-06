@@ -1,9 +1,9 @@
 angular.module('delegatesApp', ['ui.select', 'blockUI'])
-.config(function(uiSelectConfig, blockUIConfig) {
+.config(['uiSelectService', 'blockUIConfig', function(uiSelectConfig, blockUIConfig) {
   uiSelectConfig.theme = 'bootstrap';
   blockUIConfig.autoBlock = false;
   blockUIConfig.autoInjectBodyBlock = false;
-})
+}])
 .factory('RailsService', function() {
   return {
     getAuthenticityToken: function() {
@@ -11,7 +11,7 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
     }
   }
 })
-.factory('DelegatesService', function($http, RailsService) {
+.factory('DelegatesService', ['$http', 'RailsService', function($http, RailsService) {
   return {
     createOrUpdate: function(delegate) {
       var url, method;
@@ -48,8 +48,8 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
       });
     }
   }
-})
-.factory('SeatsService', function($http, RailsService) {
+}])
+.factory('SeatsService', ['$http', 'RailsService', function($http, RailsService) {
   return {
     assign: function(seat, delegate) {
       var delegate_id = null;
@@ -69,7 +69,7 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
       });
     }
   }
-})
+}])
 .filter('unclaimedFor', function() {
   return function(seats, delegate) {
     if (seats) {
@@ -81,7 +81,7 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
     }
   };
 })
-.controller('DelegatesController', function($scope, $http, $q, $timeout, blockUI, DelegatesService, SeatsService) {
+.controller('DelegatesController', ['$scope', '$http', '$q', '$timeout', 'blockUI', 'DelegatesService', 'SeatsService', function($scope, $http, $q, $timeout, blockUI, DelegatesService, SeatsService) {
   $scope.delegates = [];
   $scope.seats = [];
   $scope.loaded = false;
@@ -208,4 +208,4 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
       return committee.name;
     }).join('; ')
   };
-});
+}]);
