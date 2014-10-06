@@ -12,6 +12,19 @@
   <div ng-controller="DelegatesController">
     <div class="no-seats" ng-if="loaded && seats.length == 0">You have not been assigned any seats yet. We will notify you when committee assignments go out.</div>
     <div class="yes-seats" ng-if="loaded && seats.length > 0">Your seats have been assigned. You may assign your delegates to committee positions below.</div>
+    <div class="seat-list" ng-if="loaded && seats.length > 0">
+      <span ng-click="seatsCollapsed = !seatsCollapsed" class="expand-seats list-group-item">
+        <i class="fa fa-angle-right" ng-if="seatsCollapsed"></i>
+        <i class="fa fa-angle-down" ng-if="!seatsCollapsed"></i>
+        View seats assigned to your delegation.
+      </span>
+      <div class="list-group" collapse="seatsCollapsed">
+        <div ng-repeat="seat in seats" class="list-group-item">
+          <span class="seat-name" ng-bind="seat.name"></span>
+          <small ng-bind="committeeText(seat)"></small>
+        </div>
+      </div>
+    </div>
     <form class="delegates-form" name="delegates-form">
       <div class="status" ng-bind="saveStatus(delegates)"></div>
       <div class="key">

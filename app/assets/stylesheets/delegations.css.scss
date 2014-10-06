@@ -95,6 +95,9 @@ a.delete {
 
 form.delegates-form {
   margin-top: $padding-base-vertical;
+  .status {
+    margin: $padding-base-vertical 0;
+  }
   .delegate-row {
     border-bottom: 1px solid $gray-lighter;
     margin-bottom: $padding-base-vertical;
@@ -104,7 +107,7 @@ form.delegates-form {
       display: block;
     }
     .text {
-      width: 33%;
+      width: 32%;
       display: inline-block;
       margin-bottom: $padding-base-vertical;
       input.form-control {
@@ -112,7 +115,7 @@ form.delegates-form {
       }
     }
     .select {
-      width: 100%;
+      width: 97%;
       margin: 0;
       ui-select {
         width: 100%;
@@ -125,7 +128,7 @@ form.delegates-form {
   .key {
     span {
       display: inline-block;
-      width: 33%;
+      width: 32%;
     }
   }
   .status-bar-unsaved, .status-bar-saving, .status-bar-saved {
@@ -153,6 +156,14 @@ form.delegates-form {
 
 .no-seats {
   @extend .alert-danger;
+}
+
+.expand-seats {
+  cursor: pointer;
+}
+
+.seat-name {
+  font-weight: bold;
 }
 
 .complete {

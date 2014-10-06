@@ -1,4 +1,4 @@
-angular.module('delegatesApp', ['ui.select', 'blockUI'])
+angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
 .config(['uiSelectConfig', 'blockUIConfig', function(uiSelectConfig, blockUIConfig) {
   uiSelectConfig.theme = 'bootstrap';
   blockUIConfig.autoBlock = false;
@@ -67,6 +67,23 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
           }
         }
       });
+    },
+    sort: function(seats) {
+      seats.sort(function(a, b) {
+        if (a.committees[0].name > b.committees[0].name) {
+          return 1;
+        } else if (a.committees[0].name < b.committees[0].name) {
+          return -1;
+        } else {
+          if (a.name > b.name) {
+            return 1;
+          } else if (a.name < b.name) {
+            return -1;
+          } else {
+            return 0;
+          }
+        }
+      });
     }
   }
 }])
@@ -86,6 +103,7 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
   $scope.seats = [];
   $scope.loaded = false;
   $scope.forms = {};
+  $scope.seatsCollapsed = true;
   var delegateBlockUI = blockUI.instances.get('delegateBlockUI');
   delegateBlockUI.start();
   $http.get('/delegation/delegates.json')
@@ -99,6 +117,7 @@ angular.module('delegatesApp', ['ui.select', 'blockUI'])
   $http.get('/delegation/seats.json')
   .success(function(data, status, headers, config) {
     $scope.seats = data;
+    SeatsService.sort($scope.seats);
     $.each($scope.seats, function(i, seat) {
       if (seat.delegate_id) {
         for (var j=0; j<$scope.delegates.length; j++) {
