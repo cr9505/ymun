@@ -1,4 +1,7 @@
-angular.module('delegatesApp', [])
+angular.module('delegatesApp', ['ui.select'])
+.config(function(uiSelectConfig) {
+  uiSelectConfig.theme = 'bootstrap';
+})
 .factory('RailsService', function() {
   return {
     getAuthenticityToken: function() {
@@ -29,6 +32,18 @@ angular.module('delegatesApp', [])
           }
         }
       });
+    },
+    delete: function(delegate) {
+      var url, method;
+      url = "/delegation/delegates/" + delegate.id + ".json";
+      method = 'DELETE';
+      return $http({
+        method: method,
+        url: url,
+        data: {
+          authenticity_token: RailsService.getAuthenticityToken()
+        }
+      });
     }
   }
 })
@@ -55,18 +70,24 @@ angular.module('delegatesApp', [])
 })
 .filter('unclaimedFor', function() {
   return function(seats, delegate) {
-    return $.grep(seats, function(seat) {
-      return (!seat.delegate_id || seat.delegate_id == delegate.id);
-    })
+    if (seats) {
+      return $.grep(seats, function(seat) {
+        return (!seat.delegate_id || seat.delegate_id == delegate.id);
+      });
+    } else {
+      return [];
+    }
   };
 })
 .controller('DelegatesController', function($scope, $http, $q, DelegatesService, SeatsService) {
   $scope.delegates = [];
   $scope.seats = [];
+  $scope.loaded = false;
   $scope.forms = {};
   $http.get('/delegation/delegates.json')
   .success(function(data, status, headers, config) {
     $scope.delegates = data;
+    $scope.loaded = true;
   })
   .error(function(data, status, headers, config) {
 
@@ -74,10 +95,12 @@ angular.module('delegatesApp', [])
   $http.get('/delegation/seats.json')
   .success(function(data, status, headers, config) {
     $scope.seats = data;
+    $scope.committees = [];
     $.each($scope.seats, function(i, seat) {
       if (seat.delegate_id) {
         for (var j=0; j<$scope.delegates.length; j++) {
           if ($scope.delegates[j].id == seat.delegate_id) {
+            $scope.delegates[j].committee = seat.committees[0];
             $scope.delegates[j].seat = seat;
             break;
           }
@@ -97,9 +120,27 @@ angular.module('delegatesApp', [])
         form.$dirty = false;
         delegate.error = "";
         if (data) delegate.id = data.id;
+        if (delegate.seat && !delegate.seat.unsaved) {
+          $scope.saveSeat(delegate.seat, delegate, form);
+        }
       })
       .error(function(data, status, headers, config) {
         delegate.saving = false;
+        if (data.errors) {
+          delegate.error = $.map(data.errors, function(value, key) {
+            return key.capitalize() + ' ' + value;
+          }).join(', ') + '.';
+        }
+      });
+    } else if (form.$dirty && delegate.id && delegate.first_name == delegate.last_name == delegate.email == '') {
+      // delete this delegate
+      DelegatesService.delete(delegate)
+      .success(function(data, status, headers, config) {
+        delegate.id = null;
+        form.$dirty = false;
+        delegate.error = "";
+      })
+      .error(function(data, status, headers, config) {
         if (data.errors) {
           delegate.error = $.map(data.errors, function(value, key) {
             return key.capitalize() + ' ' + value;
@@ -114,8 +155,6 @@ angular.module('delegatesApp', [])
       delegate.saving = true;
       oldSeat = delegate.oldSeat;
       var promises = [];
-      console.log(oldSeat);
-      console.log(seat);
       if (oldSeat) {
         promises.push(SeatsService.assign(oldSeat, null));
       }
@@ -127,8 +166,14 @@ angular.module('delegatesApp', [])
         delegate.saving = false;
         form.$dirty = false;
         delegate.error = "";
-        if (oldSeat) oldSeat.delegate_id = null;
-        if (seat) seat.delegate_id = delegate.id;
+        if (oldSeat) {
+          oldSeat.delegate_id = null;
+          oldSeat.saved = false;
+        }
+        if (seat) {
+          seat.delegate_id = delegate.id;
+          seat.saved = true;
+        }
       },
       function(errors) {
         delegate.saving = false;
@@ -144,13 +189,20 @@ angular.module('delegatesApp', [])
       if (delegate.saving) {
         return "Saving...";
       }
-      if (delegate.form.$dirty || !delegate.id) {
-        unsavedDelegates++;
-      } else {
-        savedDelegates++;
+      if (delegate.form) {
+        if (delegate.form.$dirty || !delegate.id) {
+          unsavedDelegates++;
+        } else {
+          savedDelegates++;
+        }
       }
     });
     return savedDelegates + " delegate" + (savedDelegates == 1 ? '' : 's') + " saved, "
       + unsavedDelegates + " delegate" + (unsavedDelegates == 1 ? '' : 's') + " unsaved."
-  }
+  };
+  $scope.committeeText = function(seat) {
+    return $.map(seat.committees, function(committee) {
+      return committee.name;
+    }).join('; ')
+  };
 });
