@@ -37,7 +37,7 @@ $input-height-small: (floor($font-size-small * $line-height-small) + ($padding-s
 @import "chosen";
 @import "delegations";
 @import "bootstrap-tagsinput";
-@import "ui-select";
+@import "ui-select.min";
 @import "angular-block-ui.min";
 // @import "metro";
 // @import "lblue";
