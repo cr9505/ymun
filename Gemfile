@@ -70,9 +70,6 @@ gem 'paypal-sdk-rest'
 
 gem 'thin'
 
-gem 'rails_serve_static_assets'
-gem 'rails_stdout_logging'
-
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
