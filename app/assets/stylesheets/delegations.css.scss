@@ -89,6 +89,10 @@ a.delete {
     color: $brand-danger;
 }
 
+.delegates-app {
+  min-height: 300px;
+}
+
 form.delegates-form {
   margin-top: $padding-base-vertical;
   .delegate-row {

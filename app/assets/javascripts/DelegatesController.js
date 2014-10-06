@@ -1,6 +1,8 @@
-angular.module('delegatesApp', ['ui.select'])
-.config(function(uiSelectConfig) {
+angular.module('delegatesApp', ['ui.select', 'blockUI'])
+.config(function(uiSelectConfig, blockUIConfig) {
   uiSelectConfig.theme = 'bootstrap';
+  blockUIConfig.autoBlock = false;
+  blockUIConfig.autoInjectBodyBlock = false;
 })
 .factory('RailsService', function() {
   return {
@@ -79,11 +81,13 @@ angular.module('delegatesApp', ['ui.select'])
     }
   };
 })
-.controller('DelegatesController', function($scope, $http, $q, DelegatesService, SeatsService) {
+.controller('DelegatesController', function($scope, $http, $q, $timeout, blockUI, DelegatesService, SeatsService) {
   $scope.delegates = [];
   $scope.seats = [];
   $scope.loaded = false;
   $scope.forms = {};
+  var delegateBlockUI = blockUI.instances.get('delegateBlockUI');
+  delegateBlockUI.start();
   $http.get('/delegation/delegates.json')
   .success(function(data, status, headers, config) {
     $scope.delegates = data;
@@ -95,18 +99,17 @@ angular.module('delegatesApp', ['ui.select'])
   $http.get('/delegation/seats.json')
   .success(function(data, status, headers, config) {
     $scope.seats = data;
-    $scope.committees = [];
     $.each($scope.seats, function(i, seat) {
       if (seat.delegate_id) {
         for (var j=0; j<$scope.delegates.length; j++) {
           if ($scope.delegates[j].id == seat.delegate_id) {
-            $scope.delegates[j].committee = seat.committees[0];
             $scope.delegates[j].seat = seat;
             break;
           }
         }
       }
     })
+    delegateBlockUI.stop();
   })
   .error(function(data, status, headers, config) {
 
