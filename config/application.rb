@@ -40,5 +40,6 @@ module Site
     end
 
     config.assets.initialize_on_precompile = false
+    config.assets.js_compressor = Uglifier.new(mangle: false)
   end
 end
