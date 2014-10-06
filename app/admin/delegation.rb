@@ -22,6 +22,7 @@ ActiveAdmin.register Delegation do
   index do
     selectable_column
     column :name
+    column :id
     column :address do |delegation|
       delegation.address.andand.to_html
     end

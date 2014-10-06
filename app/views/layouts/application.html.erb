@@ -8,6 +8,7 @@
   <% favicon = Option.get('favicon') %>
   <%= favicon_link_tag (if favicon.blank? then 'favicon.ico' else favicon end) %>
   <%= javascript_include_tag "application" %>
+  <%= yield :javascript_includes %>
   <%= csrf_meta_tags %>
 </head>
 <body>
