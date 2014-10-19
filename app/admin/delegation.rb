@@ -62,6 +62,12 @@ ActiveAdmin.register Delegation do
         "#{(delegation.payment_currency || 'usd').upcase} #{delegation.payment_balance(delegation.payment_currency || 'usd')}"
       end
 
+      row 'Delegates' do
+        delegation.delegates.map do |delegate|
+          "#{delegate.first_name} #{delegate.last_name}: #{delegate.email}"
+        end.join("<br />").html_safe
+      end
+
       a 'Add a Payment', href: new_admin_delegation_payment_path(delegation.id)
     end
   end
