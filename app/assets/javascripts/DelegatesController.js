@@ -110,25 +110,26 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
   .success(function(data, status, headers, config) {
     $scope.delegates = data;
     $scope.loaded = true;
-  })
-  .error(function(data, status, headers, config) {
-
-  });
-  $http.get('/delegation/seats.json')
-  .success(function(data, status, headers, config) {
-    $scope.seats = data;
-    SeatsService.sort($scope.seats);
-    $.each($scope.seats, function(i, seat) {
-      if (seat.delegate_id) {
-        for (var j=0; j<$scope.delegates.length; j++) {
-          if ($scope.delegates[j].id == seat.delegate_id) {
-            $scope.delegates[j].seat = seat;
-            break;
+    
+    $http.get('/delegation/seats.json')
+    .success(function(data, status, headers, config) {
+      $scope.seats = data;
+      SeatsService.sort($scope.seats);
+      $.each($scope.seats, function(i, seat) {
+        if (seat.delegate_id) {
+          for (var j=0; j<$scope.delegates.length; j++) {
+            if ($scope.delegates[j].id == seat.delegate_id) {
+              $scope.delegates[j].seat = seat;
+              break;
+            }
           }
         }
-      }
+      })
+      delegateBlockUI.stop();
     })
-    delegateBlockUI.stop();
+    .error(function(data, status, headers, config) {
+
+    });
   })
   .error(function(data, status, headers, config) {
 
