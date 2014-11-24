@@ -16,6 +16,7 @@ class Delegate < User
   end
 
   def skip_email_confirmation
+    skip_confirmation!
     skip_reconfirmation!
   end
 
