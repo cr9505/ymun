@@ -120,6 +120,7 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
           for (var j=0; j<$scope.delegates.length; j++) {
             if ($scope.delegates[j].id == seat.delegate_id) {
               $scope.delegates[j].seat = seat;
+              $scope.delegates[j].oldSeat = seat;
               break;
             }
           }
@@ -173,7 +174,6 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
     }
   };
   $scope.saveSeat = function(seat, delegate, form) {
-    console.log("Firing " + form.$dirty);
     if (form.$valid && delegate.id) {
       delegate.saving = true;
       oldSeat = delegate.oldSeat;
@@ -197,6 +197,7 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
           seat.delegate_id = delegate.id;
           seat.saved = true;
         }
+        delegate.oldSeat = seat;
       },
       function(errors) {
         delegate.saving = false;
