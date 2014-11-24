@@ -6,4 +6,6 @@ class CountryCommittee < ActiveRecord::Base
 
   belongs_to :changer, class_name: 'Admin'
 
+  has_one :seat
+
 end

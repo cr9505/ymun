@@ -10,6 +10,9 @@ class Delegation < ActiveRecord::Base
 
   has_many :committees
   has_many :countries, class_name: 'MUNCountry'
+  has_many :characters
+
+  has_many :seats
 
   has_many :preferences, -> { order 'rank' }
 

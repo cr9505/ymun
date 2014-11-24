@@ -22,6 +22,7 @@ ActiveAdmin.register Delegation do
   index do
     selectable_column
     column :name
+    column :id
     column :address do |delegation|
       delegation.address.andand.to_html
     end
@@ -59,6 +60,12 @@ ActiveAdmin.register Delegation do
 
       row 'Remaining Balance' do |n|
         "#{(delegation.payment_currency || 'usd').upcase} #{delegation.payment_balance(delegation.payment_currency || 'usd')}"
+      end
+
+      row 'Delegates' do
+        delegation.delegates.map do |delegate|
+          "#{delegate.first_name} #{delegate.last_name}: #{delegate.email}"
+        end.join("<br />").html_safe
       end
 
       a 'Add a Payment', href: new_admin_delegation_payment_path(delegation.id)

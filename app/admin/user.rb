@@ -3,7 +3,14 @@ ActiveAdmin.register User do
 
   filter :email
   filter :created_at
-  filter :delegation
+  filter :delegation, collection: -> { Delegation.with_name }
+  filter :type, as: :select
+
+  controller do
+    def scoped_collection
+      resource_class.includes(:delegation)
+    end
+  end
 
   action_item :only => :show do
     link_to('Log in as User', become_admin_user_path(user))
@@ -28,16 +35,18 @@ ActiveAdmin.register User do
     column :type do |user|
       user.type.underscore.humanize
     end
-    column :delegation do |user|
+    column :delegation, sortable: 'delegations.name' do |user|
       if user.delegation then link_to user.delegation.name, admin_delegation_path(user.delegation), :class => "delegation_link" else '-' end
     end
     actions do |user|
-      link_to('Log in as', become_admin_user_path(user), class: 'member_link') + ' ' +
-        if user.confirmed?
-          'Already Confirmed'
-        else
-          link_to('Confirm Email', confirm_admin_user_path(user), class: 'member_link')
-        end
+      if user.type == 'Advisor'
+        link_to('Log in as', become_admin_user_path(user), class: 'member_link') + ' ' +
+          if user.confirmed?
+            'Already Confirmed'
+          else
+            link_to('Confirm Email', confirm_admin_user_path(user), class: 'member_link')
+          end
+      end
     end
   end
 
@@ -79,4 +88,14 @@ ActiveAdmin.register User do
   #  permitted
   # end
   
+  csv do
+    column :first_name
+    column :last_name
+    column :email
+    column :delegation do |user|
+      user.delegation.andand.name
+    end
+    column :created_at
+  end
+
 end

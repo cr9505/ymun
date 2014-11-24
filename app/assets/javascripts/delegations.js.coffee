@@ -5,12 +5,12 @@
 hideAlert = ->
   $('.alert-success').delay(6000).slideUp()
 
-successAlert = (msg) ->
+window.successAlert = (msg) ->
   $('#alert-success').text(msg).removeClass('hidden').show()
   hideAlert()
   $("html, body").animate({ scrollTop: 0 }, "fast");
 
-dangerAlert = (msg) ->
+window.dangerAlert = (msg) ->
   $('#alert-danger').text(msg).removeClass('hidden').show()
   $("html, body").animate({ scrollTop: 0 }, "fast");
 
@@ -143,3 +143,6 @@ $(document).ready ->
     false
 
   hideAlert()
+
+String.prototype.capitalize = ->
+  this.charAt(0).toUpperCase() + this.slice(1);

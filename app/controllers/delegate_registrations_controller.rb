@@ -4,4 +4,8 @@ class DelegateRegistrationsController < Devise::RegistrationsController
     options[:resource_name] = ''
     options
   end
+
+  def edit
+    render text: "Temporary"
+  end
 end

@@ -59,3 +59,112 @@ a.delete {
   line-height: 28px;
   z-index: 5;
 }
+
+.delegates-app {
+  min-height: 300px;
+}
+
+form.delegates-form {
+  margin-top: $padding-base-vertical;
+  .status {
+    margin: $padding-base-vertical 0;
+  }
+  .delegate-row {
+    border-bottom: 1px solid $gray-lighter;
+    margin-bottom: $padding-base-vertical;
+    padding-bottom: $padding-base-vertical;
+    .error {
+      padding-top: $padding-base-vertical;
+      display: block;
+    }
+    .text {
+      width: 32%;
+      display: inline-block;
+      margin-bottom: $padding-base-vertical;
+      input.form-control {
+        width: 100%;
+      }
+    }
+    .select {
+      width: 97%;
+      margin: 0;
+      ui-select {
+        width: 100%;
+      }
+    }
+    .saved {
+      background-color: lighten($brand-success, 50%);
+    }
+  }
+  .key {
+    span {
+      display: inline-block;
+      width: 32%;
+    }
+  }
+  .status-bar-unsaved, .status-bar-saving, .status-bar-saved {
+    width: 100%;
+    height: 3px;
+  }
+  .status-bar-unsaved {
+    background-color: $brand-danger;
+  }
+  .status-bar-saving {
+    background-color: $brand-warning;
+  }
+  .status-bar-saved {
+    background-color: $brand-success;
+  }
+}
+
+.yes-seats, .no-seats {
+  @extend .alert;
+}
+
+.yes-seats {
+  @extend .alert-warning;
+}
+
+.no-seats {
+  @extend .alert-danger;
+}
+
+.expand-seats {
+  cursor: pointer;
+}
+
+.seat-name {
+  font-weight: bold;
+}
+
+.complete {
+  .overview .panel-body {
+    width: 100%;
+  }
+  .overview-item {
+    
+  }
+  dt, dd {
+    text-align: center;
+    vertical-align: baseline;
+    padding: 5px;
+  }
+  dt {
+    font-weight: 200;
+  }
+  dd {
+    font-weight: 700;
+    font-size: 2em;
+    line-height: 0.8em;
+    .weak {
+      font-size: 0.5em;
+      font-weight: normal;
+    }
+  }
+  .status-complete {
+    color: $brand-success;
+  }
+  .status-incomplete {
+    color: $brand-danger;
+  }
+}
