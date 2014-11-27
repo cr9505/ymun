@@ -1,5 +1,5 @@
 ActiveAdmin.register Delegation do
-  permit_params :name, country_ids: []
+  permit_params :name, country_ids: [], character_ids: []
   # See permitted parameters documentation:
   # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -80,6 +80,11 @@ ActiveAdmin.register Delegation do
                                                            :'data-placeholder' => 'Assign countries...',
                                                            :'data-click-handler' => 'onCountryClick'
                                                          }
+      f.input :characters, :as => :select, :input_html => { :multiple => true, 
+                                                            class: 'chosen-select',
+                                                            :'data-placeholder' => 'Assign characters...',
+                                                            :'data-click-handler' => 'onCountryClick'
+                                                          }
     end
     f.actions
   end

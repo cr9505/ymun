@@ -1,10 +1,15 @@
 class Committee < ActiveRecord::Base
-  has_many :country_committees
+  has_many :country_committees, dependent: :destroy
   has_many :countries, through: :country_committees, class_name: 'MUNCountry'
 
   accepts_nested_attributes_for :country_committees, :allow_destroy => true
   
+  has_many :character_committees, dependent: :destroy
   has_many :characters
+
+  def as_json(options = {})
+    super
+  end
 
   def self.sync_with_drive(google_doc, username, password, committee_parser)
     google_doc_key = google_doc[/key=([^&]+)/, 1]

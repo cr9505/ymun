@@ -54,10 +54,14 @@ class DelegatesController < InheritedResources::Base
   def collection
     @delegates ||= begin
       dels = @delegation.delegates.to_a
-      (dels.length ... @delegation.delegation_size).each do |i|
-        dels << Delegate.new(delegation_id: @delegation_id)
+      if @delegation.delegation_size
+        (dels.length ... @delegation.delegation_size).each do |i|
+          dels << Delegate.new(delegation_id: @delegation_id)
+        end
+        dels
+      else
+        []
       end
-      dels
     end
   end
 end
