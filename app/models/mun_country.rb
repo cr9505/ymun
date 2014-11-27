@@ -10,6 +10,9 @@ class MUNCountry < ActiveRecord::Base
 
   belongs_to :delegation
 
+  after_save :ensure_seats
+  after_destroy :ensure_seats
+
   def self.options_for_select
     self.all.map do |c|
       [c.name, c.id]
@@ -22,5 +25,11 @@ class MUNCountry < ActiveRecord::Base
       country = MUNCountry.create(name: name)
     end
     country
+  end
+
+  def ensure_seats
+    if delegation && !delegation.ensuring
+      delegation.ensure_seats
+    end
   end
 end

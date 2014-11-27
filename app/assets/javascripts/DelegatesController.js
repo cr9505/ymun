@@ -174,17 +174,18 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
     }
   };
   $scope.saveSeat = function(seat, delegate, form) {
+    var promise;
     if (form.$valid && delegate.id) {
       delegate.saving = true;
       oldSeat = delegate.oldSeat;
-      var promises = [];
       if (oldSeat) {
-        promises.push(SeatsService.assign(oldSeat, null));
+        promise = SeatsService.assign(oldSeat, null);
+      } else {
+        promise = $q.when(false);
       }
-      if (seat) {
-        promises.push(SeatsService.assign(seat, delegate));
-      }
-      $q.all(promises)
+      promise.then(function() {
+        return SeatsService.assign(seat, delegate);
+      })
       .then(function(values) {
         delegate.saving = false;
         form.$dirty = false;
@@ -198,8 +199,7 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
           seat.saved = true;
         }
         delegate.oldSeat = seat;
-      },
-      function(errors) {
+      }, function(errors) {
         delegate.saving = false;
         form.$dirty = false;
         delegate.error = 'Could not save seat selection. Please refresh the page and try again.';

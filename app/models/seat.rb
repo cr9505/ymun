@@ -5,17 +5,31 @@ class Seat < ActiveRecord::Base
 
   belongs_to :character
   belongs_to :country_committee
+  delegate :country, to: :country_committee
 
-  def as_json(options)
+  validates_uniqueness_of :delegate_id, allow_nil: true
+  validates_uniqueness_of :country_committee_id, allow_nil: true
+
+  def as_json(options = {})
     super(options.merge(methods: [:name, :committees]))
   end
 
   def name
-    character.andand.name
+    if character
+      character.name
+    elsif country
+      country.name
+    end
   end
 
   def committees
-    character.committees
+    if character
+      character.committees
+    elsif country_committee
+      [country_committee.committee]
+    else
+      []
+    end
   end
 
   # "assigns" delegation to either a character or a country, properly adjusting

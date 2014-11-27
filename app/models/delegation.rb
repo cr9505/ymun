@@ -36,10 +36,12 @@ class Delegation < ActiveRecord::Base
 
   before_save :send_update_notification
   after_save :send_create_notification
+  
+  after_save :ensure_seats
 
   before_save :check_for_late_delegates
 
-  attr_accessor :changer, :send_notification, :saving_step, :saving_page
+  attr_accessor :changer, :send_notification, :saving_step, :saving_page, :ensuring
 
   validates_presence_of :name, :if => :should_validate_name?
   validates_presence_of :delegation_size, :if => :should_validate_delegation_size?
@@ -355,6 +357,33 @@ class Delegation < ActiveRecord::Base
       end
     end
     changes
+  end
+
+  def ensure_seats
+    self.ensuring = true
+    old_seat_ids = seats.map(&:id)
+    countries.each do |country|
+      country.country_committees.each do |cc|
+        cc.seat ||= Seat.new(delegation_id: id) # ensure that seat exists
+        cc.seat.delegation_id = id
+        cc.seat.save
+        old_seat_ids.delete(cc.seat.id)
+      end
+    end
+    characters.each do |character|
+      character.seat_count.times do |i|
+        if character.seats[i]
+          character.seats[i].delegation_id = id
+          old_seat_ids.delete(character.seats[i].id)
+          character.seats[i].save
+        else
+          character.seats << Seat.new(delegation_id: id)
+        end
+      end
+    end
+    old_seat_ids.each do |seat_id|
+      Seat.destroy(seat_id)
+    end
   end
 
   def check_for_late_registration
