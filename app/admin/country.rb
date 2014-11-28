@@ -1,6 +1,23 @@
 ActiveAdmin.register MUNCountry, as: 'Country' do
   permit_params :name, committee_ids: []
 
+  show do
+    attributes_table do
+      row :id
+      row :name
+      row :delegation
+      row :committees do |country|
+        country.committees.each do |comm|
+          div do
+            a comm.name, href: admin_committee_path(comm)
+          end
+        end
+      end
+      row :created_at
+      row :updated_at
+    end
+  end
+
   form do |f|
     f.inputs do
       f.input :name

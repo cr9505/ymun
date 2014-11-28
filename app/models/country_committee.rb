@@ -8,9 +8,10 @@ class CountryCommittee < ActiveRecord::Base
 
   has_one :seat
 
-  after_destroy :ensure_seats
+  # after_destroy :ensure_seats
+  # after_create :ensure_seats
 
-  def ensure_seats
-    country.ensure_seats
-  end
+  # def ensure_seats
+  #   country.ensure_seats
+  # end
 end

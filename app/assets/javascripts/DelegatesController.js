@@ -219,13 +219,7 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
       + unsavedDelegates + " delegate" + (unsavedDelegates == 1 ? '' : 's') + " unsaved."
   };
   $scope.committeeText = _.memoize(function(seat_id) {
-    var seat = _.find($scope.seats, function(seat) {
-      if (seat.id == seat_id) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    var seat = _.findWhere($scope.seats, {id: seat_id});
     if (!seat) return '';
     return $.map(seat.committees, function(committee) {
       return committee.name;
