@@ -1,11 +1,13 @@
 class Committee < ActiveRecord::Base
   has_many :country_committees, dependent: :destroy
-  has_many :countries, through: :country_committees, class_name: 'MUNCountry'
+  has_many :countries, through: :country_committees, class_name: 'MUNCountry',
+    after_remove: :ensure_seats_country, after_add: :ensure_seats_country
 
   accepts_nested_attributes_for :country_committees, :allow_destroy => true
   
   has_many :character_committees, dependent: :destroy
-  has_many :characters
+  has_many :characters, through: :character_committees,
+    after_remove: :ensure_seats_character, after_add: :ensure_seats_character
 
   def as_json(options = {})
     super
@@ -71,5 +73,13 @@ class Committee < ActiveRecord::Base
       committee = Committee.create(name: name)
     end
     committee
+  end
+
+  def ensure_seats_country(country)
+    country.ensure_seats
+  end
+
+  def ensure_seats_character(character)
+    character.ensure_seats
   end
 end

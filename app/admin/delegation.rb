@@ -19,6 +19,10 @@ ActiveAdmin.register Delegation do
     end
   end
 
+  action_item :only => :show do
+    link_to('Log in as Advisor', become_admin_user_path(delegation.advisors.first))
+  end
+
   index do
     selectable_column
     column :name
@@ -62,10 +66,29 @@ ActiveAdmin.register Delegation do
         "#{(delegation.payment_currency || 'usd').upcase} #{delegation.payment_balance(delegation.payment_currency || 'usd')}"
       end
 
-      row 'Delegates' do
-        delegation.delegates.map do |delegate|
-          "#{delegate.first_name} #{delegate.last_name}: #{delegate.email}"
-        end.join("<br />").html_safe
+      row 'Seats' do
+        table_for delegation.seats.sort_by!(&:name) do
+          column "Character/Country" do |seat|
+            seat_link = (seat.character && admin_character_path(seat.character) ||
+                        seat.country && admin_country_path(seat.country))
+            a seat.name, href: seat_link
+          end
+          column "Committees" do |seat|
+            seat.committees.each do |comm|
+              div { a comm.name, href: admin_committee_path(comm) }
+            end
+          end
+          column "Delegate Name" do |seat|
+            if seat.delegate
+              "#{seat.delegate.first_name} #{seat.delegate.last_name}"
+            else
+              nil
+            end
+          end
+          column "Delegate Email" do |seat|
+            seat.delegate.andand.email
+          end
+        end
       end
 
       a 'Add a Payment', href: new_admin_delegation_payment_path(delegation.id)

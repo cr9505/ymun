@@ -77,3 +77,13 @@ function onCountryClick(e) {
 
   window.location = '/admin/countries/'+id+'/edit';
 }
+
+function onCharacterClick(e) {
+  var span = $(e.target);
+  var select = span.parents('.chosen-container').prev('.chosen-select');
+  var optionIndex = span.next().attr('data-option-array-index');
+  var option = select.children('option').eq(optionIndex);
+  var id = option.attr('value');
+
+  window.location = '/admin/characters/'+id+'/edit';
+}
