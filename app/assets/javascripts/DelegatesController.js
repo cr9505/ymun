@@ -70,18 +70,12 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
     },
     sort: function(seats) {
       seats.sort(function(a, b) {
-        if (a.committees[0].name > b.committees[0].name) {
+        if (a.name > b.name) {
           return 1;
-        } else if (a.committees[0].name < b.committees[0].name) {
+        } else if (a.name < b.name) {
           return -1;
         } else {
-          if (a.name > b.name) {
-            return 1;
-          } else if (a.name < b.name) {
-            return -1;
-          } else {
-            return 0;
-          }
+          return 0;
         }
       });
     }
@@ -224,9 +218,17 @@ angular.module('delegatesApp', ['ui.select', 'ui.bootstrap', 'blockUI'])
     return savedDelegates + " delegate" + (savedDelegates == 1 ? '' : 's') + " saved, "
       + unsavedDelegates + " delegate" + (unsavedDelegates == 1 ? '' : 's') + " unsaved."
   };
-  $scope.committeeText = function(seat) {
+  $scope.committeeText = _.memoize(function(seat_id) {
+    var seat = _.find($scope.seats, function(seat) {
+      if (seat.id == seat_id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (!seat) return '';
     return $.map(seat.committees, function(committee) {
       return committee.name;
     }).join('; ')
-  };
+  });
 }]);
