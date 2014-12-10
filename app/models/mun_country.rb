@@ -13,6 +13,14 @@ class MUNCountry < ActiveRecord::Base
   after_save :ensure_seats
   after_destroy :ensure_seats
 
+  def self.unassigned(except_id = nil)
+    if except_id
+      where(['delegation_id IS NULL OR delegation_id = ?', except_id])
+    else
+      where(delegation_id: nil)
+    end
+  end
+
   def self.options_for_select
     self.all.map do |c|
       [c.name, c.id]
