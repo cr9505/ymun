@@ -1,5 +1,5 @@
 ActiveAdmin.register MUNCountry, as: 'Country' do
-  permit_params :name, committee_ids: []
+  permit_params :name, :delegation_id, committee_ids: []
 
   show do
     attributes_table do
@@ -21,6 +21,7 @@ ActiveAdmin.register MUNCountry, as: 'Country' do
   form do |f|
     f.inputs do
       f.input :name
+      f.input :delegation, :as => :select, :input_html => { class: 'chosen-select' }
       f.input :committees, :as => :select, :input_html => { :multiple => true, 
                                                             class: 'chosen-select',
                                                             :'data-placeholder' => 'Select committees...',

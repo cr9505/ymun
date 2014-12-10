@@ -21,8 +21,7 @@ ActiveAdmin.register Character do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :delegation
-      f.input :seat_count
+      f.input :delegation, :as => :select, :input_html => { class: 'chosen-select' }
       f.input :committees, :as => :select, :input_html => { :multiple => true, 
                                                             class: 'chosen-select',
                                                             :'data-placeholder' => 'Select committees...',
