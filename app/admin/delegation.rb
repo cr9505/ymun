@@ -102,12 +102,14 @@ ActiveAdmin.register Delegation do
                                                            class: 'chosen-select',
                                                            :'data-placeholder' => 'Assign countries...',
                                                            :'data-click-handler' => 'onCountryClick'
-                                                         }
+                                                         },
+                                                         collection: MUNCountry.unassigned(f.object.id)
       f.input :characters, :as => :select, :input_html => { :multiple => true, 
                                                             class: 'chosen-select',
                                                             :'data-placeholder' => 'Assign characters...',
                                                             :'data-click-handler' => 'onCountryClick'
-                                                          }
+                                                          },
+                                                          collection: Character.unassigned(f.object.id)
     end
     f.actions
   end
