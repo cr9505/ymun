@@ -25,9 +25,15 @@
               Deposit Paid
             </dt>
             <dd>
-              <span class="status-complete">
-                <i class="fa fa-check"></i>
-              </span>
+              <% if @delegation.paid_deposit? -%>
+                <span class="status-complete">
+                  <i class="fa fa-check"></i>
+                </span>
+              <% else -%>
+                <span class="status-incomplete">
+                  <i class="fa fa-times"></i>
+                </span>
+              <% end -%>
             </dd>
           </div>
           <div class="overview-item col-sm-3">
