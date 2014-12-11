@@ -16,6 +16,14 @@ ActiveAdmin.register User do
     link_to('Log in as User', become_admin_user_path(user))
   end
 
+  action_item :only => :index do
+    link_to('Export Advisor Data', export_admin_users_path(type: 'Advisor'))
+  end
+
+  action_item :only => :index do
+    link_to('Export Delegate Data', export_admin_users_path(type: 'Delegate'))
+  end
+
   member_action :become, :method => :get do
     user = User.find(params[:id])
     sign_in(:user, user)
@@ -29,15 +37,47 @@ ActiveAdmin.register User do
     redirect_to admin_user_path(user)
   end
 
+  collection_action :export, :method => :get do
+    users = User.where(type: params[:type]).order('delegation_id, type, last_name, first_name')
+    csv = CSV.generate( encoding: 'Windows-1251' ) do |csv|
+      # add headers
+      csv << ["Delegation", "Type", "First Name", "Last Name", "Character/Country", "Committee", "Email"]
+      # add data
+      users.each do |user|
+        row = []
+        row << user.delegation.andand.name
+        row << user.type
+        row << user.first_name
+        row << user.last_name
+        row << if user.type == 'Delegate'
+                  if user.seat
+                    user.seat.name
+                  end
+                end
+        row << if user.type == 'Delegate'
+                  if user.seat
+                    user.seat.committees.first.andand.name
+                  end
+                end
+        row << user.email
+        csv << row
+      end      
+    end
+    # send file to user
+    send_data csv.encode('Windows-1251'), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=export_#{params[:type].downcase}.csv"
+  end
+
   index do
     selectable_column
-    column :email
-    column :type do |user|
-      user.type.underscore.humanize
-    end
     column :delegation, sortable: 'delegations.name' do |user|
       if user.delegation then link_to user.delegation.name, admin_delegation_path(user.delegation), :class => "delegation_link" else '-' end
     end
+    column :type do |user|
+      user.type.underscore.humanize
+    end
+    column :email
+    column :first_name
+    column :last_name
     actions do |user|
       if user.type == 'Advisor'
         link_to('Log in as', become_admin_user_path(user), class: 'member_link') + ' ' +
@@ -89,13 +129,27 @@ ActiveAdmin.register User do
   # end
   
   csv do
-    column :first_name
-    column :last_name
-    column :email
     column :delegation do |user|
       user.delegation.andand.name
     end
-    column :created_at
+    column :type
+    column :first_name
+    column :last_name
+    column "Character/Country" do |user|
+      if user.type == 'Delegate'
+        if user.seat
+          user.seat.name
+        end
+      end
+    end
+    column "Committee" do |user|
+      if user.type == 'Delegate'
+        if user.seat
+          user.seat.committees.first.andand.name
+        end
+      end
+    end
+    column :email
   end
 
 end
