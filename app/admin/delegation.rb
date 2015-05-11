@@ -28,6 +28,7 @@ ActiveAdmin.register Delegation do
     end
     column :delegation_size
     column :advisor_count
+    column :would_you_like_to_participate_in_our_online_education_system
     actions do |delegation|
       link_to 'Payments', admin_delegation_payments_path(delegation.id)
     end
