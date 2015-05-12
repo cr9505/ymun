@@ -5,7 +5,7 @@ class DelegationFieldValue < ActiveRecord::Base
   validates_presence_of :value, :if => :required
   validates_numericality_of :value, greater_than_or_equal_to: 0, allow_blank: true, :if => :integer?
   validate :value, :if => :select? do |delegation_field_value|
-    options = delegation_field_value.delegation_field.options.and.split(',')
+    options = delegation_field_value.delegation_field.options.andand.split(',')
     if options
       unless options.include?('other')
         unless options.include?(delegation_field_value.to_value)
