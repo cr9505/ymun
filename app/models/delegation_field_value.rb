@@ -27,8 +27,12 @@ class DelegationFieldValue < ActiveRecord::Base
     end
   end
 
-  def name
+  def label 
     delegation_field.name
+  end
+  
+  def name
+    label
   end
 
   def multiple
@@ -36,7 +40,7 @@ class DelegationFieldValue < ActiveRecord::Base
   end
   
   def human_identifier
-    name
+    label
   end
 
   def input_type
