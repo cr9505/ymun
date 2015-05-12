@@ -28,7 +28,7 @@ class DelegationFieldValue < ActiveRecord::Base
   end
 
   def label 
-    delegation_field.class_name
+    delegation_field.name
   end
   
   def name
