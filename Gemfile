@@ -70,6 +70,8 @@ gem 'paypal-sdk-rest'
 
 gem 'thin'
 
+gem 'iron_cache'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
