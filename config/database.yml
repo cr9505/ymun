@@ -21,7 +21,6 @@ development:
   database: mun_development
   pool: 5
   username: stephanie
-  password:
 
 ymun:
   adapter: postgresql
