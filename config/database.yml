@@ -20,8 +20,7 @@ development:
   encoding: unicode
   database: mun_development
   pool: 5
-  username: graham
-  password:
+  username: stephanie
 
 ymun:
   adapter: postgresql
@@ -29,7 +28,7 @@ ymun:
   encoding: unicode
   database: ymun_development
   pool: 5
-  username: graham
+  username: stephanie
   password:
 
 ymge:
@@ -38,7 +37,7 @@ ymge:
   encoding: unicode
   database: mun_development
   pool: 5
-  username: graham
+  username: stephanie
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -68,7 +67,7 @@ test:
   encoding: unicode
   database: mun_test
   pool: 5
-  username: graham
+  username: stephanie
   password:
 
 production:
@@ -77,5 +76,5 @@ production:
   encoding: unicode
   database: mun_development
   pool: 5
-  username: graham
+  username: stephanie
   password:

@@ -15,10 +15,6 @@ class DelegationFieldValue < ActiveRecord::Base
     end
   end
 
-  def human_identifier
-    label
-  end
-
   def to_value
     puts delegation_field.class_name
     case delegation_field.class_name
@@ -31,16 +27,20 @@ class DelegationFieldValue < ActiveRecord::Base
     end
   end
 
-  def label
-    delegation_field.name
+  def label 
+    delegation_field.try(:name)
   end
-
+  
   def name
     label
   end
 
   def multiple
     delegation_field.multiple
+  end
+  
+  def human_identifier
+    label
   end
 
   def input_type
