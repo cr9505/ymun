@@ -57,7 +57,8 @@ gem 'google_drive'
 
 gem 'andand'
 
-gem 'activeadmin-sortable-tree', :github => 'nebirhos/activeadmin-sortable-tree', :branch => 'master'
+gem "active_admin-sortable_tree", "~> 0.2.0"
+# gem 'active_admin-sortable-tree', :github => 'nebirhos/active_admin-sortable-tree', :branch => 'master'
 
 gem 'nokogiri'
 gem 'premailer-rails'
