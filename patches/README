@@ -1,0 +1,5 @@
+The patch in this folder is necessary for installing ruby-2.0.0-p451 on Linux Mint 17.2
+
+Install from this folder via:
+
+rbenv install --patch 2.0.0-p451 <./ruby-2.0.0-p451.patch

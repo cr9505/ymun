@@ -5,7 +5,7 @@ class Seat < ActiveRecord::Base
 
   belongs_to :character
   belongs_to :country_committee
-  delegate :country, to: :country_committee
+  delegate :country, to: :country_committee, :allow_nil => true
 
   validates_uniqueness_of :delegate_id, allow_nil: true
   validates_uniqueness_of :country_committee_id, allow_nil: true

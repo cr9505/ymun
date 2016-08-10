@@ -18,9 +18,10 @@ development:
   adapter: postgresql
   host: localhost
   encoding: unicode
-  database: mun_development
+  database: ymun_development
   pool: 5
-  username: stephanie
+  username: ymun_dev
+  password: 'ymun_dev' 
 
 ymun:
   adapter: postgresql
